@@ -24,7 +24,7 @@ parser.add_argument('-i', '--in', { default: '.' });
 parser.add_argument('-o', '--out', { default: 'public' });
 parser.add_argument('-l', '--language', {
   choices: ['en', 'de'],
-  required: true,
+  default: 'en',
 });
 parser.add_argument('--toc-numbering', { default: true });
 parser.add_argument('--institution', { required: false });

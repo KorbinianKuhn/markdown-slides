@@ -28,8 +28,9 @@ export const getFiles = async (src: string, dst: string): Promise<Files> => {
   const files = await readdir(src, { withFileTypes: true });
 
   let outputDirectory = resolve(dst).replace(resolve(src), '');
-  outputDirectory =
-    outputDirectory.split('/')[outputDirectory.startsWith('/') ? 1 : 0];
+  outputDirectory = outputDirectory.split('/')[
+    outputDirectory.startsWith('/') ? 1 : 0
+  ];
 
   const res: Files = {
     markdown: [],

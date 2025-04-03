@@ -202,7 +202,7 @@ export class HTMLBuilder {
                   plantuml[0],
                   `<div class="light-only">${svg.light}</div><div class="dark-only">${svg.dark}</div>`
                 );
-              } catch (error: any) {
+              } catch (error) {
                 logger.error('Error while rendering PlantUML', error);
               }
             }

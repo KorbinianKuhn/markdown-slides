@@ -1,6 +1,6 @@
 {
   "name": "@korbiniankuhn/markdown-slides",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "Create beautiful HDM branded HTML slides from markdown files",
   "bin": {
     "md2slides": "./cli.js"

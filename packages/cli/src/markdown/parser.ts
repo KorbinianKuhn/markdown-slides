@@ -14,8 +14,7 @@ export class MarkdownParser {
     };
 
     renderer.link = (href, title, text) => {
-      const regex =
-        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
+      const regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
       const isExternal = href.match(regex) !== null;
       if (isExternal) {
         return `<a href="${href}" title="${text}" target="_blank">${text}</a>`;
