@@ -1,0 +1,37 @@
+<section id="slide-0" class="slide title-slide">
+  <div class="content">
+    <img
+      class="logo light-only"
+      src="app/img/logo-light.svg"
+      height="100px"
+      aria-hidden="true"
+    />
+    <img
+      class="logo dark-only"
+      src="app/img/logo-dark.svg"
+      height="100px"
+      aria-hidden="true"
+    />
+  </div>
+  <div class="content">
+    {{#if isChild }}
+    <a class="lecture-title" href="index.html">{{ lectureTitle }}</a>
+    {{/if}} {{{ content }}}
+  </div>
+  <div class="content">
+    <span class="university">{{ institution }}</span>
+  </div>
+  <div class="footer nopreview">
+    <div>
+      <button
+        id="fullscreen-button"
+        onclick="onClickFullscreen()"
+        class="noprint nofullscreen"
+        aria-label="Show page in fullscreen mode"
+      >
+        Fullscreen
+      </button>
+    </div>
+    <span>{{ date }}</span>
+  </div>
+</section>

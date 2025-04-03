@@ -1,0 +1,23 @@
+:root {
+  --color-bg: #f6f8fa;
+  --color-bg-slide: #fff;
+  --color-bg-code: #f6f8fa;
+  --color-bg-backdrop: rgba(0, 0, 0, 0.3);
+  --color-text: #222;
+  --color-border: #eaedef;
+
+  --color-primary: #e31134;
+  --color-white: #fff;
+  --color-black: #222;
+  --color-grey: #888;
+}
+
+@media not print {
+  body.dark {
+    --color-bg: #000000;
+    --color-bg-slide: #0e1117;
+    --color-bg-code: #171b22;
+    --color-text: #e6edf3;
+    --color-border: #31363d;
+  }
+}

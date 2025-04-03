@@ -1,0 +1,13 @@
+stages:
+  - deploy
+
+pages:
+  stage: deploy
+  image: node:alpine
+  script:
+    - npx @korbiniankuhn/markdown-slides -o public
+  artifacts:
+    paths:
+      - public
+  only:
+    - main

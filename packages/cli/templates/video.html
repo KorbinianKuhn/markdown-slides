@@ -1,0 +1,22 @@
+<p>
+  <video
+    class="default"
+    src="{{src}}"
+    alt="{{alt}}"
+    controls
+    onerror="this.classList.add('broken')"
+  ></video>
+
+  <div class="video-print-placeholder">
+    <img src="app/img/broken-image.svg" alt="Broken image icon">
+    <p>
+      Videos can't be printed.
+    </p>
+    <p>
+      Description: {{ alt }}
+    </p>
+    <p>
+      Link: {{ src }}
+    </p>
+  </div>
+</p>

@@ -1,0 +1,27 @@
+{
+  "name": "@korbiniankuhn/markdown-slides",
+  "version": "0.0.11",
+  "description": "Create beautiful HDM branded HTML slides from markdown files",
+  "bin": {
+    "md2slides": "./cli.js"
+  },
+  "author": "Korbinian Kuhn",
+  "license": "MIT",
+  "scripts": {},
+  "devDependencies": {
+    "@types/argparse": "^2.0.12",
+    "@types/node": "^20.8.10",
+    "@types/plantuml-encoder": "^1.4.2",
+    "argparse": "^2.0.1",
+    "esbuild": "^0.19.5",
+    "esbuild-plugin-sass": "^1.0.1",
+    "handlebars": "^4.7.8",
+    "highlight.js": "^11.9.0",
+    "marked": "^9.1.5",
+    "plantuml-encoder": "^1.4.0",
+    "typescript": "^5.2.2",
+    "@fontsource-variable/inconsolata": "^5.2.5",
+    "@fontsource-variable/roboto": "^5.2.5",
+    "@mermaid-js/mermaid-cli": "^11.4.2"
+  }
+}

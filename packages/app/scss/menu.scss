@@ -1,0 +1,141 @@
+dialog {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  max-height: 100vh;
+  min-width: 250px;
+  max-width: 100vw;
+  box-sizing: border-box;
+  z-index: 5;
+  pointer-events: auto;
+  background: var(--color-bg-slide);
+  color: var(--color-text);
+  border: none;
+  border-right: 1px solid var(--color-border);
+  box-shadow: -10px 0 20px #000;
+  position: fixed;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  overflow: hidden;
+  transform: translateX(-100%);
+  transition: opacity 0.3s ease-in-out;
+
+  &[open] {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  &:not([open]) {
+    pointer-events: none;
+  }
+
+  &::backdrop {
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(10px);
+    background: var(--color-bg-backdrop);
+  }
+
+  header {
+    position: relative;
+    padding: 1rem;
+    border-bottom: 1px solid var(--color-border);
+    button {
+      position: absolute;
+      right: 0.25rem;
+      top: 0.25rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      display: flex;
+    }
+    a {
+      text-decoration: none;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: var(--color-text);
+      font-weight: bold;
+    }
+    a:hover {
+      color: var(--color-primary);
+    }
+  }
+
+  article {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 1rem;
+
+    ul {
+      margin: 0.5rem 0;
+      padding: 0;
+      list-style: none;
+      font-size: 1.25rem;
+      font-weight: 600;
+      li {
+        margin: 0.25rem 0;
+      }
+
+      a {
+        color: var(--color-text);
+        text-decoration: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        span.slide-number {
+          font-weight: 400;
+          color: var(--color-grey);
+          font-size: 1rem;
+          margin-left: 1rem;
+        }
+
+        &:hover {
+          color: var(--color-primary);
+          span.slide-number {
+            color: var(--color-primary);
+          }
+        }
+      }
+
+      ul {
+        margin: 0.25rem 0;
+        font-size: 1rem;
+        font-weight: 300;
+        li {
+          margin: 0;
+        }
+        ul {
+          font-size: 1rem;
+          margin-left: 1rem;
+        }
+      }
+    }
+  }
+
+  footer {
+    border-top: 1px solid var(--color-border);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    font-weight: 300;
+    div {
+      display: flex;
+      margin-top: 0.5rem;
+
+      :first-child {
+        flex: 1;
+      }
+
+      button {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  dialog {
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+}

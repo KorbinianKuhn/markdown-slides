@@ -1,0 +1,89 @@
+{{#*inline "toc"}}
+<ul>
+  {{#each this}}
+  <li>
+    <a href="#{{slug}}" onclick="onClickCloseMenu()">
+      <span>{{title}}</span><span class="slide-number">{{slideNumber}}</span></a
+    >
+    {{! Use the partial }} {{#if children}} {{> toc children}} {{/if}}
+  </li>
+  {{/each}}
+</ul>
+{{/inline}}
+
+<dialog
+  id="menu"
+  modal-mode="mega"
+  aria-label="Main menu and table of contents"
+>
+  <header>
+    <button onclick="onClickCloseMenu()" aria-label="Close menu" autofocus>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="currentColor"
+      >
+        <path
+          d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+        />
+      </svg>
+    </button>
+    {{#if isChild }}
+    <a href="index.html" onclick="onClickCloseMenu()">{{ lectureTitle }}</a>
+    {{/if}}
+    <a href="#" onclick="onClickCloseMenu()">{{ title }}</a>
+  </header>
+  <article>{{> toc items }}</article>
+  <footer>
+    <div>
+      <button
+        onclick="onClickFullscreen()"
+        class="noprint nofullscreen"
+        aria-label="Show page in fullscreen mode"
+      >
+        Fullscreen
+      </button>
+    </div>
+    <div>
+      <span>Version:</span>
+      <span>{{ date }}</span>
+    </div>
+    <div>
+      <span>PDF:</span>
+      <span
+        ><button
+          onclick="onClickPrint()"
+          aria-label="Show PDF version of the page"
+        >
+          PDF
+        </button></span
+      >
+    </div>
+    <div>
+      <span>Theme:</span>
+      <button
+        id="button-theme-auto"
+        onclick="onClickSetTheme('system')"
+        aria-label="Set theme to operating system settings"
+      >
+        Auto
+      </button>
+      <button
+        id="button-theme-light"
+        onclick="onClickSetTheme('light')"
+        aria-label="Set light theme"
+      >
+        Light
+      </button>
+      <button
+        id="button-theme-dark"
+        onclick="onClickSetTheme('dark')"
+        aria-label="Set dark theme"
+      >
+        Dark
+      </button>
+    </div>
+  </footer>
+</dialog>

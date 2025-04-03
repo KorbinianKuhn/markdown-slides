@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="{{language}}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="app/css/styles.css" />
+    {{#each cssFiles}}
+    <link rel="stylesheet" href="{{{this}}}" />
+    {{/each}}
+    <link rel="shortcut icon" href="app/img/favicon.ico" type="image/x-icon" />
+    <!-- <script
+      type="text/javascript"
+      async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/latest/MathJax.js"
+    ></script> -->
+    <script src="app/scripts/slides.js"></script>
+    {{#each jsFiles}}
+    <script src="{{{this}}}"></script>
+    {{/each}}
+  </head>
+  <body>
+    {{{ menu }}}
+    <header class="header">
+      <div class="header-left">
+        <button
+          onclick="onClickOpenMenu()"
+          class="noprint"
+          alt="Open menu with table of contents"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 0 24 24"
+            width="24px"
+            fill="currentColor"
+          >
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+          </svg>
+          <span>{{ title }}</span>
+        </button>
+      </div>
+      <img
+        class="light-only logo"
+        src="app/img/logo-light.svg"
+        aria-hidden="true"
+      />
+      <img
+        class="dark-only logo"
+        src="app/img/logo-dark.svg"
+        aria-hidden="true"
+      />
+    </header>
+    <div class="slides-container">{{{ content }}}</div>
+  </body>
+</html>

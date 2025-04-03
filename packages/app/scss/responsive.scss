@@ -1,0 +1,50 @@
+@media (max-width: 576px) {
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    --header-height: calc(40px + 1rem + 1px);
+    font-size: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  h4 {
+    font-size: 1.25rem;
+  }
+
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
+
+  a,
+  p,
+  code,
+  pre code,
+  li,
+  table,
+  td,
+  th,
+  table code {
+    font-size: 1rem;
+  }
+
+  .header {
+    padding: 0.5rem 1rem;
+    img.logo {
+      height: 40px;
+    }
+  }
+}

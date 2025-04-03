@@ -1,0 +1,11 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+	<title>favicon</title>
+	<defs>
+		<image  width="512" height="512" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIAAQMAAADOtka5AAAAAXNSR0IB2cksfwAAAANQTFRF////p8QbyAAAAIxJREFUeJztzDENAAAMA6DVv+mJ6NUEBJArRSAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgWA7eMqeAgEiRD3HAAAAAElFTkSuQmCC"/>
+	</defs>
+	<style>
+		.s0 { fill: #151515 } 
+	</style>
+	<use id="Hintergrund" href="#img1" x="0" y="0"/>
+	<path id="//" class="s0" aria-label="//"  d="m96.5 415.7h47.7l127.8-319.4h-47.8zm143.6 0h47.8l127.7-319.3h-47.8z"/>
+</svg>

@@ -1,0 +1,1 @@
+docker run --rm -v "$(pwd)":/app -w /app node:alpine sh -c "npx @korbiniankuhn/markdown-slides"
