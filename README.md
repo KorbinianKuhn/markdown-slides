@@ -36,6 +36,12 @@ Build the slides with:
 sh master/build.sh
 ```
 
+Serve slides (you can also open the index.html file locally, but you might run into CORS issues e.g. for MathJax):
+
+```bash
+npx http-server public
+```
+
 <!-- slide -->
 
 ## CLI parameters
@@ -139,11 +145,11 @@ Right
 
 MathJax is supported.
 
-Centered Math:
+Centered Math (`\\[ ... \\]`):
 
 \\[ x = {-b \pm \sqrt{b^2-4ac} \over 2a} \\]
 
-Inline Math:
+Inline Math (`\\( ... \\)`):
 
 \\( x = {-b \pm \sqrt{b^2-4ac} \over 2a} \\)
 

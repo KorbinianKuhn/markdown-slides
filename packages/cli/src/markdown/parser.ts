@@ -14,7 +14,8 @@ export class MarkdownParser {
     };
 
     renderer.link = (href, title, text) => {
-      const regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
+      const regex =
+        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
       const isExternal = href.match(regex) !== null;
       if (isExternal) {
         return `<a href="${href}" title="${text}" target="_blank">${text}</a>`;
@@ -52,16 +53,20 @@ export class MarkdownParser {
           name: 'code',
           renderer: (token) => {
             const id = this.state.getCodeSnippetId();
-            const language = hljs.getLanguage(token.lang)
-              ? token.lang
-              : 'plaintext';
-            const highlighted = hljs.highlight(token.text, {
-              language,
-            }).value;
-            return template.code({
-              id,
-              content: highlighted,
-            });
+            if (token.raw.trim().startsWith('```mermaid')) {
+              return `<pre class="mermaid" id="${id}">${token.text}</pre>`;
+            } else {
+              const language = hljs.getLanguage(token.lang)
+                ? token.lang
+                : 'plaintext';
+              const highlighted = hljs.highlight(token.text, {
+                language,
+              }).value;
+              return template.code({
+                id,
+                content: highlighted,
+              });
+            }
           },
         },
         // {

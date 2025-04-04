@@ -34,14 +34,12 @@ export class App {
 
   openMenu() {
     if (!this.menu.open) {
-      console.log('open menu');
       this.menu.showModal();
     }
   }
 
   closeMenu() {
     if (this.menu.open) {
-      console.log('close menu');
       this.menu.close();
     }
   }

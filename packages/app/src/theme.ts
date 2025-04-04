@@ -1,7 +1,9 @@
+import { Mermaid } from './mermaid';
 export class Theme {
   private buttonAuto = document.querySelector('#button-theme-auto')!;
   private buttonLight = document.querySelector('#button-theme-light')!;
   private buttonDark = document.querySelector('#button-theme-dark')!;
+  private mermaid = new Mermaid();
 
   constructor() {
     window.addEventListener('storage', (event) => {
@@ -52,5 +54,7 @@ export class Theme {
     } else {
       document.body.classList.remove('dark');
     }
+
+    this.mermaid.update(isDark);
   }
 }

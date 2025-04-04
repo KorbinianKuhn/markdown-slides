@@ -10,11 +10,24 @@
     <link rel="stylesheet" href="{{{this}}}" />
     {{/each}}
     <link rel="shortcut icon" href="app/img/favicon.ico" type="image/x-icon" />
-    <!-- <script
-      type="text/javascript"
-      async
-      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/latest/MathJax.js"
-    ></script> -->
+    <!-- <script>
+      window.MathJax = {
+        loader: { load: ['input/tex', 'output/svg'] },
+        tex: {
+          inlineMath: [['\\(', '\\)']],
+          displayMath: [
+            ['$$', '$$'],
+            ['\\[', '\\]'],
+          ],
+        },
+        svg: { fontCache: 'global' },
+        options: { enableMenu: false },
+      };
+    </script> -->
+    <script src="app/scripts/mathjax/tex-svg.js" async></script>
+
+    <!-- <script src="app/scripts/mathjax-tex-svg.js" async></script> -->
+    <script src="app/scripts/mermaid.min.js"></script>
     <script src="app/scripts/slides.js"></script>
     {{#each jsFiles}}
     <script src="{{{this}}}"></script>

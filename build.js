@@ -17,9 +17,12 @@ const main = async () => {
   });
 
   await cp(
-    'node_modules/mermaid/dist/mermaid.esm.min.mjs',
-    'dist/app/scripts/mermaid.esm.min.mjs'
+    'node_modules/mermaid/dist/mermaid.min.js',
+    'dist/app/scripts/mermaid.min.js'
   );
+  await cp('node_modules/mathjax/es5', 'dist/app/scripts/mathjax', {
+    recursive: true,
+  });
 
   await esbuild.build({
     entryPoints: ['packages/app/scss/_main.scss'],
