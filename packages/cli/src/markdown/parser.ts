@@ -69,33 +69,6 @@ export class MarkdownParser {
             }
           },
         },
-        // {
-        //   name: 'image',
-        //   renderer: (token) => {
-        //     console.log(token);
-        //     const src = token.href?.replace(/^\//, '') || '';
-        //     if (['.mp4', '.webm'].some((o) => src.endsWith(o))) {
-        //       return template.video({ src, alt: token.alt });
-        //     } else {
-        //       return template.image({ src, alt: token.alt });
-        //     }
-        //   },
-        // },
-        // {
-        //   name: 'link',
-        //   renderer: ({ href, text, title }) => {
-        //     const regex =
-        //       /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
-        //     const isExternal = href.match(regex) !== null;
-        //     if (isExternal) {
-        //       return `<a href="${href}" target="_blank">${text}</a>`;
-        //     } else if (href.endsWith('.md')) {
-        //       const link = href.replace('.md', '.html');
-        //       return `<a href="${link}">${text}</a>`;
-        //     }
-        //     return `<a href="${href}">${text}</a>`;
-        //   },
-        // },
       ],
     });
   }

@@ -1,4 +1,24 @@
-# MarkdownSlides
+# Markdown-Slides
+
+Generate HTML-Slides with from Markdown-Files
+
+<!-- slide -->
+
+## Features
+
+- ✨ Beautiful slides including a pretty title slide
+- 📱 Slides are fully response for mobile devices and small screens
+- 🌓 Light and Dark Mode
+- 🖨️ Print styles to create PDFs in the browser
+- 📖 Table of contents to jump to specific slides
+- 💡 Code highlighting with highlight.js
+- ➗ Equations with MathJax
+- 📈 Diagrams with Mermaid
+- #️⃣ Slide numbers will be generated automatically
+- 📅 Date of the build will be included as a versioning
+- 📚 Supports multiple markdown files to split your presentation in subslides
+- ➡️ Use space and arrow keys to navigate
+- 🎨 Easily override the custom HDM theme
 
 <!-- slide -->
 
@@ -18,7 +38,7 @@ Example:
 # Lecture Title
 
 @module[123456]
-@semester[Summer 2022]
+@semester[Summer 2025]
 
 Korbinian Kuhn [kuhnko@](mailto:kuhnko@hdm-stuttgart.de)
 
@@ -39,7 +59,7 @@ sh master/build.sh
 Serve slides (you can also open the index.html file locally, but you might run into CORS issues e.g. for MathJax):
 
 ```bash
-npx http-server public
+npx http-server -c-1 public
 ```
 
 <!-- slide -->
@@ -68,26 +88,6 @@ CLI arguments:
 | --toc-numbering | Add numbering to headlines                                               | true      | false    |
 | --allowed-files | Whitelist directories, files,or extensions                               | undefined | false    |
 | --ignored-files | Blacklist directories, files or extensions (dotfiles are always ignored) | undefined | false    |
-
-<!-- slide -->
-
-## Example
-
-<!-- slide -->
-
-## Features
-
-- First slide will be styled differently to provide a pretty title slide
-- Slide numbers will be generated automatically
-- You get a fancy mobile menu as a table of contents and to jump to specific slides
-- Every code snippet will be highlighted automatically with highlight.js (during build time)
-- Use space and arrow keys to navigate
-- Slides are fully response for mobile devices and small screens
-- You can even choose the dark mode in the side-nav
-- Slides have a modified CSS-Stylesheet for print to generate a PDF with the browser
-- Supports multiple markdown files to split your presentation in subslides (README.md will always be the entrypoint)
-- Date of the build will be included as a versioning on the first slide and the table of contents
-- Automatically create equations with MathJax and diagrams with Mermaid
 
 <!-- slide -->
 
@@ -143,8 +143,6 @@ Right
 
 ### MathJax
 
-MathJax is supported.
-
 Centered Math (`\\[ ... \\]`):
 
 \\[ x = {-b \pm \sqrt{b^2-4ac} \over 2a} \\]
@@ -152,19 +150,6 @@ Centered Math (`\\[ ... \\]`):
 Inline Math (`\\( ... \\)`):
 
 \\( x = {-b \pm \sqrt{b^2-4ac} \over 2a} \\)
-
-<!-- slide -->
-
-### PlantUML
-
-PlantUML is supported. SVGs will be generated for light and dark mode during build time through the plantuml.com server.
-
-<!-- :::plantuml
-@startuml
-Alice -> Bob: Hello
-Bob -> Alice: Hi
-@enduml
-::: -->
 
 <!-- slide -->
 
