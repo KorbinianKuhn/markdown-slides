@@ -10,27 +10,34 @@ interface Files {
   logos: string[];
 }
 
-const isIgnoredFile = (filename: string): boolean => {
+const isFileAllowed = (
+  filename: string,
+  allowedFiles?: string[],
+  ignoredFiles?: string[]
+): boolean => {
   if (filename.startsWith('.')) {
-    return true;
+    return false;
   }
-
-  if (
-    ['node_modules', 'package.json', 'package-lock.json'].includes(filename)
-  ) {
-    return true;
+  if (allowedFiles && allowedFiles.length > 0) {
+    return allowedFiles.includes(filename);
   }
-
-  return false;
+  if (ignoredFiles && ignoredFiles.length > 0) {
+    return !ignoredFiles.includes(filename);
+  }
+  return true;
 };
 
-export const getFiles = async (src: string, dst: string): Promise<Files> => {
+export const getFiles = async (
+  src: string,
+  dst: string,
+  allowedFiles?: string[],
+  ignoredFiles?: string[]
+): Promise<Files> => {
   const files = await readdir(src, { withFileTypes: true });
 
   let outputDirectory = resolve(dst).replace(resolve(src), '');
-  outputDirectory = outputDirectory.split('/')[
-    outputDirectory.startsWith('/') ? 1 : 0
-  ];
+  outputDirectory =
+    outputDirectory.split('/')[outputDirectory.startsWith('/') ? 1 : 0];
 
   const res: Files = {
     markdown: [],
@@ -42,6 +49,12 @@ export const getFiles = async (src: string, dst: string): Promise<Files> => {
 
   for (const file of files) {
     if (file.name === outputDirectory) {
+      continue;
+    }
+
+    const isAllowed = isFileAllowed(file.name, allowedFiles, ignoredFiles);
+    if (!isAllowed) {
+      logger.info(`File ${file.name} is ignored`);
       continue;
     }
 
@@ -68,16 +81,14 @@ export const getFiles = async (src: string, dst: string): Promise<Files> => {
           res.css.push(file.name);
           break;
         default:
-          if (!isIgnoredFile(file.name)) {
-            if (
-              ['logo-light.svg', 'logo-dark.svg', 'favicon.ico'].includes(
-                file.name
-              )
-            ) {
-              res.logos.push(file.name);
-            } else {
-              res.other.push(file.name);
-            }
+          if (
+            ['logo-light.svg', 'logo-dark.svg', 'favicon.ico'].includes(
+              file.name
+            )
+          ) {
+            res.logos.push(file.name);
+          } else {
+            res.other.push(file.name);
           }
       }
     } else {

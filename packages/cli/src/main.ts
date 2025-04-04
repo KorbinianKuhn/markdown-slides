@@ -12,10 +12,17 @@ export interface Options {
   toc_numbering: boolean;
   language: string;
   institution: string;
+  allowedFiles?: string[];
+  ignoredFiles?: string[];
 }
 
 export const main = async (input: string, output: string, options: Options) => {
-  const files = await getFiles(input, output);
+  const files = await getFiles(
+    input,
+    output,
+    options.allowedFiles,
+    options.ignoredFiles
+  );
 
   const readme = await readFile(join(input, files.markdown[0]), 'utf8');
 

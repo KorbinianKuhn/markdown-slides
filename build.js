@@ -16,6 +16,11 @@ const main = async () => {
     platform: 'browser',
   });
 
+  await cp(
+    'node_modules/mermaid/dist/mermaid.esm.min.mjs',
+    'dist/app/scripts/mermaid.esm.min.mjs'
+  );
+
   await esbuild.build({
     entryPoints: ['packages/app/scss/_main.scss'],
     outfile: 'dist/app/css/styles.css',

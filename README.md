@@ -1,5 +1,7 @@
 # MarkdownSlides
 
+<!-- slide -->
+
 ## Requirements for local builds
 
 If you want to build the slides locally, Node or Docker is required.
@@ -33,6 +35,33 @@ Build the slides with:
 ```bash
 sh master/build.sh
 ```
+
+<!-- slide -->
+
+## CLI parameters
+
+Convert current directory to slides into a output directory `public`:
+
+```bash
+npx @korbiniankuhn/markdown-slides
+```
+
+Whitelist certain files and directories:
+
+```bash
+npx @korbiniankuhn/markdown-slides --allowed-files .md images style.css script.js
+```
+
+CLI arguments:
+
+| Argument        | Description                                                              | Default   | Required |
+| --------------- | ------------------------------------------------------------------------ | --------- | -------- |
+| -i, --in        | Input directory                                                          | .         | false    |
+| -o, --out       | Output directory                                                         | public    | false    |
+| -l, --language  | Language                                                                 | en        | false    |
+| --toc-numbering | Add numbering to headlines                                               | true      | false    |
+| --allowed-files | Whitelist directories, files,or extensions                               | undefined | false    |
+| --ignored-files | Blacklist directories, files or extensions (dotfiles are always ignored) | undefined | false    |
 
 <!-- slide -->
 
