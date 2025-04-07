@@ -10,6 +10,7 @@ Generate HTML-Slides with from Markdown-Files
 - 📱 Slides are fully response for mobile devices and small screens
 - 🌓 Light and Dark Mode
 - 🖨️ Print styles to create PDFs in the browser
+- ♿ HTML slides are accessible
 - 📖 Table of contents to jump to specific slides
 - 💡 Code highlighting with highlight.js
 - ➗ Equations with MathJax
@@ -18,7 +19,8 @@ Generate HTML-Slides with from Markdown-Files
 - 📅 Date of the build will be included as a versioning
 - 📚 Supports multiple markdown files to split your presentation in subslides
 - ➡️ Use space and arrow keys to navigate
-- 🎨 Easily override the custom HDM theme
+- 🎨 Easily override the Stuttgart Media University (HDM) theme with custom colors and logos
+- 🚀 Just deploy your slides with Gitlab or GitHub pages
 
 <!-- slide -->
 
@@ -141,7 +143,26 @@ Right
 
 <!-- slide -->
 
+### Custom Theme
+
+Look into the [examples/custom-theme](examples/custom-theme) directory to overide the default theme:
+
+Just provide these files in the root of your project:
+
+- logo-light.svg, logo-dark.svg, favicon.svg
+- style.css:
+
+```css
+:root {
+  --color-primary: blue;
+}
+```
+
+<!-- slide -->
+
 ### MathJax
+
+LaTex equations are converted to equations with MathJax, including all accessibility features:
 
 Centered Math (`\\[ ... \\]`):
 
@@ -154,6 +175,8 @@ Inline Math (`\\( ... \\)`):
 <!-- slide -->
 
 ### MermaidJS
+
+Mermaid is supported, fits in nicely with the colors of the theme and automatically reacts to the light or dark mode:
 
 ```mermaid
 sequenceDiagram

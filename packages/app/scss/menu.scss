@@ -33,7 +33,7 @@ dialog {
 
   &::backdrop {
     backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(5px);
     background: var(--color-bg-backdrop);
   }
 
