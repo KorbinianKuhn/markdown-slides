@@ -61,7 +61,7 @@ export class HTMLBuilder {
             text = text.replace(/<!-- row:end -->/g, '</div>');
 
             // Columns
-            text = text.replace(/<!-- col -->/g, '<div class="col">');
+            text = text.replace(/<!-- col -->/g, '<div class="column">');
             text = text.replace(/<!-- col:end -->/g, '</div>');
 
             // Replace comments
