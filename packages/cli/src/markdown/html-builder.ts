@@ -30,6 +30,23 @@ export class HTMLBuilder {
     for (const slide of slides) {
       slideIndex++;
       let chunk = ``;
+
+      // Rows and columns may contain inline code or code blocks, which split
+      // the slide into several tokens. Validate them per slide, not per token.
+      const markup = slide.children
+        .filter((token) => token.type !== 'code' && token.type !== 'codespan')
+        .map((token) => token.text)
+        .join('');
+      for (const name of ['row', 'col']) {
+        const start = markup.match(new RegExp(`<!-- ${name} -->`, 'g'))?.length || 0;
+        const end = markup.match(new RegExp(`<!-- ${name}:end -->`, 'g'))?.length || 0;
+        if (start > end) {
+          this.error(`slide ${slideIndex}: Missing <!-- ${name}:end -->.`);
+        } else if (start < end) {
+          this.error(`slide ${slideIndex}: Too many <!-- ${name}:end -->.`);
+        }
+      }
+
       for (const token of slide.children) {
         switch (token.type) {
           case 'code':
@@ -40,24 +57,10 @@ export class HTMLBuilder {
             let text = token.text;
 
             // Rows
-            const rowsStart = text.match(/<!-- row -->/g)?.length || 0;
-            const rowsEnd = text.match(/<!-- row:end -->/g)?.length || 0;
-            if (rowsStart > rowsEnd) {
-              this.error(`slide ${slideIndex}: Missing <!-- row:end -->.`);
-            } else if (rowsStart < rowsEnd) {
-              this.error(`slide ${slideIndex}: Too many <!-- row:end -->.`);
-            }
             text = text.replace(/<!-- row -->/g, '<div class="row">');
             text = text.replace(/<!-- row:end -->/g, '</div>');
 
             // Columns
-            const colsStart = text.match(/<!-- col:end -->/g)?.length || 0;
-            const colsEnd = text.match(/<!-- col:end -->/g)?.length || 0;
-            if (colsStart > colsEnd) {
-              this.error(`slide ${slideIndex}: Missing <!-- col:end -->.`);
-            } else if (colsStart < colsEnd) {
-              this.error(`slide ${slideIndex}: Too many <!-- col:end -->.`);
-            }
             text = text.replace(/<!-- col -->/g, '<div class="col">');
             text = text.replace(/<!-- col:end -->/g, '</div>');
 
