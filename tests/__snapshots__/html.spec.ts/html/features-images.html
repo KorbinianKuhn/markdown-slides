@@ -7,6 +7,10 @@
     <title>Image Attributes</title>
     <link rel="stylesheet" href="app/css/styles.css" />
     <link rel="shortcut icon" href="app/img/favicon.ico" type="image/x-icon" />
+    <script>
+      // Load the MathJax font from the slides, not from a CDN
+      window.MathJax = { loader: { paths: { fonts: '[mathjax]/fonts' } } };
+    </script>
     <script src="app/scripts/mathjax/tex-svg.js" async></script>
     <script src="app/scripts/mermaid.min.js"></script>
     <script src="app/scripts/slides.js"></script>
