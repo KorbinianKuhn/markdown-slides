@@ -27,6 +27,13 @@ jobs:
       - run: npm run format:check
       - run: npm run lint
       - run: npm run typecheck
+      # Regression: building from a clone inside the system temp directory
+      # (e.g. /tmp in GitLab CI) used to fail with wrong font paths.
+      - name: Build from /tmp
+        run: |
+          cp -r "$GITHUB_WORKSPACE" /tmp/markdown-slides
+          cd /tmp/markdown-slides
+          npm run build
 
   test:
     runs-on: ubuntu-latest
