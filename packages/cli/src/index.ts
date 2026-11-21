@@ -30,6 +30,7 @@ parser.add_argument('-l', '--language', {
 });
 parser.add_argument('--toc-numbering', { default: true });
 parser.add_argument('--institution', { required: false });
+parser.add_argument('--title', { required: false });
 parser.add_argument('--allowed-files', { required: false, nargs: '+' });
 parser.add_argument('--ignored-files', { required: false, nargs: '+' });
 
@@ -58,6 +59,7 @@ const options: Options = {
     (args.language === 'de'
       ? 'Hochschule der Medien'
       : 'Stuttgart Media University'),
+  title: args.title,
   allowedFiles: args.allowed_files,
   ignoredFiles: args.ignored_files,
 };

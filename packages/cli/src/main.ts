@@ -12,6 +12,7 @@ export interface Options {
   toc_numbering: boolean;
   language: string;
   institution: string;
+  title?: string;
   allowedFiles?: string[];
   ignoredFiles?: string[];
 }
@@ -27,7 +28,7 @@ export const main = async (input: string, output: string, options: Options) => {
   const readme = await readFile(join(input, files.markdown[0]), 'utf8');
 
   const settings = new Settings(options);
-  settings.title = getLectureTitle(readme);
+  settings.title = options.title || getLectureTitle(readme);
   settings.jsFiles = files.js;
   settings.cssFiles = files.css;
 

@@ -52,10 +52,16 @@ Korbinian Kuhn [kuhnko@](mailto:kuhnko@hdm-stuttgart.de)
 - What you will learn
 ```
 
-Build the slides with:
+Build the slides with Node:
 
 ```bash
-sh master/build.sh
+npx @korbiniankuhn/markdown-slides
+```
+
+Or with Docker:
+
+```bash
+docker run --rm -v "$(pwd)":/app -w /app node:alpine sh -c "npx @korbiniankuhn/markdown-slides"
 ```
 
 Serve slides (you can also open the index.html file locally, but you might run into CORS issues e.g. for MathJax):
@@ -82,14 +88,16 @@ npx @korbiniankuhn/markdown-slides --allowed-files .md images style.css script.j
 
 CLI arguments:
 
-| Argument        | Description                                                              | Default   | Required |
-| --------------- | ------------------------------------------------------------------------ | --------- | -------- |
-| -i, --in        | Input directory                                                          | .         | false    |
-| -o, --out       | Output directory                                                         | public    | false    |
-| -l, --language  | Language                                                                 | en        | false    |
-| --toc-numbering | Add numbering to headlines                                               | true      | false    |
-| --allowed-files | Whitelist directories, files,or extensions                               | undefined | false    |
-| --ignored-files | Blacklist directories, files or extensions (dotfiles are always ignored) | undefined | false    |
+| Argument        | Description                                                                        | Default   | Required |
+| --------------- | ---------------------------------------------------------------------------------- | --------- | -------- |
+| -i, --in        | Input directory                                                                    | .         | false    |
+| -o, --out       | Output directory                                                                   | public    | false    |
+| -l, --language  | Language                                                                           | en        | false    |
+| --institution   | Custom institution name                                                            | undefined | false    |
+| --title         | Lecture title for the back link on sub-pages, otherwise the first headline is used | undefined | false    |
+| --toc-numbering | Add numbering to headlines                                                         | true      | false    |
+| --allowed-files | Whitelist directories, files,or extensions                                         | undefined | false    |
+| --ignored-files | Blacklist directories, files or extensions (dotfiles are always ignored)           | undefined | false    |
 
 <!-- slide -->
 
