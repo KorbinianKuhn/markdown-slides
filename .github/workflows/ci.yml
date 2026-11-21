@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-  # Also run before a release (see release.yml)
+  # Also run before a release (see publish.yml)
   workflow_call:
 
 permissions:
