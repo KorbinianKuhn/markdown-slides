@@ -1,8 +1,11 @@
 import hljs from 'highlight.js';
-import { Marked, Tokenizer, Tokens } from 'marked';
+import { Marked, Token, Tokenizer, Tokens } from 'marked';
 import { template } from '../template';
+import { countLayoutMarkers, directives, renderHtml } from './directives';
 import { MediaAttributes, parseMediaAttributes, renderMedia } from './images';
 import { State } from './state';
+
+const SLIDE_MARKER = '<!-- slide -->';
 
 export class MarkdownParser {
   private marked!: Marked;
@@ -57,8 +60,18 @@ export class MarkdownParser {
         image({ href, text }) {
           return media(href, text);
         },
+
+        html({ text }) {
+          if (text.includes(SLIDE_MARKER)) {
+            warnings.push(
+              `${SLIDE_MARKER} is ignored, because it is not on a line of its own (e.g. inside a list or a blockquote)`,
+            );
+          }
+          return renderHtml(text);
+        },
       },
       extensions: [
+        ...directives(errors),
         {
           // Image with an attribute block: ![Alt](image.png){width=70% align=left}
           name: 'mediaWithAttributes',
@@ -133,9 +146,45 @@ export class MarkdownParser {
   /** Warnings of the last parse() call, e.g. images without alt text. */
   public readonly warnings: string[] = [];
 
-  parse(content: string): string {
+  /**
+   * Splits a Markdown file into the tokens of each slide. Slides are separated
+   * by <!-- slide --> on a line of its own; marked's lexer makes sure that
+   * markers inside code are ignored.
+   */
+  splitSlides(content: string): Token[][] {
+    const slides: Token[][] = [[]];
+    for (const token of this.marked.lexer(content)) {
+      if (token.type === 'html' && token.text.trim() === SLIDE_MARKER) {
+        slides.push([]);
+      } else {
+        slides[slides.length - 1].push(token);
+      }
+    }
+    return slides;
+  }
+
+  /** Checks that rows and columns of a slide are closed, outside code. */
+  checkLayout(tokens: Token[]): string | undefined {
+    let html = '';
+    this.marked.walkTokens(tokens, (token) => {
+      if (token.type === 'html') {
+        html += token.text;
+      }
+    });
+    const count = countLayoutMarkers(html);
+    for (const name of ['row', 'col'] as const) {
+      if (count[name] > count[`${name}:end`]) {
+        return `Missing <!-- ${name}:end -->`;
+      } else if (count[name] < count[`${name}:end`]) {
+        return `Too many <!-- ${name}:end -->`;
+      }
+    }
+    return undefined;
+  }
+
+  parse(tokens: Token[]): string {
     this.errors.length = 0;
     this.warnings.length = 0;
-    return this.marked.parse(content) as string;
+    return this.marked.parser(tokens);
   }
 }

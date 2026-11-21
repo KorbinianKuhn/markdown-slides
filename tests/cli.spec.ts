@@ -16,8 +16,13 @@ const build = (name: string, slide: string) => {
   );
   return spawnSync('node', ['dist/cli.js', '-i', input, '-o', `${input}-out`], {
     encoding: 'utf8',
+    // A hang (e.g. an endless loop in the parser) fails the test
+    timeout: 10_000,
   });
 };
+
+const output = (name: string) =>
+  readFileSync(join(outputDir, 'cli', `${name}-out`, 'index.html'), 'utf8');
 
 const cases: Array<{ name: string; slide: string; error: string }> = [
   {
@@ -107,4 +112,46 @@ test('alt text is escaped once', () => {
     'utf8',
   );
   expect(html).toContain('alt="Tom &amp; Jerry &lt;3"');
+});
+
+test('a lone backtick builds', () => {
+  const result = build(
+    'lone-backtick',
+    'Use ` for inline code\n\n<!-- slide -->\n\nNext',
+  );
+  expect(result.error).toBeUndefined();
+  expect(result.status).toBe(0);
+  expect(output('lone-backtick')).toContain('id="slide-2"');
+});
+
+test('a four-backtick fence keeps the inner fence', () => {
+  const result = build(
+    'four-backticks',
+    '````md\n```js\nconst a = 1;\n```\n````',
+  );
+  expect(result.error).toBeUndefined();
+  expect(result.status).toBe(0);
+  expect(output('four-backticks')).toContain('```js');
+});
+
+test('a slide marker inside code does not split the slide', () => {
+  const result = build('marker-in-code', '~~~md\n<!-- slide -->\n~~~');
+  expect(result.status).toBe(0);
+  const html = output('marker-in-code');
+  expect(html).toContain('&lt;!-- slide --&gt;');
+  expect(html).not.toContain('id="slide-2"');
+});
+
+test('comments are removed', () => {
+  const result = build('comments', 'Text <!-- inline -->\n\n<!-- note -->');
+  expect(result.status).toBe(0);
+  const html = output('comments');
+  expect(html).not.toContain('inline');
+  expect(html).not.toContain('note');
+});
+
+test('a misplaced slide marker builds with a warning', () => {
+  const result = build('misplaced-marker', '- Item\n  <!-- slide -->');
+  expect(result.status).toBe(0);
+  expect(result.stderr).toContain('<!-- slide --> is ignored');
 });
