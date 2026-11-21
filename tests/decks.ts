@@ -15,7 +15,7 @@ export const decks: Deck[] = [
     name: 'features',
     input: 'tests/fixtures/features',
     args: ['--title', 'FF'],
-    pages: ['index.html', 'chapter.html', 'images.html'],
+    pages: ['index.html', 'chapter.html', 'images.html', 'print.html'],
   },
   {
     name: 'readme',

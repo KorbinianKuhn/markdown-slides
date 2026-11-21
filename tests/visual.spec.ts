@@ -80,6 +80,30 @@ for (const deck of decks) {
           );
       }
       expect(external).toEqual([]);
+
+      if (testInfo.project.metadata.media === 'print') {
+        // Paper can't scroll: scroll containers are cut off at the page end,
+        // and lines wider than their box are cut off at the right.
+        const clipped = await page.evaluate(() =>
+          [
+            ...document.querySelectorAll<HTMLElement>(
+              '.slides-container, .slides-container *',
+            ),
+          ]
+            // Visible HTML elements; SVG content may clip, e.g. diagrams
+            .filter((el) => el.offsetParent !== null && !el.closest('svg'))
+            .filter((el) => {
+              const { overflowX, overflowY } = getComputedStyle(el);
+              const scrolls = /auto|scroll|hidden/.test(overflowX + overflowY);
+              return (
+                scrolls ||
+                (el.matches('pre code') && el.scrollWidth > el.clientWidth + 1)
+              );
+            })
+            .map((el) => `${el.tagName.toLowerCase()}.${el.className}`),
+        );
+        expect(clipped).toEqual([]);
+      }
     });
   }
 }

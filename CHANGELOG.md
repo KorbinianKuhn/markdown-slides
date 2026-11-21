@@ -80,6 +80,7 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ### Changed
 
+- Printing: the spacing between elements on a slide is slightly tighter (margins collapse as in documents).
 - Updated argparse from 2 to 3. The CLI options are unchanged; `--help` is colored in supported terminals.
 - Updated MathJax from 3 to 4 (new font, see upgrade note 10). The font is included in the slides, so formulas also render offline.
 - Updated Mermaid from 11 to 12. Diagrams keep the previous layout and style (Mermaid 12 changed the defaults). Viewing slides with diagrams needs a browser from 2024 or newer (e.g. Safari 17.4, Chrome 117, Firefox 119), and `mermaid.min.js` grows from 3.6 to 5.5 MB.
@@ -91,6 +92,7 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ### Fixed
 
+- Printing: long code lines were cut off at the right edge; they now wrap. Slides no longer leave blank pages after the title slide and after slides that fill a page.
 - The build hung forever on a lone backtick (e.g. "Use ` for inline code") or a code block fenced with four backticks.
 - `<!-- slide -->` inside a `~~~` code block started a new slide.
 - Row and column markers inside code were counted when checking that rows and columns are closed.
