@@ -1,15 +1,10 @@
 {
+  // Tests and build scripts (Node.js; tests also run code in the browser)
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "target": "ES2022",
-    "module": "preserve",
-    "moduleResolution": "bundler",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["node"],
-    "strict": true,
-    "noEmit": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": ["node"]
   },
   "include": ["tests", "playwright.config.ts", "build.mts"]
 }

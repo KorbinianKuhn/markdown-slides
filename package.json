@@ -33,7 +33,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "tsc -p packages/cli --noEmit && tsc -p packages/app --noEmit && tsc --noEmit",
+    "typecheck": "tsc -p packages/cli && tsc -p packages/app && tsc",
     "test": "playwright test",
     "test:docker": "sh tests/docker.sh"
   },
