@@ -44,15 +44,24 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 6. **Images without alt text produce a warning.** The build still succeeds. Each warning names the file, slide and image, e.g. `[warn] README.md slide 4: Image without alt text (images/a.png)`. Add a description for screen readers: `![Class diagram of the player](images/a.png)`.
 
+7. **Node.js 22 or newer is required.** The CLI is now built for Node.js 22, and older versions are not supported. Check the Node.js version where you build your slides, e.g. the image in your CI configuration (`node:alpine` is fine):
+
+   ```bash
+   node -v
+   grep -rn 'image:' .gitlab-ci.yml .github/workflows 2>/dev/null
+   ```
+
 ### Added
 
 - `--title` option to set the lecture title used for the link back to the main page on sub-pages, e.g. an abbreviation. Defaults to the first headline of `README.md`.
 - Image and video attributes: `![Alt](image.png){width=70% align=left}`. `width` takes a percentage or pixels, `align` takes `left`, `center` or `right`. Invalid attributes stop the build.
 - Warning for images and videos without alt text.
 - `:spacer{size=sm|md|lg|xl}` as documented in the README.
+- The npm package includes the MIT `LICENSE` file and links to the repository, issues and homepage.
 
 ### Changed
 
+- The CLI requires Node.js 22 or newer (`engines` field) and is built for it.
 - Images keep their aspect ratio when a width is set and the height is limited by the maximum height.
 - Invalid spacer sizes stop the build.
 

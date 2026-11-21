@@ -1,11 +1,22 @@
 # Contributing
 
-## Build
+## Setup
+
+Use the Node.js version from [.nvmrc](.nvmrc) (e.g. `nvm use`), then:
 
 ```bash
 npm ci
-node build.js
 ```
+
+| Command             | Description                                               |
+| ------------------- | --------------------------------------------------------- |
+| `npm run build`     | Build the CLI and the slides app into `dist`              |
+| `npm run examples`  | Build the README and example decks with `dist/cli.js`     |
+| `npm run lint`      | Lint with ESLint                                          |
+| `npm run format`    | Format with Prettier (`npm run format:check` only checks) |
+| `npm run typecheck` | Type-check the CLI, the app and the tests                 |
+
+Templates in `packages/cli/templates` and the test fixtures are not formatted, because whitespace there changes the generated slides.
 
 ## Tests
 
@@ -25,7 +36,7 @@ The fixture deck in [tests/fixtures/features](tests/fixtures/features) has one s
 
 When a change is intended, update the snapshots and commit them together with the change, so the diff in the pull request shows what changed.
 
-CI runs the tests on every pull request ([.github/workflows/test.yml](.github/workflows/test.yml)). If they fail, the report is attached to the workflow run as the `playwright-report` artifact.
+CI ([.github/workflows/ci.yml](.github/workflows/ci.yml)) runs formatting, linting, type checks and all tests on every pull request. If the tests fail, the report is attached to the workflow run as the `playwright-report` artifact.
 
 ## Changelog
 
@@ -33,4 +44,10 @@ Every change that users notice goes into the `[Unreleased]` section of [CHANGELO
 
 If a change can affect existing slides (different rendering, new build errors or warnings, changed syntax), also add an **Upgrade note**. Say what changed, give a command that finds the affected places in a lecture repository, and say what to do. Colleagues and their AI assistants use these notes to update their slides, so test the commands.
 
-On release, rename `[Unreleased]` to the version and start a new empty `[Unreleased]` section.
+## Release
+
+Releases are published to npm by [.github/workflows/release.yml](.github/workflows/release.yml) with npm trusted publishing, so no npm token is needed.
+
+1. In a pull request, set the new `version` in `package.json` (run `npm install` to update the lockfile), and rename `[Unreleased]` in the changelog to the version and date.
+2. After merging, create a GitHub release with the tag `v<version>` (e.g. `v1.0.0`) and the changelog section as notes. Mark release candidates (e.g. `v1.0.0-rc.2`) as **pre-release**.
+3. The workflow runs all checks, verifies that the tag matches `package.json`, and publishes. Pre-releases get the npm tag `next`, releases `latest`.
