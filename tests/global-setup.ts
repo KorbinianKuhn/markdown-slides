@@ -13,7 +13,7 @@ import { decks, outputDir } from './decks';
 const FIXED_DATE = '01.01.2000';
 
 export default function globalSetup() {
-  execFileSync('node', ['build.js'], { stdio: 'inherit' });
+  execFileSync('node', ['build.mts'], { stdio: 'inherit' });
 
   rmSync(outputDir, { recursive: true, force: true });
   mkdirSync(outputDir, { recursive: true });

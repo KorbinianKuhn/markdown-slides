@@ -23,14 +23,8 @@ export default defineConfig(
   },
   {
     // Runs in Node.js
-    files: ['packages/cli/**', 'tests/**', '*.{js,mjs,ts}'],
+    files: ['packages/cli/**', 'tests/**', '*.{js,mjs,ts,mts}'],
     languageOptions: { globals: globals.node },
-  },
-  {
-    // CommonJS build script
-    files: ['build.js'],
-    languageOptions: { sourceType: 'commonjs' },
-    rules: { '@typescript-eslint/no-require-imports': 'off' },
   },
   // Formatting is Prettier's job
   prettier,

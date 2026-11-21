@@ -1,11 +1,11 @@
 // Minimal static file server for the built decks (MathJax needs http://).
-import { createReadStream, existsSync, statSync } from 'fs';
-import { createServer } from 'http';
-import { extname, join, normalize } from 'path';
+import { createReadStream, existsSync, statSync } from 'node:fs';
+import { createServer } from 'node:http';
+import { extname, join, normalize } from 'node:path';
 
 const root = join(process.cwd(), 'tests/.output');
 const port = Number(process.env.PORT || 4173);
-const types = {
+const types: Record<string, string> = {
   '.html': 'text/html',
   '.css': 'text/css',
   '.js': 'text/javascript',
@@ -17,7 +17,7 @@ const types = {
 };
 
 createServer((req, res) => {
-  const url = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+  const url = decodeURIComponent(new URL(req.url ?? '/', 'http://x').pathname);
   if (url === '/health') {
     res.end('ok');
     return;

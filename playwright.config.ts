@@ -20,7 +20,7 @@ export default defineConfig({
     browserName: 'chromium',
   },
   webServer: {
-    command: `node tests/serve.mjs`,
+    command: `node tests/serve.mts`,
     url: `http://localhost:${port}/health`,
     env: { PORT: String(port) },
     reuseExistingServer: !process.env.CI,
