@@ -27,6 +27,17 @@ export default defineConfig({
   },
   projects: [
     { name: 'html', testMatch: /(html|cli)\.spec\.ts/ },
+    { name: 'app', testMatch: 'app.spec.ts', use: { viewport: desktop } },
+    {
+      name: 'app-webkit',
+      testMatch: 'app.spec.ts',
+      use: { viewport: desktop, browserName: 'webkit' },
+    },
+    {
+      name: 'app-firefox',
+      testMatch: 'app.spec.ts',
+      use: { viewport: desktop, browserName: 'firefox' },
+    },
     {
       name: 'light',
       testMatch: 'visual.spec.ts',
