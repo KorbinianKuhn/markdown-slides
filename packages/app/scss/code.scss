@@ -36,7 +36,8 @@ body.dark {
     transition: opacity 0.2s;
   }
 
-  &:hover {
+  &:hover,
+  &:focus-within {
     button.copy {
       opacity: 1;
     }

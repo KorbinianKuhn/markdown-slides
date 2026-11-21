@@ -86,6 +86,12 @@ a {
   color: var(--color-primary);
 }
 
+// Keyboard focus, visible on light and dark slides (contrast above 3:1)
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 img {
   cursor: pointer;
 }

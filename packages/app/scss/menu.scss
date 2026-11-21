@@ -27,8 +27,14 @@ dialog {
     opacity: 1;
   }
 
+  // display: flex overrides the hidden state of a closed dialog. Hide it from
+  // keyboard and screen readers after it has faded out.
   &:not([open]) {
     pointer-events: none;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease-in-out,
+      visibility 0s 0.3s;
   }
 
   &::backdrop {
