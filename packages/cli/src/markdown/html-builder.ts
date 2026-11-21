@@ -120,9 +120,15 @@ export class HTMLBuilder {
 
       this.state.increaseSlideNumber();
 
+      const content = this.marked.parse(part);
+      if (this.marked.errors.length > 0) {
+        // Same numbering as the row and column checks (title slide is 1)
+        this.error(`slide ${i + 1}: ${this.marked.errors[0]}.`);
+      }
+
       return {
         isChild: !this.isRoot,
-        content: this.marked.parse(part),
+        content,
         current: i,
         total,
         lectureTitle: this.settings.title,

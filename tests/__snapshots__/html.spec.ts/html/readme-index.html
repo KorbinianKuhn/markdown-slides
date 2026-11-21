@@ -85,20 +85,26 @@
      
   </li>
   <li>
+    <a href="#images" onclick="onClickCloseMenu()">
+      <span>4.4 Images</span><span class="slide-number">7</span></a
+    >
+     
+  </li>
+  <li>
     <a href="#custom-theme" onclick="onClickCloseMenu()">
-      <span>4.4 Custom Theme</span><span class="slide-number">7</span></a
+      <span>4.5 Custom Theme</span><span class="slide-number">8</span></a
     >
      
   </li>
   <li>
     <a href="#mathjax" onclick="onClickCloseMenu()">
-      <span>4.5 MathJax</span><span class="slide-number">8</span></a
+      <span>4.6 MathJax</span><span class="slide-number">9</span></a
     >
      
   </li>
   <li>
     <a href="#mermaidjs" onclick="onClickCloseMenu()">
-      <span>4.6 MermaidJS</span><span class="slide-number">9</span></a
+      <span>4.7 MermaidJS</span><span class="slide-number">10</span></a
     >
      
   </li>
@@ -248,8 +254,8 @@
 </div>
   <div class="footer noprint">
     <span></span>
-    <span aria-label="Page 1 of 9"
-      >1 / 9</span
+    <span aria-label="Page 1 of 10"
+      >1 / 10</span
     >
   </div>
 </section>
@@ -317,8 +323,8 @@ Korbinian Kuhn [<span class="hljs-string">kuhnko@</span>](<span class="hljs-link
 </div>
   <div class="footer noprint">
     <span></span>
-    <span aria-label="Page 2 of 9"
-      >2 / 9</span
+    <span aria-label="Page 2 of 10"
+      >2 / 10</span
     >
   </div>
 </section>
@@ -414,8 +420,8 @@ Korbinian Kuhn [<span class="hljs-string">kuhnko@</span>](<span class="hljs-link
 </div>
   <div class="footer noprint">
     <span></span>
-    <span aria-label="Page 3 of 9"
-      >3 / 9</span
+    <span aria-label="Page 3 of 10"
+      >3 / 10</span
     >
   </div>
 </section>
@@ -424,8 +430,8 @@ Korbinian Kuhn [<span class="hljs-string">kuhnko@</span>](<span class="hljs-link
   <div class="content"><h2 id="markdown-extensions">4 Markdown extensions</h2></div>
   <div class="footer noprint">
     <span></span>
-    <span aria-label="Page 4 of 9"
-      >4 / 9</span
+    <span aria-label="Page 4 of 10"
+      >4 / 10</span
     >
   </div>
 </section>
@@ -486,8 +492,8 @@ Korbinian Kuhn [<span class="hljs-string">kuhnko@</span>](<span class="hljs-link
 </div>
   <div class="footer noprint">
     <span></span>
-    <span aria-label="Page 5 of 9"
-      >5 / 9</span
+    <span aria-label="Page 5 of 10"
+      >5 / 10</span
     >
   </div>
 </section>
@@ -547,14 +553,61 @@ Right
 </div>
   <div class="footer noprint">
     <span></span>
-    <span aria-label="Page 6 of 9"
-      >6 / 9</span
+    <span aria-label="Page 6 of 10"
+      >6 / 10</span
     >
   </div>
 </section>
 
 <section class="slide" id="slide-7">
-  <div class="content"><h3 id="custom-theme">4.4 Custom Theme</h3><p>Look into the <a href="examples/custom-theme" title="examples/custom-theme">examples/custom-theme</a> directory to overide the default theme:</p>
+  <div class="content"><h3 id="images">4.4 Images</h3><p>Set the width and alignment of an image (or video) with an attribute block directly after it. The alt text stays as it is.</p>
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+<th>Attribute</th>
+<th>Values</th>
+<th>Default</th>
+</tr>
+
+    </thead>
+    <tbody>
+      <tr>
+<td><code>width</code></td>
+<td>Percentage or pixels, e.g. <code>70%</code> or <code>400px</code></td>
+<td>Original size</td>
+</tr>
+<tr>
+<td><code>align</code></td>
+<td><code>left</code>, <code>center</code> or <code>right</code></td>
+<td><code>center</code></td>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+<h4 id="example-2">Example</h4><div class="code-wrapper">
+  <button
+    class="copy noprint nopreview"
+    onclick="onClickCopyToClipboard('code-snippet-8')"
+    aria-label="Copy code example to clipboard"
+  >
+    Copy
+  </button>
+  <pre><code id="code-snippet-8">![<span class="hljs-string">Architecture overview</span>](<span class="hljs-link">images/architecture.png</span>){width=70% align=left}</code></pre>
+</div>
+<p>Unknown attributes or invalid values stop the build with an error.</p>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 7 of 10"
+      >7 / 10</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-8">
+  <div class="content"><h3 id="custom-theme">4.5 Custom Theme</h3><p>Look into the <a href="examples/custom-theme" title="examples/custom-theme">examples/custom-theme</a> directory to overide the default theme:</p>
 <p>Just provide these files in the root of your project:</p>
 <ul>
 <li>logo-light.svg, logo-dark.svg, favicon.svg</li>
@@ -563,26 +616,26 @@ Right
 <div class="code-wrapper">
   <button
     class="copy noprint nopreview"
-    onclick="onClickCopyToClipboard('code-snippet-8')"
+    onclick="onClickCopyToClipboard('code-snippet-9')"
     aria-label="Copy code example to clipboard"
   >
     Copy
   </button>
-  <pre><code id="code-snippet-8"><span class="hljs-selector-pseudo">:root</span> {
+  <pre><code id="code-snippet-9"><span class="hljs-selector-pseudo">:root</span> {
   <span class="hljs-attr">--color-primary</span>: blue;
 }</code></pre>
 </div>
 </div>
   <div class="footer noprint">
     <span></span>
-    <span aria-label="Page 7 of 9"
-      >7 / 9</span
+    <span aria-label="Page 8 of 10"
+      >8 / 10</span
     >
   </div>
 </section>
 
-<section class="slide" id="slide-8">
-  <div class="content"><h3 id="mathjax">4.5 MathJax</h3><p>LaTex equations are converted to equations with MathJax, including all accessibility features:</p>
+<section class="slide" id="slide-9">
+  <div class="content"><h3 id="mathjax">4.6 MathJax</h3><p>LaTex equations are converted to equations with MathJax, including all accessibility features:</p>
 <p>Centered Math (<code>\\[ ... \\]</code>):</p>
 <p>\[ x = {-b \pm \sqrt{b^2-4ac} \over 2a} \]</p>
 <p>Inline Math (<code>\\( ... \\)</code>):</p>
@@ -590,22 +643,22 @@ Right
 </div>
   <div class="footer noprint">
     <span></span>
-    <span aria-label="Page 8 of 9"
-      >8 / 9</span
+    <span aria-label="Page 9 of 10"
+      >9 / 10</span
     >
   </div>
 </section>
 
-<section class="slide" id="slide-9">
-  <div class="content"><h3 id="mermaidjs">4.6 MermaidJS</h3><p>Mermaid is supported, fits in nicely with the colors of the theme and automatically reacts to the light or dark mode:</p>
-<pre class="mermaid" id="code-snippet-9">sequenceDiagram
+<section class="slide" id="slide-10">
+  <div class="content"><h3 id="mermaidjs">4.7 MermaidJS</h3><p>Mermaid is supported, fits in nicely with the colors of the theme and automatically reacts to the light or dark mode:</p>
+<pre class="mermaid" id="code-snippet-10">sequenceDiagram
     Alice->>John: Hello John, how are you?
     John-->>Alice: Great!
     Alice-)John: See you later!</pre></div>
   <div class="footer noprint">
     <span></span>
-    <span aria-label="Page 9 of 9"
-      >9 / 9</span
+    <span aria-label="Page 10 of 10"
+      >10 / 10</span
     >
   </div>
 </section>

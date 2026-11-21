@@ -1,8 +1,8 @@
 <p>
   <video
-    class="default"
+    class="{{className}}"
     src="{{src}}"
-    alt="{{alt}}"
+    alt="{{alt}}"{{#if style}} style="{{style}}"{{/if}}
     controls
     onerror="this.classList.add('broken')"
   ></video>
