@@ -47,7 +47,7 @@
     "@fontsource-variable/roboto": "^5.2.5",
     "@playwright/test": "1.65.1",
     "@types/argparse": "^2.0.12",
-    "@types/node": "^20.8.10",
+    "@types/node": "^26.6.6",
     "argparse": "^2.0.1",
     "esbuild": "^0.19.5",
     "esbuild-plugin-sass": "^1.0.1",
