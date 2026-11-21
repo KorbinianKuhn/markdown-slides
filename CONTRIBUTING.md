@@ -26,3 +26,11 @@ The fixture deck in [tests/fixtures/features](tests/fixtures/features) has one s
 When a change is intended, update the snapshots and commit them together with the change, so the diff in the pull request shows what changed.
 
 CI runs the tests on every pull request ([.github/workflows/test.yml](.github/workflows/test.yml)). If they fail, the report is attached to the workflow run as the `playwright-report` artifact.
+
+## Changelog
+
+Every change that users notice goes into the `[Unreleased]` section of [CHANGELOG.md](CHANGELOG.md): under Added, Changed, Fixed or Removed.
+
+If a change can affect existing slides (different rendering, new build errors or warnings, changed syntax), also add an **Upgrade note**. Say what changed, give a command that finds the affected places in a lecture repository, and say what to do. Colleagues and their AI assistants use these notes to update their slides, so test the commands.
+
+On release, rename `[Unreleased]` to the version and start a new empty `[Unreleased]` section.

@@ -48,6 +48,7 @@ const main = async () => {
 
   await cp('packages/app/assets', 'dist/app', { recursive: true });
   await cp('README.md', 'dist/README.md');
+  await cp('CHANGELOG.md', 'dist/CHANGELOG.md');
 
   const packageJSON = JSON.parse(readFileSync('package.json', 'utf8'));
   packageJSON.dependencies = {};

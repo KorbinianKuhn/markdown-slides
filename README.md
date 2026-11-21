@@ -70,6 +70,8 @@ Serve slides (you can also open the index.html file locally, but you might run i
 npx http-server -c-1 public
 ```
 
+Updating to a new version? The [changelog](https://github.com/KorbinianKuhn/markdown-slides/blob/main/CHANGELOG.md) lists upgrade notes with commands to find the places in your slides that need changes.
+
 <!-- slide -->
 
 ## CLI parameters
@@ -166,7 +168,7 @@ Set the width and alignment of an image (or video) with an attribute block direc
 ![Architecture overview](images/architecture.png){width=70% align=left}
 ```
 
-Unknown attributes or invalid values stop the build with an error.
+Unknown attributes or invalid values stop the build with an error. Images without alt text produce a warning.
 
 <!-- slide -->
 
