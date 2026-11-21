@@ -9,15 +9,20 @@ import { getLectureTitle } from './utils';
 const SPACER_SIZES = ['sm', 'md', 'lg', 'xl'];
 
 export class HTMLBuilder {
-  private state = new State(this.settings);
-  private marked = new MarkdownParser(this.state);
+  private state: State;
+  private marked: MarkdownParser;
   private lexer = new Lexer();
 
   constructor(
     private settings: Settings,
     private isRoot: boolean,
     private filename: string,
-  ) {}
+  ) {
+    // Not as field initializers: with ES2022 class fields they run before the
+    // constructor parameters are assigned, so this.settings would be undefined.
+    this.state = new State(settings);
+    this.marked = new MarkdownParser(this.state);
+  }
 
   private error(message: string) {
     logger.error(`${this.filename} ${message}`);

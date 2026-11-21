@@ -1,15 +1,11 @@
 {
+  // Slides app, bundled by esbuild for the browser (see build.mts)
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "target": "ES2022",
-    "baseUrl": ".",
-    "declaration": true,
-    "esModuleInterop": true,
-    "lib": ["dom", "ES2022"],
-    "module": "ES2022",
-    "strict": true,
-    "rootDir": "./src/",
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "sourceMap": true
-  }
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    // No Node.js types in browser code
+    "types": []
+  },
+  "include": ["src"]
 }
