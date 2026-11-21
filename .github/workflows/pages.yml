@@ -1,0 +1,48 @@
+name: Pages
+
+# Deploys the README deck and the examples as a live demo:
+# https://korbiniankuhn.github.io/markdown-slides/
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Build decks
+        run: |
+          node dist/cli.js -i . -o _site --allowed-files README.md
+          mkdir -p _site/examples
+          node dist/cli.js -i examples/custom-theme -o _site/examples/custom-theme --institution "Custom Institution" --ignored-files public
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

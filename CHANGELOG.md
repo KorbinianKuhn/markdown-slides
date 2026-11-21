@@ -57,6 +57,7 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 - Image and video attributes: `![Alt](image.png){width=70% align=left}`. `width` takes a percentage or pixels, `align` takes `left`, `center` or `right`. Invalid attributes stop the build.
 - Warning for images and videos without alt text.
 - `:spacer{size=sm|md|lg|xl}` as documented in the README.
+- Live demo of the README deck and the custom theme example: https://korbiniankuhn.github.io/markdown-slides/
 - The npm package includes the MIT `LICENSE` file and links to the repository, issues and homepage.
 
 ### Changed

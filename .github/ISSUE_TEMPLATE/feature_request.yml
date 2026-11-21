@@ -1,0 +1,16 @@
+name: Feature request
+description: Suggest new syntax or a new feature
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What do you want to do?
+      description: Describe the slide or workflow you have in mind.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed syntax or behavior
+      render: markdown
