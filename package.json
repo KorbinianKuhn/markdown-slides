@@ -1,6 +1,6 @@
 {
   "name": "@korbiniankuhn/markdown-slides",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "private": true,
   "description": "Create beautiful HDM branded HTML slides from markdown files",
   "keywords": [
