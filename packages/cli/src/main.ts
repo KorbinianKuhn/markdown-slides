@@ -6,8 +6,6 @@ import { HTMLBuilder } from './markdown/html-builder';
 import { getLectureTitle } from './markdown/utils';
 import { Settings } from './settings';
 
-logger.spacer('Start');
-
 export interface Options {
   toc_numbering: boolean;
   language: string;
@@ -18,6 +16,7 @@ export interface Options {
 }
 
 export const main = async (input: string, output: string, options: Options) => {
+  logger.spacer('Start');
   const files = await getFiles(
     input,
     output,

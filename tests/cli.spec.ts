@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { spawnSync } from 'child_process';
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'fs';
+import { join, resolve } from 'path';
 import { outputDir } from './decks';
 
 // Build messages: invalid input must stop the build with a readable message,
@@ -155,3 +155,111 @@ test('a misplaced slide marker builds with a warning', () => {
   expect(result.status).toBe(0);
   expect(result.stderr).toContain('<!-- slide --> is ignored');
 });
+
+/** Runs the CLI with a README.md in a sandbox directory as cwd. */
+const run = (
+  name: string,
+  readme: string,
+  args: string[],
+  dirs: string[] = [],
+) => {
+  const cwd = join(outputDir, 'cli', name);
+  rmSync(cwd, { recursive: true, force: true });
+  mkdirSync(cwd, { recursive: true });
+  writeFileSync(join(cwd, 'README.md'), readme);
+  for (const dir of dirs) {
+    mkdirSync(join(cwd, dir), { recursive: true });
+    writeFileSync(join(cwd, dir, 'README.md'), readme);
+  }
+  const result = spawnSync('node', [resolve('dist/cli.js'), ...args], {
+    cwd,
+    encoding: 'utf8',
+    timeout: 10_000,
+  });
+  const html = (dir = 'public') => {
+    const file = join(cwd, dir, 'index.html');
+    return existsSync(file) ? readFileSync(file, 'utf8') : '';
+  };
+  return { ...result, cwd, html };
+};
+
+test('--toc-numbering false removes the numbers', () => {
+  const readme = '# Title\n\n<!-- slide -->\n\n## Intro\n';
+  expect(run('toc-on', readme, []).html()).toContain('>1 Intro</h2>');
+  const off = run('toc-off', readme, ['--toc-numbering', 'false']);
+  expect(off.status).toBe(0);
+  expect(off.html()).toContain('>Intro</h2>');
+  const invalid = run('toc-invalid', readme, ['--toc-numbering', 'no']);
+  expect(invalid.status).toBe(2);
+  expect(invalid.stderr).toContain("invalid boolean value: 'no'");
+});
+
+test('--help prints only the help', () => {
+  const result = run('help', '# Title\n', ['--help']);
+  expect(result.status).toBe(0);
+  expect(result.stdout).toContain('usage:');
+  expect(result.stdout).not.toContain('Start');
+});
+
+for (const { name, args, error } of [
+  {
+    name: 'output-is-cwd',
+    args: ['-o', '.'],
+    error: "the output directory can't be the current directory",
+  },
+  {
+    name: 'output-outside-cwd',
+    args: ['-o', '../outside'],
+    error: 'must be part of the current directory',
+  },
+  {
+    // The old check only compared the start of the path
+    name: 'input-in-sibling',
+    args: ['-i', '../input-in-sibling-other'],
+    error: 'must be part of the current directory',
+  },
+  {
+    name: 'output-contains-input',
+    args: ['-i', 'out/slides', '-o', 'out'],
+    error: "The output directory can't be or contain the input directory",
+  },
+]) {
+  test(`refuses unsafe directories: ${name}`, () => {
+    mkdirSync(join(outputDir, 'cli', 'input-in-sibling-other'), {
+      recursive: true,
+    });
+    writeFileSync(
+      join(outputDir, 'cli', 'input-in-sibling-other', 'README.md'),
+      '# Title\n',
+    );
+    const result = run(name, '# Title\n', args, ['out/slides']);
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain(error);
+    // Nothing was deleted
+    expect(existsSync(join(result.cwd, 'README.md'))).toBe(true);
+  });
+}
+
+for (const { name, readme, title } of [
+  {
+    name: 'title-setext',
+    readme: 'My Lecture\n==========\n',
+    title: 'My Lecture',
+  },
+  {
+    name: 'title-after-code',
+    readme: '```md\n# Not the title\n```\n\n# My Lecture\n',
+    title: 'My Lecture',
+  },
+  {
+    name: 'title-markdown',
+    readme: '# Intro to `git` #\n',
+    title: 'Intro to git',
+  },
+]) {
+  test(`detects the lecture title: ${name}`, () => {
+    const result = run(name, readme, []);
+    expect(result.status).toBe(0);
+    expect(result.html()).toContain(`<title>${title}</title>`);
+  });
+}

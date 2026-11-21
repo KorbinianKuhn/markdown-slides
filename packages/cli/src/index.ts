@@ -17,6 +17,16 @@ const { version } = JSON.parse(
   readFileSync(path.resolve(__dirname, 'package.json'), 'utf8'),
 );
 
+// argparse names the function in errors: invalid boolean value: 'maybe'
+const boolean = (value: string) => {
+  if (value !== 'true' && value !== 'false') {
+    throw new TypeError();
+  }
+  return value === 'true';
+};
+// Kept explicitly, the bundle is minified
+Object.defineProperty(boolean, 'name', { value: 'boolean' });
+
 const parser = new ArgumentParser({
   description: 'Command line tool to convert markdown to HTML slides.',
 });
@@ -28,7 +38,11 @@ parser.add_argument('-l', '--language', {
   choices: ['en', 'de'],
   default: 'en',
 });
-parser.add_argument('--toc-numbering', { default: true });
+parser.add_argument('--toc-numbering', {
+  default: true,
+  metavar: '{true,false}',
+  type: boolean,
+});
 parser.add_argument('--institution', { required: false });
 parser.add_argument('--title', { required: false });
 parser.add_argument('--allowed-files', { required: false, nargs: '+' });
@@ -44,9 +58,26 @@ if (!existsSync(src)) {
   process.exit(1);
 }
 
-if (!src.includes(path.resolve()) || !dst.includes(path.resolve())) {
+// The output directory is deleted before each build, so it must not contain
+// the current directory or the input
+const cwd = path.resolve();
+const isInside = (child: string, parent: string) => {
+  const relative = path.relative(parent, child);
+  return (
+    relative !== '' && !relative.startsWith('..') && !path.isAbsolute(relative)
+  );
+};
+
+if (!(src === cwd || isInside(src, cwd)) || !isInside(dst, cwd)) {
   logger.error(
-    `Input and output directory must be part of the current directory`,
+    `Input and output directory must be part of the current directory, and the output directory can't be the current directory`,
+  );
+  process.exit(1);
+}
+
+if (src === dst || isInside(src, dst)) {
+  logger.error(
+    `The output directory can't be or contain the input directory, because it is deleted before each build`,
   );
   process.exit(1);
 }
