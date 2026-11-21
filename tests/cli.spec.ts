@@ -1,12 +1,13 @@
 import { expect, test } from '@playwright/test';
 import { spawnSync } from 'child_process';
-import { mkdirSync, rmSync, writeFileSync } from 'fs';
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { outputDir } from './decks';
 
-// Invalid input must stop the build with a readable message.
+// Build messages: invalid input must stop the build with a readable message,
+// questionable input must build with a warning.
 const build = (name: string, slide: string) => {
-  const input = join(outputDir, 'errors', name);
+  const input = join(outputDir, 'cli', name);
   rmSync(input, { recursive: true, force: true });
   mkdirSync(input, { recursive: true });
   writeFileSync(join(input, 'README.md'), `# Title\n\n<!-- slide -->\n\n${slide}\n`);
@@ -41,6 +42,16 @@ const cases: Array<{ name: string; slide: string; error: string }> = [
     slide: '![Alt](a.png){align=top}',
     error: 'slide 2: Invalid image alignment "top"',
   },
+  {
+    name: 'spacer-invalid-size',
+    slide: 'Text\n\n:spacer{size=huge}',
+    error: 'slide 2: Invalid spacer size "huge", expected sm, md, lg or xl.',
+  },
+  {
+    name: 'spacer-invalid-attribute',
+    slide: 'Text\n\n:spacer{height=lg}',
+    error: 'slide 2: Invalid spacer ":spacer{height=lg}"',
+  },
 ];
 
 for (const { name, slide, error } of cases) {
@@ -58,4 +69,26 @@ test('valid input builds', () => {
   );
   expect(result.stderr).toBe('');
   expect(result.status).toBe(0);
+});
+
+test('spacer syntaxes', () => {
+  const result = build(
+    'spacer',
+    'A\n\n:spacer\n\nB\n\n:spacer{size=xl}\n\nC\n\n:spacer[sm]\n\nD'
+  );
+  expect(result.status).toBe(0);
+  const html = readFileSync(join(outputDir, 'cli', 'spacer-out', 'index.html'), 'utf8');
+  expect(html).toContain('<div class="spacer md"></div>');
+  expect(html).toContain('<div class="spacer xl"></div>');
+  expect(html).toContain('<div class="spacer sm"></div>');
+  expect(html).not.toContain(':spacer');
+});
+
+test('image without alt text builds with a warning', () => {
+  const result = build('missing-alt', '![](a.png)\n\n![](b.png){width=50%}');
+  expect(result.status).toBe(0);
+  expect(result.stderr).toContain(
+    '[warn] README.md slide 2: Image without alt text (a.png).'
+  );
+  expect(result.stderr).toContain('Image without alt text (b.png).');
 });

@@ -6,6 +6,8 @@ import { MarkdownParser } from './parser';
 import { State } from './state';
 import { getLectureTitle } from './utils';
 
+const SPACER_SIZES = ['sm', 'md', 'lg', 'xl'];
+
 export class HTMLBuilder {
   private state = new State(this.settings);
   private marked = new MarkdownParser(this.state);
@@ -70,15 +72,28 @@ export class HTMLBuilder {
               text = text.replace(comment[0], ``);
             }
 
-            // Spacer
-            const spacer = text.matchAll(/:(spacer)(\[(.+)\])?/g);
-            for (const match of spacer) {
-              const className = match[3] || 'md';
-              text = text.replace(
-                match[0],
-                `<div class="spacer ${className}"></div>`
-              );
-            }
+            // Spacer: :spacer, :spacer{size=lg} or the older :spacer[lg]
+            text = text.replace(
+              /:spacer(?:\{([^}\n]*)\}|\[([^\]\n]*)\])?/g,
+              (match, attributes?: string, legacySize?: string) => {
+                let size = legacySize ?? 'md';
+                if (attributes !== undefined) {
+                  const parsed = /^\s*size=(\S+)\s*$/.exec(attributes);
+                  if (!parsed) {
+                    this.error(
+                      `slide ${slideIndex}: Invalid spacer "${match}", expected :spacer{size=sm|md|lg|xl}.`
+                    );
+                  }
+                  size = parsed![1];
+                }
+                if (!SPACER_SIZES.includes(size)) {
+                  this.error(
+                    `slide ${slideIndex}: Invalid spacer size "${size}", expected sm, md, lg or xl.`
+                  );
+                }
+                return `<div class="spacer ${size}"></div>`;
+              }
+            );
 
             // Directives
             const directives = text.matchAll(/@(module|semester)\[(.+)\]/g);
@@ -121,8 +136,11 @@ export class HTMLBuilder {
       this.state.increaseSlideNumber();
 
       const content = this.marked.parse(part);
+      // Same numbering as the row and column checks (title slide is 1)
+      for (const warning of this.marked.warnings) {
+        logger.warn(`${this.filename} slide ${i + 1}: ${warning}`);
+      }
       if (this.marked.errors.length > 0) {
-        // Same numbering as the row and column checks (title slide is 1)
         this.error(`slide ${i + 1}: ${this.marked.errors[0]}.`);
       }
 

@@ -1,7 +1,7 @@
 import hljs from 'highlight.js';
 import { Marked, Renderer, Tokenizer, Tokens } from 'marked';
 import { template } from '../template';
-import { parseMediaAttributes, renderMedia } from './images';
+import { MediaAttributes, parseMediaAttributes, renderMedia } from './images';
 import { State } from './state';
 
 export class MarkdownParser {
@@ -27,9 +27,23 @@ export class MarkdownParser {
       return `<a href="${href}" title="${text}">${text}</a>`;
     };
 
-    renderer.image = (href, title, text) => renderMedia(href, text);
-
     const errors = this.errors;
+    const warnings = this.warnings;
+
+    const media = (
+      href: string | null,
+      alt: string,
+      attributes?: MediaAttributes
+    ) => {
+      if (!alt.trim()) {
+        warnings.push(
+          `Image without alt text (${href}). Describe it for screen readers: ![Description](${href})`
+        );
+      }
+      return renderMedia(href, alt, attributes);
+    };
+
+    renderer.image = (href, title, text) => media(href, text);
 
     this.marked = new Marked({ renderer }).use({
       pedantic: false,
@@ -65,10 +79,10 @@ export class MarkdownParser {
             const image = token.image as Tokens.Image;
             try {
               const attributes = parseMediaAttributes(token.attributes);
-              return renderMedia(image.href, image.text, attributes);
+              return media(image.href, image.text, attributes);
             } catch (error) {
               errors.push(`${(error as Error).message} (${image.href})`);
-              return renderMedia(image.href, image.text);
+              return media(image.href, image.text);
             }
           },
         },
@@ -107,9 +121,12 @@ export class MarkdownParser {
 
   /** Errors of the last parse() call, e.g. invalid image attributes. */
   public readonly errors: string[] = [];
+  /** Warnings of the last parse() call, e.g. images without alt text. */
+  public readonly warnings: string[] = [];
 
   parse(content: string): string {
     this.errors.length = 0;
+    this.warnings.length = 0;
     return this.marked.parse(content) as string;
   }
 }
