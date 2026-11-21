@@ -1,6 +1,7 @@
 import hljs from 'highlight.js';
-import { Marked, Renderer } from 'marked';
+import { Marked, Renderer, Tokenizer, Tokens } from 'marked';
 import { template } from '../template';
+import { parseMediaAttributes, renderMedia } from './images';
 import { State } from './state';
 
 export class MarkdownParser {
@@ -26,20 +27,51 @@ export class MarkdownParser {
       return `<a href="${href}" title="${text}">${text}</a>`;
     };
 
-    renderer.image = (href, title, text) => {
-      const src = href?.replace(/^\//, '') || '';
-      if (['.mp4', '.webm'].some((o) => src.endsWith(o))) {
-        return template.video({ src, alt: text });
-      } else {
-        return template.image({ src, alt: text });
-      }
-    };
+    renderer.image = (href, title, text) => renderMedia(href, text);
+
+    const errors = this.errors;
 
     this.marked = new Marked({ renderer }).use({
       pedantic: false,
       gfm: true,
       breaks: false,
       extensions: [
+        {
+          // Image with an attribute block: ![Alt](image.png){width=70% align=left}
+          name: 'mediaWithAttributes',
+          level: 'inline',
+          start: (src) => src.indexOf('!['),
+          tokenizer(src) {
+            // Reuse the built-in tokenizer, so URLs and titles work as usual
+            const { tokenizer } = this.lexer as unknown as {
+              tokenizer: Tokenizer;
+            };
+            const image = tokenizer.link(src);
+            if (!image || image.type !== 'image') {
+              return undefined;
+            }
+            const block = /^\{([^}\n]*)\}/.exec(src.slice(image.raw.length));
+            if (!block) {
+              return undefined;
+            }
+            return {
+              type: 'mediaWithAttributes',
+              raw: image.raw + block[0],
+              image,
+              attributes: block[1],
+            };
+          },
+          renderer: (token) => {
+            const image = token.image as Tokens.Image;
+            try {
+              const attributes = parseMediaAttributes(token.attributes);
+              return renderMedia(image.href, image.text, attributes);
+            } catch (error) {
+              errors.push(`${(error as Error).message} (${image.href})`);
+              return renderMedia(image.href, image.text);
+            }
+          },
+        },
         {
           name: 'heading',
           renderer: (token) => {
@@ -73,7 +105,11 @@ export class MarkdownParser {
     });
   }
 
+  /** Errors of the last parse() call, e.g. invalid image attributes. */
+  public readonly errors: string[] = [];
+
   parse(content: string): string {
+    this.errors.length = 0;
     return this.marked.parse(content) as string;
   }
 }

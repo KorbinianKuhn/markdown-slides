@@ -54,6 +54,18 @@ video.default {
   position: relative;
   margin-left: auto;
   margin-right: auto;
+  // Keep the aspect ratio when a width is set and max-height limits the height
+  object-fit: contain;
+
+  &.align-left {
+    margin-left: 0;
+    object-position: left;
+  }
+
+  &.align-right {
+    margin-right: 0;
+    object-position: right;
+  }
 
   &.broken {
     border: 1px solid var(--color-border);

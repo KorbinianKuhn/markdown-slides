@@ -1,8 +1,8 @@
 <p>
   <img
-    class="default"
+    class="{{className}}"
     src="{{src}}"
-    alt="{{alt}}"
+    alt="{{alt}}"{{#if style}} style="{{style}}"{{/if}}
     onerror="this.classList.add('broken')"
     onclick="onClickImage(this)"
   />

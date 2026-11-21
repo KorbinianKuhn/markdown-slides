@@ -151,6 +151,25 @@ Right
 
 <!-- slide -->
 
+### Images
+
+Set the width and alignment of an image (or video) with an attribute block directly after it. The alt text stays as it is.
+
+| Attribute | Values                                      | Default       |
+| --------- | ------------------------------------------- | ------------- |
+| `width`   | Percentage or pixels, e.g. `70%` or `400px` | Original size |
+| `align`   | `left`, `center` or `right`                 | `center`      |
+
+#### Example
+
+```markdown
+![Architecture overview](images/architecture.png){width=70% align=left}
+```
+
+Unknown attributes or invalid values stop the build with an error.
+
+<!-- slide -->
+
 ### Custom Theme
 
 Look into the [examples/custom-theme](examples/custom-theme) directory to overide the default theme:

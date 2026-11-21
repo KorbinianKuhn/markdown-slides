@@ -26,7 +26,7 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
   },
   projects: [
-    { name: 'html', testMatch: 'html.spec.ts' },
+    { name: 'html', testMatch: /(html|errors)\.spec\.ts/ },
     {
       name: 'light',
       testMatch: 'visual.spec.ts',
