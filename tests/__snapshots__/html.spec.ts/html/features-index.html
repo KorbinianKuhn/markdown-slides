@@ -146,26 +146,27 @@
         </button></span
       >
     </div>
-    <div>
-      <span>Theme:</span>
+    <div role="group" aria-labelledby="theme-label">
+      <span id="theme-label">Theme:</span>
       <button
         id="button-theme-auto"
         onclick="onClickSetTheme('system')"
-        aria-label="Set theme to operating system settings"
+        title="Use the operating system setting"
+        aria-pressed="false"
       >
         Auto
       </button>
       <button
         id="button-theme-light"
         onclick="onClickSetTheme('light')"
-        aria-label="Set light theme"
+        aria-pressed="false"
       >
         Light
       </button>
       <button
         id="button-theme-dark"
         onclick="onClickSetTheme('dark')"
-        aria-label="Set dark theme"
+        aria-pressed="false"
       >
         Dark
       </button>
@@ -178,9 +179,11 @@
         <button
           onclick="onClickOpenMenu()"
           class="noprint"
-          aria-label="Open menu with table of contents"
+          aria-label="Feature Fixture: open table of contents"
+          aria-haspopup="dialog"
         >
           <svg
+            aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             height="24px"
             viewBox="0 0 24 24"
@@ -196,12 +199,12 @@
       <img
         class="light-only logo"
         src="app/img/logo-light.svg"
-        aria-hidden="true"
+        alt=""
       />
       <img
         class="dark-only logo"
         src="app/img/logo-dark.svg"
-        aria-hidden="true"
+        alt=""
       />
     </header>
     <div class="slides-container"><section id="slide-0" class="slide title-slide">

@@ -63,7 +63,7 @@ dialog {
       font-weight: bold;
     }
     a:hover {
-      color: var(--color-primary);
+      color: var(--color-primary-text);
     }
   }
 
@@ -97,9 +97,9 @@ dialog {
         }
 
         &:hover {
-          color: var(--color-primary);
+          color: var(--color-primary-text);
           span.slide-number {
-            color: var(--color-primary);
+            color: var(--color-primary-text);
           }
         }
       }

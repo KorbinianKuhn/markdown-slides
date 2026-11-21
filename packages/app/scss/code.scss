@@ -1,14 +1,15 @@
+// GitHub's light theme, with a contrast of 4.5:1 on the code background
 :root {
-  --hljs-red: #d73a49;
-  --hljs-purple: #6f42c1;
-  --hljs-blue: #005cc5;
-  --hljs-dark-blue: #032f62;
-  --hljs-orange: #e36209;
-  --hljs-grey: #6a737d;
-  --hljs-green: #22863a;
-  --hljs-dark: #24292e;
-  --hljs-yellow: #735c0f;
-  --hljs-red-2: #b31d28;
+  --hljs-red: #cf222e;
+  --hljs-purple: #8250df;
+  --hljs-blue: #0550ae;
+  --hljs-dark-blue: #0a3069;
+  --hljs-orange: #953800;
+  --hljs-grey: #57606a;
+  --hljs-green: #116329;
+  --hljs-dark: #24292f;
+  --hljs-yellow: #4d2d00;
+  --hljs-red-2: #82071e;
 }
 
 body.dark {

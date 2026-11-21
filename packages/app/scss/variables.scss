@@ -7,9 +7,13 @@
   --color-border: #eaedef;
 
   --color-primary: #e31134;
+  // Text, borders and outlines in the primary color. Custom themes only set
+  // --color-primary.
+  --color-primary-text: var(--color-primary);
   --color-white: #fff;
   --color-black: #222;
-  --color-grey: #888;
+  // Contrast 4.5:1 on light slides and code (WCAG AA)
+  --color-grey: #696969;
 }
 
 @media not print {
@@ -19,5 +23,9 @@
     --color-bg-code: #171b22;
     --color-text: #e6edf3;
     --color-border: #31363d;
+    --color-grey: #888;
+    // Lighten dark primary colors (also custom ones) to a contrast of at least
+    // 4.5:1 on dark slides; light colors stay unchanged
+    --color-primary-text: oklch(from var(--color-primary) max(l, 0.7) c h);
   }
 }

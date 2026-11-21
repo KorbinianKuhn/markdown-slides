@@ -75,8 +75,15 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
     grep -rnE --include='*.yml' --include='*.yaml' --include='*.sh' --include='*.json' --include='Makefile' -e '--toc-numbering|(-o|--out)[ =]\.(/)?( |$)' .
     ```
 
+12. **Colors meet the WCAG AA contrast ratio.** The grey text (page numbers, footer) is darker in light mode, and the syntax highlighting uses GitHub's current light colors. In dark mode, text in the primary color (links, headlines) is lightened automatically when it is too dark for the dark background; this also applies to a custom `--color-primary`. If your `style.css` sets other colors, check them in dark mode, or check the whole deck with an accessibility checker such as [axe DevTools](https://www.deque.com/axe/devtools/). Find custom color settings:
+
+    ```sh
+    grep -rnE --include='*.css' --exclude-dir=public --exclude-dir=node_modules -e '--color-[a-z-]+:' .
+    ```
+
 ### Added
 
+- Automated accessibility tests (axe-core, WCAG 2.2 A and AA rules) for all test decks in light, dark and mobile mode, and for the menu.
 - `--title` option to set the lecture title used for the link back to the main page on sub-pages, e.g. an abbreviation. Defaults to the first headline of `README.md`.
 - Image and video attributes: `![Alt](image.png){width=70% align=left}`. `width` takes a percentage or pixels, `align` takes `left`, `center` or `right`. Invalid attributes stop the build.
 - Warning for images and videos without alt text.
@@ -98,6 +105,9 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ### Fixed
 
+- Contrast below the WCAG AA minimum: grey text (3.5:1), syntax highlighting in light mode (down to 3.3:1), and links and headlines in the primary color in dark mode (red 3.95:1, custom colors like blue 2.2:1). See upgrade note 12.
+- Code blocks with long lines could only be scrolled with a mouse. Code blocks that overflow can now be focused with Tab and scrolled with the arrow keys.
+- The names of the menu button and the theme buttons didn't contain their visible text, so voice control (e.g. "click Auto") didn't work. The selected theme is announced to screen readers.
 - Images were wrapped in two paragraphs (`<p><p><img></p></p>`), which browsers split into an image and two empty paragraphs. The spacing around images is now even and slightly tighter. Images in a line of text stay in that line.
 - Videos were inside a paragraph, which is invalid HTML, and had an `alt` attribute, which videos don't support. The description is now an `aria-label`.
 - The menu button had an `alt` attribute instead of an `aria-label`, so screen readers announced it without a name.

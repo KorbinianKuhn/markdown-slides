@@ -1,4 +1,5 @@
 import { Clipboard } from './clipboard';
+import { Code } from './code';
 import { Interaction } from './interaction';
 import { Slides } from './slides';
 import { Theme } from './theme';
@@ -9,6 +10,7 @@ export class App {
   private slides = new Slides();
   private theme = new Theme();
   private clipboard = new Clipboard();
+  private code = new Code();
   private interaction = new Interaction(this, this.slides);
   private menu = document.querySelector('#menu') as HTMLDialogElement;
 

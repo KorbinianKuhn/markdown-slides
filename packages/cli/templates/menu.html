@@ -61,26 +61,27 @@
         </button></span
       >
     </div>
-    <div>
-      <span>Theme:</span>
+    <div role="group" aria-labelledby="theme-label">
+      <span id="theme-label">Theme:</span>
       <button
         id="button-theme-auto"
         onclick="onClickSetTheme('system')"
-        aria-label="Set theme to operating system settings"
+        title="Use the operating system setting"
+        aria-pressed="false"
       >
         Auto
       </button>
       <button
         id="button-theme-light"
         onclick="onClickSetTheme('light')"
-        aria-label="Set light theme"
+        aria-pressed="false"
       >
         Light
       </button>
       <button
         id="button-theme-dark"
         onclick="onClickSetTheme('dark')"
-        aria-label="Set dark theme"
+        aria-pressed="false"
       >
         Dark
       </button>

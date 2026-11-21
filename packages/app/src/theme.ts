@@ -27,21 +27,16 @@ export class Theme {
   updateThemeClass() {
     const setting = localStorage.getItem('theme') || 'system';
 
-    this.buttonAuto.classList.remove('active');
-    this.buttonLight.classList.remove('active');
-    this.buttonDark.classList.remove('active');
-
-    switch (setting) {
-      case 'light':
-        this.buttonLight.classList.add('active');
-        break;
-      case 'dark':
-        this.buttonDark.classList.add('active');
-        break;
-      case 'system':
-      default:
-        this.buttonAuto.classList.add('active');
-        break;
+    const active =
+      setting === 'light'
+        ? this.buttonLight
+        : setting === 'dark'
+          ? this.buttonDark
+          : this.buttonAuto;
+    for (const button of [this.buttonAuto, this.buttonLight, this.buttonDark]) {
+      // Shown with the class, announced by screen readers with aria-pressed
+      button.classList.toggle('active', button === active);
+      button.setAttribute('aria-pressed', String(button === active));
     }
 
     const isDark =
