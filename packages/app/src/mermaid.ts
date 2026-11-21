@@ -28,6 +28,12 @@ export class Mermaid {
     mermaid.initialize({
       startOnLoad: false,
       theme: 'base',
+      // Mermaid 12 defaults to a new layout and look (shadows, uniform node
+      // widths, labels wrapped early). Keep the compact mermaid 11 style,
+      // which fits the slides better.
+      layout: 'dagre',
+      look: 'classic',
+      flowchart: { minNodeWidth: 0, wrappingWidth: 200 },
       darkMode,
       themeVariables: {
         background: this.getCSSVariableColor('--color-bg'),

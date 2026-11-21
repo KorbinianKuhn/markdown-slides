@@ -74,6 +74,7 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ### Changed
 
+- Updated Mermaid from 11 to 12. Diagrams keep the previous layout and style (Mermaid 12 changed the defaults). Viewing slides with diagrams needs a browser from 2024 or newer (e.g. Safari 17.4, Chrome 117, Firefox 119), and `mermaid.min.js` grows from 3.6 to 5.5 MB.
 - Slides, spacers, `@module`/`@semester` and comments are handled by marked extensions instead of a custom lexer and regular expressions. See upgrade note 9.
 - Updated the Markdown parser (marked 9 → 18). The tests show no visible changes, but rare edge cases may render differently, see upgrade note 8.
 - The CLI requires Node.js 22 or newer (`engines` field) and is built for it.
@@ -95,7 +96,8 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ### Security
 
-- Updated the libraries bundled into the slides: Mermaid 11.17 and DOMPurify 3.4 (cross-site scripting fixes in diagrams), handlebars 4.7.10 (critical code injection fix) and highlight.js 11.12.
+- Updated the libraries bundled into the slides: Mermaid 12.3 and DOMPurify 3.4 (cross-site scripting fixes in diagrams), handlebars 4.7.10 (critical code injection fix) and highlight.js 11.12.
+- Mermaid 12 bundles KaTeX 0.16.47, which fixes the last two known vulnerabilities (`npm audit` reports none).
 
 ### Removed
 
