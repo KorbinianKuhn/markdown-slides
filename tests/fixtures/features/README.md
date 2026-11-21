@@ -126,6 +126,6 @@ $$\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$$
 
 Text above the spacer.
 
-:spacer[lg]
+:spacer{size=lg}
 
 Text below the spacer.

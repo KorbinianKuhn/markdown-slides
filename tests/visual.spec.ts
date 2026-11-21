@@ -37,8 +37,27 @@ for (const deck of decks) {
       const count = await slides.count();
       expect(count).toBeGreaterThan(0);
 
+      // Slides live in a scroll container, and screenshots only include its
+      // visible part. Keep its height (slides are at least as tall as it), but
+      // let it overflow, so the page scrolls and long slides are captured fully.
+      await page.evaluate(() => {
+        const container = document.querySelector<HTMLElement>('.slides-container')!;
+        container.style.height = `${container.clientHeight}px`;
+        container.style.bottom = 'auto';
+        container.style.overflow = 'visible';
+      });
+
       const name = path.replace('.html', '');
       for (let i = 0; i < count; i++) {
+        // Show only this slide, so its position (and sub-pixel rendering)
+        // doesn't depend on the height of the slides before it.
+        await page.evaluate((index) => {
+          document
+            .querySelectorAll<HTMLElement>('section.slide')
+            .forEach((slide, j) => {
+              slide.style.display = j === index ? '' : 'none';
+            });
+        }, i);
         await expect
           .soft(slides.nth(i))
           .toHaveScreenshot(`${deck.name}-${name}-${String(i).padStart(2, '0')}.png`);
