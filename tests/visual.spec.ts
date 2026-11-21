@@ -35,6 +35,15 @@ for (const deck of decks) {
       if (testInfo.project.metadata.media === 'print') {
         await page.emulateMedia({ media: 'print' });
       }
+      // Slides must work offline, e.g. MathJax must not load its font from a CDN
+      const external: string[] = [];
+      await page.route(
+        (url) => url.hostname !== 'localhost',
+        (route) => {
+          external.push(route.request().url());
+          return route.abort();
+        },
+      );
       await page.goto(`/${deck.name}/${path}`);
       await waitUntilRendered(page);
 
@@ -70,6 +79,7 @@ for (const deck of decks) {
             `${deck.name}-${name}-${String(i).padStart(2, '0')}.png`,
           );
       }
+      expect(external).toEqual([]);
     });
   }
 }

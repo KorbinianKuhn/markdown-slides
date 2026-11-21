@@ -63,6 +63,12 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
    grep -rnE --include='*.md' '^.*[^ \t].*<!-- slide -->|^[ \t]+<!-- slide -->' .
    ```
 
+10. **Formulas use a new font.** MathJax was updated from 3 to 4, which renders with the New Computer Modern font instead of Latin Modern. Formulas look almost the same, but spacing can shift slightly, so check slides where formulas fill the width. If you set `window.MathJax` in a custom `.js` file next to your slides, keep `loader.paths.fonts` as in `main.html`, or formulas may try to load the font from the internet. Find formulas:
+
+    ```sh
+    grep -rnE --include='*.md' '\$\$|\\\\\(|\\\\\[' .
+    ```
+
 ### Added
 
 - `--title` option to set the lecture title used for the link back to the main page on sub-pages, e.g. an abbreviation. Defaults to the first headline of `README.md`.
@@ -74,6 +80,7 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ### Changed
 
+- Updated MathJax from 3 to 4 (new font, see upgrade note 10). The font is included in the slides, so formulas also render offline.
 - Updated Mermaid from 11 to 12. Diagrams keep the previous layout and style (Mermaid 12 changed the defaults). Viewing slides with diagrams needs a browser from 2024 or newer (e.g. Safari 17.4, Chrome 117, Firefox 119), and `mermaid.min.js` grows from 3.6 to 5.5 MB.
 - Slides, spacers, `@module`/`@semester` and comments are handled by marked extensions instead of a custom lexer and regular expressions. See upgrade note 9.
 - Updated the Markdown parser (marked 9 → 18). The tests show no visible changes, but rare edge cases may render differently, see upgrade note 8.

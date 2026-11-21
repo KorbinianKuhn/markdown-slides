@@ -20,9 +20,20 @@ await cp(
   'node_modules/mermaid/dist/mermaid.min.js',
   'dist/app/scripts/mermaid.min.js',
 );
-await cp('node_modules/mathjax/es5', 'dist/app/scripts/mathjax', {
+// MathJax with its font, so formulas also render offline (MathJax loads the
+// font from a CDN by default, see the config in main.html). The node-* files
+// are for server-side use only.
+await cp('node_modules/mathjax', 'dist/app/scripts/mathjax', {
   recursive: true,
+  filter: (src) => !/[/\\](node-main[^/\\]*|require\.mjs)$/.test(src),
 });
+for (const file of ['svg.js', 'svg']) {
+  await cp(
+    `node_modules/@mathjax/mathjax-newcm-font/${file}`,
+    `dist/app/scripts/mathjax/fonts/mathjax-newcm-font/${file}`,
+    { recursive: true },
+  );
+}
 
 // Styles: compile with Sass, then let esbuild bundle the fonts. url() paths
 // in the SCSS are relative to packages/app/scss, so esbuild resolves them

@@ -7,6 +7,10 @@
     <title>Feature Fixture</title>
     <link rel="stylesheet" href="app/css/styles.css" />
     <link rel="shortcut icon" href="app/img/favicon.ico" type="image/x-icon" />
+    <script>
+      // Load the MathJax font from the slides, not from a CDN
+      window.MathJax = { loader: { paths: { fonts: '[mathjax]/fonts' } } };
+    </script>
     <script src="app/scripts/mathjax/tex-svg.js" async></script>
     <script src="app/scripts/mermaid.min.js"></script>
     <script src="app/scripts/slides.js"></script>
@@ -444,6 +448,7 @@
 
 <section class="slide" id="slide-11">
   <div class="content"><h2 id="mathjax">11 MathJax</h2><p>$$\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$$</p>
+<p>Sorting \(f: \mathbb{N} \to \mathbb{N}\) takes \(\mathcal{O}(n \log n)\).</p>
 </div>
   <div class="footer noprint">
     <span></span>

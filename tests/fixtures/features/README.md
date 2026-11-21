@@ -120,6 +120,8 @@ flowchart LR
 
 $$\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$$
 
+Sorting \\(f: \mathbb{N} \to \mathbb{N}\\) takes \\(\mathcal{O}(n \log n)\\).
+
 <!-- slide -->
 
 ## Spacer
