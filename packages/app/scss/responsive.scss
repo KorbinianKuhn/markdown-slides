@@ -51,4 +51,13 @@
   .nomobile {
     display: none;
   }
+
+  // Columns are too narrow side by side
+  .row {
+    flex-direction: column;
+  }
+
+  .column {
+    padding-right: 0;
+  }
 }

@@ -1,14 +1,14 @@
-<p>
+<div class="video">
   <video
     class="{{className}}"
     src="{{src}}"
-    alt="{{alt}}"{{#if style}} style="{{style}}"{{/if}}
+    aria-label="{{alt}}"{{#if style}} style="{{style}}"{{/if}}
     controls
     onerror="this.classList.add('broken')"
   ></video>
 
   <div class="video-print-placeholder">
-    <img src="app/img/broken-image.svg" aria-hidden="true">
+    <img src="app/img/broken-image.svg" alt="">
     <p>
       Videos can't be printed.
     </p>
@@ -19,4 +19,4 @@
       Link: {{ src }}
     </p>
   </div>
-</p>
+</div>
