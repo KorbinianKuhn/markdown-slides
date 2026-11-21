@@ -69,6 +69,12 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
     grep -rnE --include='*.md' '\$\$|\\\\\(|\\\\\[' .
     ```
 
+11. **`--toc-numbering false` now works, and unsafe output directories are refused.** Before, any value turned numbering on, so `--toc-numbering false` had no effect. Now it removes the numbers from headlines and the table of contents, and values other than `true` and `false` stop the build. The output directory must now be inside the current directory but not the directory itself, and it must not be or contain the input directory, because it is deleted before each build. Find build commands that use these options:
+
+    ```sh
+    grep -rnE --include='*.yml' --include='*.yaml' --include='*.sh' --include='*.json' --include='Makefile' -e '--toc-numbering|(-o|--out)[ =]\.(/)?( |$)' .
+    ```
+
 ### Added
 
 - `--title` option to set the lecture title used for the link back to the main page on sub-pages, e.g. an abbreviation. Defaults to the first headline of `README.md`.
@@ -92,6 +98,10 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ### Fixed
 
+- `--toc-numbering false` had no effect, see upgrade note 11.
+- The check that input and output are inside the current directory only compared the start of the path, so e.g. `../slides-old` was accepted inside `slides`. `-o .` deleted the current directory, and an output directory that contains the input deleted the slides. Both are now refused.
+- The lecture title was not detected when written as `Title` underlined with `===`, a `# …` line inside a code block was taken as the title, and Markdown in the title (e.g. `` `git` ``) was shown as is.
+- `--help` and `--version` printed `# Start` first.
 - Keyboard: the closed menu was still in the Tab order, so the first Tab presses went through its invisible links.
 - Keyboard: the code copy button was invisible when focused with Tab.
 - Keyboard: Space on a focused button or link went to the next slide instead of activating it. Keys on an open menu or a focused formula no longer change the slide.
