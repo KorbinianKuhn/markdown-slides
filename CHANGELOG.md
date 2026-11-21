@@ -51,6 +51,12 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
    grep -rn 'image:' .gitlab-ci.yml .github/workflows 2>/dev/null
    ```
 
+8. **New Markdown parser version.** marked was updated from version 9 to 18, which follows the CommonMark specification more closely. Slides rendered the same in all tests, but check unusual Markdown (nested lists with mixed indentation, raw HTML mixed with Markdown, emphasis inside words) after updating. Find raw HTML blocks, the most likely place for differences:
+
+   ```bash
+   grep -rn --include='*.md' -E '^\s*<(div|span|p|table|br|img)' .
+   ```
+
 ### Added
 
 - `--title` option to set the lecture title used for the link back to the main page on sub-pages, e.g. an abbreviation. Defaults to the first headline of `README.md`.
@@ -62,6 +68,7 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ### Changed
 
+- Updated the Markdown parser (marked 9 → 18). The tests show no visible changes, but rare edge cases may render differently, see upgrade note 8.
 - The CLI requires Node.js 22 or newer (`engines` field) and is built for it.
 - Images keep their aspect ratio when a width is set and the height is limited by the maximum height.
 - Invalid spacer sizes stop the build.
@@ -72,6 +79,7 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 - Unbalanced columns were not reported.
 - Columns had no width and no gap (`col` vs. `column` class).
 - Markdown directly after `<!-- row -->` or `<!-- col -->` was printed as plain text.
+- Alt texts with `&`, `<` or `>` were escaped twice, so screen readers read e.g. "Tom &amp; Jerry".
 - Building markdown-slides itself from a directory inside the system temp directory (e.g. a clone in `/tmp` in GitLab CI) failed with `Could not resolve ../../../node_modules/@fontsource-variable/...`. The SCSS is now compiled directly with Sass instead of the abandoned `esbuild-plugin-sass`.
 - README: build commands for slide authors (`npx` and Docker) instead of `sh master/build.sh`.
 

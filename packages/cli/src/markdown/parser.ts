@@ -1,5 +1,5 @@
 import hljs from 'highlight.js';
-import { Marked, Renderer, Tokenizer, Tokens } from 'marked';
+import { Marked, Tokenizer, Tokens } from 'marked';
 import { template } from '../template';
 import { MediaAttributes, parseMediaAttributes, renderMedia } from './images';
 import { State } from './state';
@@ -8,25 +8,6 @@ export class MarkdownParser {
   private marked!: Marked;
 
   constructor(private state: State) {
-    const renderer = new Renderer();
-
-    renderer.table = (header, body) => {
-      return template.table({ header, body });
-    };
-
-    renderer.link = (href, title, text) => {
-      const regex =
-        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/gi;
-      const isExternal = href.match(regex) !== null;
-      if (isExternal) {
-        return `<a href="${href}" title="${text}" target="_blank">${text}</a>`;
-      } else if (href.endsWith('.md')) {
-        const link = href.replace('.md', '.html');
-        return `<a href="${link}" title="${text}">${text}</a>`;
-      }
-      return `<a href="${href}" title="${text}">${text}</a>`;
-    };
-
     const errors = this.errors;
     const warnings = this.warnings;
 
@@ -43,12 +24,40 @@ export class MarkdownParser {
       return renderMedia(href, alt, attributes);
     };
 
-    renderer.image = (href, title, text) => media(href, text);
-
-    this.marked = new Marked({ renderer }).use({
+    this.marked = new Marked().use({
       pedantic: false,
       gfm: true,
       breaks: false,
+      renderer: {
+        table(token) {
+          const row = (cells: Tokens.TableCell[]) =>
+            this.tablerow({
+              text: cells.map((cell) => this.tablecell(cell)).join(''),
+            });
+          return template.table({
+            header: row(token.header),
+            body: token.rows.map(row).join(''),
+          });
+        },
+
+        link({ href, tokens }) {
+          const text = this.parser.parseInline(tokens);
+          const regex =
+            /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/gi;
+          const isExternal = href.match(regex) !== null;
+          if (isExternal) {
+            return `<a href="${href}" title="${text}" target="_blank">${text}</a>`;
+          } else if (href.endsWith('.md')) {
+            const link = href.replace('.md', '.html');
+            return `<a href="${link}" title="${text}">${text}</a>`;
+          }
+          return `<a href="${href}" title="${text}">${text}</a>`;
+        },
+
+        image({ href, text }) {
+          return media(href, text);
+        },
+      },
       extensions: [
         {
           // Image with an attribute block: ![Alt](image.png){width=70% align=left}
