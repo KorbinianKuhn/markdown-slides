@@ -56,13 +56,13 @@ export class HTMLBuilder {
           default: {
             let text = token.text;
 
-            // Rows
-            text = text.replace(/<!-- row -->/g, '<div class="row">');
-            text = text.replace(/<!-- row:end -->/g, '</div>');
+            // Rows (blank lines keep the markdown inside the div parsed as markdown)
+            text = text.replace(/<!-- row -->/g, '\n\n<div class="row">\n\n');
+            text = text.replace(/<!-- row:end -->/g, '\n\n</div>\n\n');
 
             // Columns
-            text = text.replace(/<!-- col -->/g, '<div class="col">');
-            text = text.replace(/<!-- col:end -->/g, '</div>');
+            text = text.replace(/<!-- col -->/g, '\n\n<div class="column">\n\n');
+            text = text.replace(/<!-- col:end -->/g, '\n\n</div>\n\n');
 
             // Replace comments
             const comments = text.matchAll(/<!--(.*?)-->/gs);
