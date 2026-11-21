@@ -98,6 +98,11 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ### Fixed
 
+- Images were wrapped in two paragraphs (`<p><p><img></p></p>`), which browsers split into an image and two empty paragraphs. The spacing around images is now even and slightly tighter. Images in a line of text stay in that line.
+- Videos were inside a paragraph, which is invalid HTML, and had an `alt` attribute, which videos don't support. The description is now an `aria-label`.
+- The menu button had an `alt` attribute instead of an `aria-label`, so screen readers announced it without a name.
+- Links repeated their text as `title`, including HTML like `<code>`. They now only have a title when set in Markdown: `[text](url "title")`.
+- Rows and columns were squeezed side by side on phones; they are now stacked below 576px.
 - `--toc-numbering false` had no effect, see upgrade note 11.
 - The check that input and output are inside the current directory only compared the start of the path, so e.g. `../slides-old` was accepted inside `slides`. `-o .` deleted the current directory, and an output directory that contains the input deleted the slides. Both are now refused.
 - The lecture title was not detected when written as `Title` underlined with `===`, a `# …` line inside a code block was taken as the title, and Markdown in the title (e.g. `` `git` ``) was shown as is.

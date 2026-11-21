@@ -178,7 +178,7 @@
         <button
           onclick="onClickOpenMenu()"
           class="noprint"
-          alt="Open menu with table of contents"
+          aria-label="Open menu with table of contents"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -220,7 +220,7 @@
     />
   </div>
   <div class="content">
- <h1 id="feature-fixture"> Feature Fixture</h1><div class="module">123456</div><div class="semester">Summer 2026</div><p>Jane Doe <a href="mailto:jane@example.com" title="jane@">jane@</a></p>
+ <h1 id="feature-fixture"> Feature Fixture</h1><div class="module">123456</div><div class="semester">Summer 2026</div><p>Jane Doe <a href="mailto:jane@example.com">jane@</a></p>
 
   </div>
   <div class="content">
@@ -242,7 +242,7 @@
 </section>
 
 <section class="slide" id="slide-1">
-  <div class="content"><h2 id="text">1 Text</h2><p>Plain text with <strong>bold</strong>, <em>italic</em>, <code>inline code</code>, an <a href="https://example.com" title="external link" target="_blank">external link</a> and a <a href="chapter.html" title="link to a sub-page">link to a sub-page</a>.</p>
+  <div class="content"><h2 id="text">1 Text</h2><p>Plain text with <strong>bold</strong>, <em>italic</em>, <code>inline code</code>, an <a href="https://example.com" target="_blank">external link</a> and a <a href="chapter.html">link to a sub-page</a>.</p>
 <blockquote>
 <p>A blockquote with some text.</p>
 </blockquote>
@@ -372,16 +372,13 @@
 <section class="slide" id="slide-7">
   <div class="content"><h2 id="columns-with-inline-code-and-an-image">7 Columns with inline code and an image</h2><div class="row">
 <div class="column">
-<p><p>
-  <img
-    class="default"
-    src="images/wide.svg"
-    alt="A wide image"
-    onerror="this.classList.add('broken')"
-    onclick="onClickImage(this)"
-  />
-</p>
-</p>
+<p><img
+  class="default"
+  src="images/wide.svg"
+  alt="A wide image"
+  onerror="this.classList.add('broken')"
+  onclick="onClickImage(this)"
+/></p>
 </div>
 <div class="column"><p>Uses <code>UObject</code> and <strong>bold</strong> text.</p>
 </div>
@@ -395,16 +392,13 @@
 </section>
 
 <section class="slide" id="slide-8">
-  <div class="content"><h2 id="wide-image">8 Wide image</h2><p><p>
-  <img
-    class="default"
-    src="images/wide.svg"
-    alt="A wide image"
-    onerror="this.classList.add('broken')"
-    onclick="onClickImage(this)"
-  />
-</p>
-</p>
+  <div class="content"><h2 id="wide-image">8 Wide image</h2><p><img
+  class="default"
+  src="images/wide.svg"
+  alt="A wide image"
+  onerror="this.classList.add('broken')"
+  onclick="onClickImage(this)"
+/></p>
 </div>
   <div class="footer noprint">
     <span></span>
@@ -415,16 +409,13 @@
 </section>
 
 <section class="slide" id="slide-9">
-  <div class="content"><h2 id="tall-image">9 Tall image</h2><p><p>
-  <img
-    class="default"
-    src="images/tall.svg"
-    alt="A tall image"
-    onerror="this.classList.add('broken')"
-    onclick="onClickImage(this)"
-  />
-</p>
-</p>
+  <div class="content"><h2 id="tall-image">9 Tall image</h2><p><img
+  class="default"
+  src="images/tall.svg"
+  alt="A tall image"
+  onerror="this.classList.add('broken')"
+  onclick="onClickImage(this)"
+/></p>
 </div>
   <div class="footer noprint">
     <span></span>

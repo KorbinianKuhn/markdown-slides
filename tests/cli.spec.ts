@@ -263,3 +263,34 @@ for (const { name, readme, title } of [
     expect(result.html()).toContain(`<title>${title}</title>`);
   });
 }
+
+test('images and videos are valid HTML', () => {
+  const result = build(
+    'media-html',
+    '![Alone](a.png)\n\nText with ![inline](b.png) image.\n\n![Demo video](demo.mp4){width=50%}',
+  );
+  expect(result.status).toBe(0);
+  const html = output('media-html');
+  expect(html).not.toMatch(/<p>\s*<p>/);
+  expect(html).toMatch(/<p><img\s+class="default"\s+src="a.png"/);
+  expect(html).toMatch(/<p>Text with <img[^>]+src="b.png"[^>]*\/> image.<\/p>/);
+  // A video is a block, not inside a paragraph, and has no alt attribute
+  expect(html).not.toMatch(/<p>\s*<div class="video">/);
+  expect(html).toMatch(/<video[^>]+aria-label="Demo video"/);
+  expect(html).not.toMatch(/<video[^>]+alt=/);
+});
+
+test('links have a title only when set in Markdown', () => {
+  const result = build(
+    'link-title',
+    '[Docs `code`](https://example.com/?a=1&b=2) and [Chapter](chapter.md "Read next")',
+  );
+  expect(result.status).toBe(0);
+  const html = output('link-title');
+  expect(html).toContain(
+    '<a href="https://example.com/?a=1&amp;b=2" target="_blank">Docs <code>code</code></a>',
+  );
+  expect(html).toContain(
+    '<a href="chapter.html" title="Read next">Chapter</a>',
+  );
+});

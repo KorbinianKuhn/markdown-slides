@@ -57,8 +57,12 @@ export const parseMediaAttributes = (input: string): MediaAttributes => {
   return attributes;
 };
 
+export const isVideo = (href: string | null) =>
+  ['.mp4', '.webm'].some((o) => href?.endsWith(o));
+
 /**
- * Renders an image or a video (.mp4, .webm) with optional attributes.
+ * Renders an image or a video (.mp4, .webm) with optional attributes. Images
+ * are inline (in the paragraph of the text), videos are blocks.
  */
 export const renderMedia = (
   href: string | null,
@@ -71,11 +75,11 @@ export const renderMedia = (
     .join(' ');
   const style = attributes.width ? `width: ${attributes.width}` : '';
 
-  const isVideo = ['.mp4', '.webm'].some((o) => src.endsWith(o));
-  return (isVideo ? template.video : template.image)({
+  // Trimmed: inline images must not add a space before the following text
+  return (isVideo(src) ? template.video : template.image)({
     src,
     alt,
     className,
     style,
-  });
+  }).trim();
 };

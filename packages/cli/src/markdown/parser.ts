@@ -2,10 +2,30 @@ import hljs from 'highlight.js';
 import { Marked, Token, Tokenizer, Tokens } from 'marked';
 import { template } from '../template';
 import { countLayoutMarkers, directives, renderHtml } from './directives';
-import { MediaAttributes, parseMediaAttributes, renderMedia } from './images';
+import {
+  isVideo,
+  MediaAttributes,
+  parseMediaAttributes,
+  renderMedia,
+} from './images';
 import { State } from './state';
 
 const SLIDE_MARKER = '<!-- slide -->';
+
+const escapeAttribute = (value: string) =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+/** The href of an image token, also with an attribute block. */
+const mediaHref = (token: Token) =>
+  token.type === 'image'
+    ? (token as Tokens.Image).href
+    : token.type === 'mediaWithAttributes'
+      ? (token.image as Tokens.Image).href
+      : undefined;
 
 export class MarkdownParser {
   private marked!: Marked;
@@ -43,18 +63,36 @@ export class MarkdownParser {
           });
         },
 
-        link({ href, tokens }) {
+        link({ href, title, tokens }) {
           const text = this.parser.parseInline(tokens);
           const regex =
             /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/gi;
           const isExternal = href.match(regex) !== null;
-          if (isExternal) {
-            return `<a href="${href}" title="${text}" target="_blank">${text}</a>`;
-          } else if (href.endsWith('.md')) {
-            const link = href.replace('.md', '.html');
-            return `<a href="${link}" title="${text}">${text}</a>`;
-          }
-          return `<a href="${href}" title="${text}">${text}</a>`;
+          const link =
+            !isExternal && href.endsWith('.md')
+              ? href.replace('.md', '.html')
+              : href;
+          // Only a title from Markdown ([text](url "title")): repeating the
+          // link text adds nothing for screen readers
+          const attributes = [
+            `href="${escapeAttribute(link)}"`,
+            title && `title="${escapeAttribute(title)}"`,
+            isExternal && 'target="_blank"',
+          ].filter(Boolean);
+          return `<a ${attributes.join(' ')}>${text}</a>`;
+        },
+
+        paragraph({ tokens }) {
+          // Videos are blocks, which can't be inside a paragraph
+          const content = tokens.filter(
+            (token) =>
+              token.type !== 'br' &&
+              !(token.type === 'text' && !token.raw.trim()),
+          );
+          const onlyVideos =
+            content.length > 0 &&
+            content.every((token) => isVideo(mediaHref(token) ?? null));
+          return onlyVideos ? this.parser.parseInline(tokens) + '\n' : false;
         },
 
         image({ href, text }) {

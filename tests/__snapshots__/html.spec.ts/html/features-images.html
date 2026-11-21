@@ -123,7 +123,7 @@
         <button
           onclick="onClickOpenMenu()"
           class="noprint"
-          alt="Open menu with table of contents"
+          aria-label="Open menu with table of contents"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -187,16 +187,13 @@
 </section>
 
 <section class="slide" id="slide-1">
-  <div class="content"><h2 id="image-width">1 Image width</h2><p><p>
-  <img
-    class="default"
-    src="images/wide.svg"
-    alt="A wide image at half width" style="width: 50%"
-    onerror="this.classList.add('broken')"
-    onclick="onClickImage(this)"
-  />
-</p>
-</p>
+  <div class="content"><h2 id="image-width">1 Image width</h2><p><img
+  class="default"
+  src="images/wide.svg"
+  alt="A wide image at half width" style="width: 50%"
+  onerror="this.classList.add('broken')"
+  onclick="onClickImage(this)"
+/></p>
 </div>
   <div class="footer noprint">
     <span></span>
@@ -207,36 +204,27 @@
 </section>
 
 <section class="slide" id="slide-2">
-  <div class="content"><h2 id="image-alignment">2 Image alignment</h2><p><p>
-  <img
-    class="default align-left"
-    src="images/wide.svg"
-    alt="Aligned left" style="width: 20%"
-    onerror="this.classList.add('broken')"
-    onclick="onClickImage(this)"
-  />
-</p>
-</p>
-<p><p>
-  <img
-    class="default align-center"
-    src="images/wide.svg"
-    alt="Centered" style="width: 20%"
-    onerror="this.classList.add('broken')"
-    onclick="onClickImage(this)"
-  />
-</p>
-</p>
-<p><p>
-  <img
-    class="default align-right"
-    src="images/wide.svg"
-    alt="Aligned right" style="width: 20%"
-    onerror="this.classList.add('broken')"
-    onclick="onClickImage(this)"
-  />
-</p>
-</p>
+  <div class="content"><h2 id="image-alignment">2 Image alignment</h2><p><img
+  class="default align-left"
+  src="images/wide.svg"
+  alt="Aligned left" style="width: 20%"
+  onerror="this.classList.add('broken')"
+  onclick="onClickImage(this)"
+/></p>
+<p><img
+  class="default align-center"
+  src="images/wide.svg"
+  alt="Centered" style="width: 20%"
+  onerror="this.classList.add('broken')"
+  onclick="onClickImage(this)"
+/></p>
+<p><img
+  class="default align-right"
+  src="images/wide.svg"
+  alt="Aligned right" style="width: 20%"
+  onerror="this.classList.add('broken')"
+  onclick="onClickImage(this)"
+/></p>
 </div>
   <div class="footer noprint">
     <span></span>
@@ -247,16 +235,13 @@
 </section>
 
 <section class="slide" id="slide-3">
-  <div class="content"><h2 id="tall-image-with-a-width">3 Tall image with a width</h2><p><p>
-  <img
-    class="default"
-    src="images/tall.svg"
-    alt="A tall image that keeps its aspect ratio" style="width: 70%"
-    onerror="this.classList.add('broken')"
-    onclick="onClickImage(this)"
-  />
-</p>
-</p>
+  <div class="content"><h2 id="tall-image-with-a-width">3 Tall image with a width</h2><p><img
+  class="default"
+  src="images/tall.svg"
+  alt="A tall image that keeps its aspect ratio" style="width: 70%"
+  onerror="this.classList.add('broken')"
+  onclick="onClickImage(this)"
+/></p>
 </div>
   <div class="footer noprint">
     <span></span>
@@ -268,16 +253,13 @@
 
 <section class="slide" id="slide-4">
   <div class="content"><h2 id="image-attributes-in-columns">4 Image attributes in columns</h2><div class="row">
-<div class="column"><p><p>
-  <img
-    class="default align-right"
-    src="images/wide.svg"
-    alt="Left image" style="width: 80%"
-    onerror="this.classList.add('broken')"
-    onclick="onClickImage(this)"
-  />
-</p>
-</p>
+<div class="column"><p><img
+  class="default align-right"
+  src="images/wide.svg"
+  alt="Left image" style="width: 80%"
+  onerror="this.classList.add('broken')"
+  onclick="onClickImage(this)"
+/></p>
 </div>
 <div class="column"><p>Image in the left column, 80% wide and aligned to the right. Inline code with braces stays as is: <code>![x](y.png){width=10%}</code></p>
 </div>
