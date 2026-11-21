@@ -4,3 +4,6 @@ node_modules
 dist
 public
 examples/mwa
+tests/.output
+test-results
+playwright-report

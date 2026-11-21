@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feature Fixture</title>
+    <link rel="stylesheet" href="app/css/styles.css" />
+    <link rel="shortcut icon" href="app/img/favicon.ico" type="image/x-icon" />
+    <script src="app/scripts/mathjax/tex-svg.js" async></script>
+    <script src="app/scripts/mermaid.min.js"></script>
+    <script src="app/scripts/slides.js"></script>
+  </head>
+  <body>
+    
+<dialog
+  id="menu"
+  modal-mode="mega"
+  aria-label="Main menu and table of contents"
+>
+  <header>
+    <button onclick="onClickCloseMenu()" aria-label="Close menu" autofocus>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="currentColor"
+      >
+        <path
+          d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+        />
+      </svg>
+    </button>
+    <a href="#" onclick="onClickCloseMenu()">Feature Fixture</a>
+  </header>
+  <article><ul>
+  <li>
+    <a href="#text" onclick="onClickCloseMenu()">
+      <span>1 Text</span><span class="slide-number">1</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#lists" onclick="onClickCloseMenu()">
+      <span>2 Lists</span><span class="slide-number">2</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#headings" onclick="onClickCloseMenu()">
+      <span>3 Headings</span><span class="slide-number">3</span></a
+    >
+      <ul>
+  <li>
+    <a href="#third-level-heading" onclick="onClickCloseMenu()">
+      <span>3.1 Third level heading</span><span class="slide-number">3</span></a
+    >
+     
+  </li>
+</ul>
+ 
+  </li>
+  <li>
+    <a href="#code" onclick="onClickCloseMenu()">
+      <span>4 Code</span><span class="slide-number">4</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#table" onclick="onClickCloseMenu()">
+      <span>5 Table</span><span class="slide-number">5</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#rows-and-columns" onclick="onClickCloseMenu()">
+      <span>6 Rows and columns</span><span class="slide-number">6</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#columns-with-inline-code-and-an-image" onclick="onClickCloseMenu()">
+      <span>7 Columns with inline code and an image</span><span class="slide-number">7</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#wide-image" onclick="onClickCloseMenu()">
+      <span>8 Wide image</span><span class="slide-number">8</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#tall-image" onclick="onClickCloseMenu()">
+      <span>9 Tall image</span><span class="slide-number">9</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#mermaid" onclick="onClickCloseMenu()">
+      <span>10 Mermaid</span><span class="slide-number">10</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#mathjax" onclick="onClickCloseMenu()">
+      <span>11 MathJax</span><span class="slide-number">11</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#spacer" onclick="onClickCloseMenu()">
+      <span>12 Spacer</span><span class="slide-number">12</span></a
+    >
+     
+  </li>
+</ul>
+</article>
+  <footer>
+    <div>
+      <button
+        onclick="onClickFullscreen()"
+        class="noprint nofullscreen nomobile"
+        aria-label="Show page in fullscreen mode"
+      >
+        Fullscreen
+      </button>
+    </div>
+    <div>
+      <span>Version:</span>
+      <span>01.01.2000</span>
+    </div>
+    <div>
+      <span>PDF:</span>
+      <span
+        ><button
+          onclick="onClickPrint()"
+          aria-label="Show PDF version of the page"
+        >
+          PDF
+        </button></span
+      >
+    </div>
+    <div>
+      <span>Theme:</span>
+      <button
+        id="button-theme-auto"
+        onclick="onClickSetTheme('system')"
+        aria-label="Set theme to operating system settings"
+      >
+        Auto
+      </button>
+      <button
+        id="button-theme-light"
+        onclick="onClickSetTheme('light')"
+        aria-label="Set light theme"
+      >
+        Light
+      </button>
+      <button
+        id="button-theme-dark"
+        onclick="onClickSetTheme('dark')"
+        aria-label="Set dark theme"
+      >
+        Dark
+      </button>
+    </div>
+  </footer>
+</dialog>
+
+    <header class="header">
+      <div class="header-left">
+        <button
+          onclick="onClickOpenMenu()"
+          class="noprint"
+          alt="Open menu with table of contents"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 0 24 24"
+            width="24px"
+            fill="currentColor"
+          >
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+          </svg>
+          <span>Feature Fixture</span>
+        </button>
+      </div>
+      <img
+        class="light-only logo"
+        src="app/img/logo-light.svg"
+        aria-hidden="true"
+      />
+      <img
+        class="dark-only logo"
+        src="app/img/logo-dark.svg"
+        aria-hidden="true"
+      />
+    </header>
+    <div class="slides-container"><section id="slide-0" class="slide title-slide">
+  <div class="content">
+    <img
+      class="logo light-only"
+      src="app/img/logo-light.svg"
+      height="100px"
+      aria-hidden="true"
+    />
+    <img
+      class="logo dark-only"
+      src="app/img/logo-dark.svg"
+      height="100px"
+      aria-hidden="true"
+    />
+  </div>
+  <div class="content">
+ <h1 id="feature-fixture"> Feature Fixture</h1><div class="module">123456</div>
+<div class="semester">Summer 2026</div>
+
+<p>Jane Doe <a href="mailto:jane@example.com" title="jane@">jane@</a></p>
+
+  </div>
+  <div class="content">
+    <span class="university">Stuttgart Media University</span>
+  </div>
+  <div class="footer nopreview">
+    <div>
+      <button
+        id="fullscreen-button"
+        onclick="onClickFullscreen()"
+        class="noprint nofullscreen nomobile"
+        aria-label="Show page in fullscreen mode"
+      >
+        Fullscreen
+      </button>
+    </div>
+    <span>01.01.2000</span>
+  </div>
+</section>
+
+<section class="slide" id="slide-1">
+  <div class="content"><h2 id="text">1 Text</h2><p>Plain text with <strong>bold</strong>, <em>italic</em>, <code>inline code</code>, an <a href="https://example.com" title="external link" target="_blank">external link</a> and a <a href="chapter.html" title="link to a sub-page">link to a sub-page</a>.</p>
+<blockquote>
+<p>A blockquote with some text.</p>
+</blockquote>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 1 of 12"
+      >1 / 12</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-2">
+  <div class="content"><h2 id="lists">2 Lists</h2><ul>
+<li>First level<ul>
+<li>Second level<ul>
+<li>Third level</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Back to the first level</li>
+</ul>
+<ol>
+<li>Ordered one</li>
+<li>Ordered two</li>
+</ol>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 2 of 12"
+      >2 / 12</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-3">
+  <div class="content"><h2 id="headings">3 Headings</h2><h3 id="third-level-heading">3.1 Third level heading</h3><h4 id="fourth-level-heading">Fourth level heading</h4><p>Text below the headings.</p>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 3 of 12"
+      >3 / 12</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-4">
+  <div class="content"><h2 id="code">4 Code</h2><div class="code-wrapper">
+  <button
+    class="copy noprint nopreview"
+    onclick="onClickCopyToClipboard('code-snippet-1')"
+    aria-label="Copy code example to clipboard"
+  >
+    Copy
+  </button>
+  <pre><code id="code-snippet-1"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Slide</span> {
+  <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">index</span>: <span class="hljs-built_in">number</span>;
+}
+
+<span class="hljs-keyword">const</span> next = (<span class="hljs-attr">slide</span>: <span class="hljs-title class_">Slide</span>): <span class="hljs-function"><span class="hljs-params">number</span> =&gt;</span> slide.<span class="hljs-property">index</span> + <span class="hljs-number">1</span>;</code></pre>
+</div>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 4 of 12"
+      >4 / 12</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-5">
+  <div class="content"><h2 id="table">5 Table</h2><div class="table-container">
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+
+    </thead>
+    <tbody>
+      <tr>
+<td><code>title</code></td>
+<td>string</td>
+<td>Title of the slide</td>
+</tr>
+<tr>
+<td><code>index</code></td>
+<td>number</td>
+<td>Position in the deck</td>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 5 of 12"
+      >5 / 12</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-6">
+  <div class="content"><h2 id="rows-and-columns">6 Rows and columns</h2><div class="row">
+<div class="col">
+
+<p>Left column with some text that is long enough to wrap onto a second line.</p>
+</div>
+<div class="col">
+
+<p>Right column with a list:</p>
+<ul>
+<li>One</li>
+<li>Two</li>
+</ul>
+</div>
+</div>
+
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 6 of 12"
+      >6 / 12</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-7">
+  <div class="content"><h2 id="columns-with-inline-code-and-an-image">7 Columns with inline code and an image</h2><div class="row">
+<div class="col">
+![A wide image](images/wide.svg)
+</div>
+<div class="col">
+
+<p>Uses <code>UObject</code> and <strong>bold</strong> text.</p>
+</div>
+</div>
+
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 7 of 12"
+      >7 / 12</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-8">
+  <div class="content"><h2 id="wide-image">8 Wide image</h2><p><p>
+  <img
+    class="default"
+    src="images/wide.svg"
+    alt="A wide image"
+    onerror="this.classList.add('broken')"
+    onclick="onClickImage(this)"
+  />
+</p>
+</p>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 8 of 12"
+      >8 / 12</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-9">
+  <div class="content"><h2 id="tall-image">9 Tall image</h2><p><p>
+  <img
+    class="default"
+    src="images/tall.svg"
+    alt="A tall image"
+    onerror="this.classList.add('broken')"
+    onclick="onClickImage(this)"
+  />
+</p>
+</p>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 9 of 12"
+      >9 / 12</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-10">
+  <div class="content"><h2 id="mermaid">10 Mermaid</h2><pre class="mermaid" id="code-snippet-2">flowchart LR
+  A[Markdown] --> B[CLI]
+  B --> C[HTML slides]</pre></div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 10 of 12"
+      >10 / 12</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-11">
+  <div class="content"><h2 id="mathjax">11 MathJax</h2><p>$$\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$$</p>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 11 of 12"
+      >11 / 12</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-12">
+  <div class="content"><h2 id="spacer">12 Spacer</h2><p>Text above the spacer.</p>
+<div class="spacer lg"></div>
+
+<p>Text below the spacer.</p>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 12 of 12"
+      >12 / 12</span
+    >
+  </div>
+</section>
+</div>
+  </body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lecture Title</title>
+    <link rel="stylesheet" href="app/css/styles.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="app/img/favicon.ico" type="image/x-icon" />
+    <script src="app/scripts/mathjax/tex-svg.js" async></script>
+    <script src="app/scripts/mermaid.min.js"></script>
+    <script src="app/scripts/slides.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    
+<dialog
+  id="menu"
+  modal-mode="mega"
+  aria-label="Main menu and table of contents"
+>
+  <header>
+    <button onclick="onClickCloseMenu()" aria-label="Close menu" autofocus>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="currentColor"
+      >
+        <path
+          d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+        />
+      </svg>
+    </button>
+    <a href="#" onclick="onClickCloseMenu()">Lecture Title</a>
+  </header>
+  <article><ul>
+  <li>
+    <a href="#about" onclick="onClickCloseMenu()">
+      <span>1 About</span><span class="slide-number">1</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#how-to" onclick="onClickCloseMenu()">
+      <span>2 How To</span><span class="slide-number">2</span></a
+    >
+     
+  </li>
+</ul>
+</article>
+  <footer>
+    <div>
+      <button
+        onclick="onClickFullscreen()"
+        class="noprint nofullscreen nomobile"
+        aria-label="Show page in fullscreen mode"
+      >
+        Fullscreen
+      </button>
+    </div>
+    <div>
+      <span>Version:</span>
+      <span>01.01.2000</span>
+    </div>
+    <div>
+      <span>PDF:</span>
+      <span
+        ><button
+          onclick="onClickPrint()"
+          aria-label="Show PDF version of the page"
+        >
+          PDF
+        </button></span
+      >
+    </div>
+    <div>
+      <span>Theme:</span>
+      <button
+        id="button-theme-auto"
+        onclick="onClickSetTheme('system')"
+        aria-label="Set theme to operating system settings"
+      >
+        Auto
+      </button>
+      <button
+        id="button-theme-light"
+        onclick="onClickSetTheme('light')"
+        aria-label="Set light theme"
+      >
+        Light
+      </button>
+      <button
+        id="button-theme-dark"
+        onclick="onClickSetTheme('dark')"
+        aria-label="Set dark theme"
+      >
+        Dark
+      </button>
+    </div>
+  </footer>
+</dialog>
+
+    <header class="header">
+      <div class="header-left">
+        <button
+          onclick="onClickOpenMenu()"
+          class="noprint"
+          alt="Open menu with table of contents"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 0 24 24"
+            width="24px"
+            fill="currentColor"
+          >
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+          </svg>
+          <span>Lecture Title</span>
+        </button>
+      </div>
+      <img
+        class="light-only logo"
+        src="app/img/logo-light.svg"
+        aria-hidden="true"
+      />
+      <img
+        class="dark-only logo"
+        src="app/img/logo-dark.svg"
+        aria-hidden="true"
+      />
+    </header>
+    <div class="slides-container"><section id="slide-0" class="slide title-slide">
+  <div class="content">
+    <img
+      class="logo light-only"
+      src="app/img/logo-light.svg"
+      height="100px"
+      aria-hidden="true"
+    />
+    <img
+      class="logo dark-only"
+      src="app/img/logo-dark.svg"
+      height="100px"
+      aria-hidden="true"
+    />
+  </div>
+  <div class="content">
+ <h1 id="lecture-title"> Lecture Title</h1><div class="module">123456</div>
+<div class="semester">Summer 2022</div>
+
+<p>Korbinian Kuhn <a href="mailto:kuhnko@hdm-stuttgart.de" title="kuhnko@">kuhnko@</a></p>
+
+  </div>
+  <div class="content">
+    <span class="university">Custom Institution</span>
+  </div>
+  <div class="footer nopreview">
+    <div>
+      <button
+        id="fullscreen-button"
+        onclick="onClickFullscreen()"
+        class="noprint nofullscreen nomobile"
+        aria-label="Show page in fullscreen mode"
+      >
+        Fullscreen
+      </button>
+    </div>
+    <span>01.01.2000</span>
+  </div>
+</section>
+
+<section class="slide" id="slide-1">
+  <div class="content"><h2 id="about">1 About</h2><p>This example shows how to customise the certain things:</p>
+<ul>
+<li>A custom <code>style.css</code> file is used to override the primary color</li>
+<li>SVG logos for light and dark mode are provided to replace the default logo</li>
+<li>You should not forget to replace the favicon</li>
+<li>You can even add custom JavaScript, just look in the developer console</li>
+</ul>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 1 of 2"
+      >1 / 2</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-2">
+  <div class="content"><h2 id="how-to">2 How To</h2><p>Just provide one or all of these files in the root of your markdown project:</p>
+<ul>
+<li><code>*.css</code> -&gt; to provide custom styles or overrides</li>
+<li><code>*.js</code> -&gt; to add custom JavaScript</li>
+<li><code>logo-light.svg</code>, <code>logo-dark.svg</code>, <code>favicon.ico</code></li>
+</ul>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 2 of 2"
+      >2 / 2</span
+    >
+  </div>
+</section>
+</div>
+  </body>
+</html>
