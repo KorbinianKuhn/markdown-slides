@@ -98,3 +98,13 @@ test('image without alt text builds with a warning', () => {
   );
   expect(result.stderr).toContain('Image without alt text (b.png).');
 });
+
+test('alt text is escaped once', () => {
+  const result = build('alt-escaping', '![Tom & Jerry <3](a.png)');
+  expect(result.status).toBe(0);
+  const html = readFileSync(
+    join(outputDir, 'cli', 'alt-escaping-out', 'index.html'),
+    'utf8',
+  );
+  expect(html).toContain('alt="Tom &amp; Jerry &lt;3"');
+});
