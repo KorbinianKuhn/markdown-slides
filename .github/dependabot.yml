@@ -11,6 +11,9 @@ updates:
       # Must match the Docker image in ci.yml and tests/docker.sh, and usually
       # needs new screenshot baselines. Update it by hand (see CONTRIBUTING.md).
       - dependency-name: '@playwright/test'
+      # Types must match the oldest supported Node.js version (engines: >=22)
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
     groups:
       # Minor and patch updates in one PR per group. Major updates get their
       # own PR, because they can change the generated slides.

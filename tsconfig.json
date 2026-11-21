@@ -2,7 +2,7 @@
   // Tests and build scripts (Node.js; tests also run code in the browser)
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ES2023",
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
     "types": ["node"]
   },
