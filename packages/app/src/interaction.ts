@@ -8,6 +8,12 @@ export interface ScreenDimensions {
 export class Interaction {
   private container = document.querySelector('.slides-container')!;
 
+  // The slide at the top of the view, how far it is scrolled (as a fraction of
+  // its height) and the container size it was measured at. Firefox loses the
+  // position when the layout changes, e.g. when entering or leaving
+  // fullscreen, so it is restored after every resize.
+  private anchor = { index: 0, fraction: 0, width: 0, height: 0 };
+
   constructor(
     private app: App,
     private slides: Slides,
@@ -27,11 +33,50 @@ export class Interaction {
           break;
       }
     });
+
+    this.container.addEventListener('scroll', () => this.saveAnchor(), {
+      passive: true,
+    });
+    new ResizeObserver(() => this.restoreAnchor()).observe(this.container);
+  }
+
+  private saveAnchor() {
+    const { clientWidth, clientHeight, scrollTop } = this.container;
+    if (
+      clientWidth !== this.anchor.width ||
+      clientHeight !== this.anchor.height
+    ) {
+      // The layout is changing, keep the anchor until it is restored
+      return;
+    }
+    const index = this.slides.getCurrentSlideIndex();
+    const slide = this.slides.getSlide(index);
+    this.anchor.index = index;
+    this.anchor.fraction = (scrollTop - slide.offsetTop) / slide.offsetHeight;
+  }
+
+  private restoreAnchor() {
+    const isFirstLayout = this.anchor.width === 0;
+    this.anchor.width = this.container.clientWidth;
+    this.anchor.height = this.container.clientHeight;
+    if (isFirstLayout) {
+      // Keep the initial position, e.g. from a link to a slide
+      this.saveAnchor();
+      return;
+    }
+    const slide = this.slides.getSlide(this.anchor.index);
+    this.container.scrollTo({
+      top: slide.offsetTop + this.anchor.fraction * slide.offsetHeight,
+      behavior: 'instant',
+    });
   }
 
   goToSlide(index: number) {
     const slide = this.slides.getSlide(index);
     this.container.scrollTo(0, slide.offsetTop);
+    // Also while the layout changes, e.g. right after entering fullscreen
+    this.anchor.index = index;
+    this.anchor.fraction = 0;
   }
 
   previousSlide() {

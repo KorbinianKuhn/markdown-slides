@@ -92,6 +92,7 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ### Fixed
 
+- Entering or leaving fullscreen (and resizing the window) could move the view to another slide in Firefox. The slides now keep the current position, also after scrolling in fullscreen.
 - Printing: long code lines were cut off at the right edge; they now wrap. Slides no longer leave blank pages after the title slide and after slides that fill a page.
 - The build hung forever on a lone backtick (e.g. "Use ` for inline code") or a code block fenced with four backticks.
 - `<!-- slide -->` inside a `~~~` code block started a new slide.
