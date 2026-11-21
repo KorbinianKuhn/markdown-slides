@@ -1,0 +1,40 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: '⬆️'
+    open-pull-requests-limit: 5
+    ignore:
+      # Must match the Docker image in ci.yml and tests/docker.sh, and usually
+      # needs new screenshot baselines. Update it by hand (see CONTRIBUTING.md).
+      - dependency-name: '@playwright/test'
+    groups:
+      # Minor and patch updates in one PR per group. Major updates get their
+      # own PR, because they can change the generated slides.
+      dev-tools:
+        update-types: [minor, patch]
+        patterns:
+          - 'eslint'
+          - '@eslint/*'
+          - 'typescript-eslint'
+          - 'eslint-config-prettier'
+          - 'globals'
+          - 'prettier'
+          - 'typescript'
+          - '@types/*'
+      slides:
+        update-types: [minor, patch]
+        patterns: ['*']
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: '⬆️'
+    groups:
+      actions:
+        patterns: ['*']

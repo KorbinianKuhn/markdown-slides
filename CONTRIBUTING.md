@@ -51,3 +51,13 @@ Releases are published to npm by [.github/workflows/release.yml](.github/workflo
 1. In a pull request, set the new `version` in `package.json` (run `npm install` to update the lockfile), and rename `[Unreleased]` in the changelog to the version and date.
 2. After merging, create a GitHub release with the tag `v<version>` (e.g. `v1.0.0`) and the changelog section as notes. Mark release candidates (e.g. `v1.0.0-rc.2`) as **pre-release**.
 3. The workflow runs all checks, verifies that the tag matches `package.json`, and publishes. Pre-releases get the npm tag `next`, releases `latest`.
+
+## Dependencies
+
+Dependabot opens weekly PRs: minor and patch updates grouped, major updates one by one. The tests show whether an update changes the slides.
+
+Playwright is updated by hand, because the version must match the Docker image: change `@playwright/test` in `package.json` and the image tag in `.github/workflows/ci.yml` and `tests/docker.sh` together, then regenerate the screenshots with `npm run test:docker -- --update-snapshots` and review them.
+
+## Live demo
+
+On every push to `main`, [.github/workflows/pages.yml](.github/workflows/pages.yml) publishes the README deck and the examples to https://korbiniankuhn.github.io/markdown-slides/.

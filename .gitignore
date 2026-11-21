@@ -7,3 +7,4 @@ examples/mwa
 tests/.output
 test-results
 playwright-report
+_site

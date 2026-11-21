@@ -1,0 +1,43 @@
+name: Bug report
+description: Something renders wrong or the build fails
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `npx @korbiniankuhn/markdown-slides --version`
+    validations:
+      required: true
+  - type: textarea
+    id: markdown
+    attributes:
+      label: Markdown
+      description: The smallest Markdown that shows the problem
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happens
+      description: Error message, or a screenshot of the slide
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: dropdown
+    id: view
+    attributes:
+      label: Where
+      multiple: true
+      options:
+        - Build (CLI)
+        - Slides in the browser
+        - Mobile
+        - Print / PDF
+        - Dark mode
