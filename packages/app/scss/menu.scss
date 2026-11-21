@@ -136,6 +136,8 @@ dialog {
 
 @media (prefers-reduced-motion: no-preference) {
   dialog {
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transition:
+      opacity 0.3s ease-in-out,
+      transform 0.3s ease-in-out;
   }
 }

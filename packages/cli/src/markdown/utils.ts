@@ -5,7 +5,7 @@ export const getLectureTitle = (content: string) => {
   const headlines = part.match(/^#\s(.*?)$/m);
   if (!headlines) {
     logger.error(
-      'Could not detect course title (first h1 headline in markdown)'
+      'Could not detect course title (first h1 headline in markdown)',
     );
     process.exit(1);
   }

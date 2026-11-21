@@ -65,7 +65,7 @@ export class App {
     this.interaction.scrollTo(position);
   }
 
-  onClickImage(image: any) {
+  onClickImage(image: HTMLImageElement) {
     console.log(image);
   }
 }

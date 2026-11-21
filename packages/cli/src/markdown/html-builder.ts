@@ -16,7 +16,7 @@ export class HTMLBuilder {
   constructor(
     private settings: Settings,
     private isRoot: boolean,
-    private filename: string
+    private filename: string,
   ) {}
 
   private error(message: string) {
@@ -40,8 +40,10 @@ export class HTMLBuilder {
         .map((token) => token.text)
         .join('');
       for (const name of ['row', 'col']) {
-        const start = markup.match(new RegExp(`<!-- ${name} -->`, 'g'))?.length || 0;
-        const end = markup.match(new RegExp(`<!-- ${name}:end -->`, 'g'))?.length || 0;
+        const start =
+          markup.match(new RegExp(`<!-- ${name} -->`, 'g'))?.length || 0;
+        const end =
+          markup.match(new RegExp(`<!-- ${name}:end -->`, 'g'))?.length || 0;
         if (start > end) {
           this.error(`slide ${slideIndex}: Missing <!-- ${name}:end -->.`);
         } else if (start < end) {
@@ -63,7 +65,10 @@ export class HTMLBuilder {
             text = text.replace(/<!-- row:end -->/g, '\n\n</div>\n\n');
 
             // Columns
-            text = text.replace(/<!-- col -->/g, '\n\n<div class="column">\n\n');
+            text = text.replace(
+              /<!-- col -->/g,
+              '\n\n<div class="column">\n\n',
+            );
             text = text.replace(/<!-- col:end -->/g, '\n\n</div>\n\n');
 
             // Replace comments
@@ -81,18 +86,18 @@ export class HTMLBuilder {
                   const parsed = /^\s*size=(\S+)\s*$/.exec(attributes);
                   if (!parsed) {
                     this.error(
-                      `slide ${slideIndex}: Invalid spacer "${match}", expected :spacer{size=sm|md|lg|xl}.`
+                      `slide ${slideIndex}: Invalid spacer "${match}", expected :spacer{size=sm|md|lg|xl}.`,
                     );
                   }
                   size = parsed![1];
                 }
                 if (!SPACER_SIZES.includes(size)) {
                   this.error(
-                    `slide ${slideIndex}: Invalid spacer size "${size}", expected sm, md, lg or xl.`
+                    `slide ${slideIndex}: Invalid spacer size "${size}", expected sm, md, lg or xl.`,
                   );
                 }
                 return `<div class="spacer ${size}"></div>`;
-              }
+              },
             );
 
             // Directives
@@ -100,7 +105,7 @@ export class HTMLBuilder {
             for (const match of directives) {
               text = text.replace(
                 match[0],
-                `<div class="${match[1]}">${match[2]}</div>`
+                `<div class="${match[1]}">${match[2]}</div>`,
               );
             }
 

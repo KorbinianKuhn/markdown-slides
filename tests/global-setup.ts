@@ -1,5 +1,11 @@
 import { execFileSync } from 'child_process';
-import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'fs';
+import {
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'fs';
 import { join } from 'path';
 import { decks, outputDir } from './decks';
 
@@ -16,14 +22,14 @@ export default function globalSetup() {
     execFileSync(
       'node',
       ['dist/cli.js', '-i', deck.input, '-o', out, ...deck.args],
-      { stdio: 'pipe' }
+      { stdio: 'pipe' },
     );
 
     for (const file of readdirSync(out).filter((f) => f.endsWith('.html'))) {
       const path = join(out, file);
       const html = readFileSync(path, 'utf8').replace(
         /<span>\d{2}\.\d{2}\.\d{4}<\/span>/g,
-        `<span>${FIXED_DATE}</span>`
+        `<span>${FIXED_DATE}</span>`,
       );
       writeFileSync(path, html);
     }

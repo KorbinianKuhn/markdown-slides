@@ -14,7 +14,7 @@ export interface Args extends Options {
 }
 
 const { version } = JSON.parse(
-  readFileSync(path.resolve(__dirname, 'package.json'), 'utf8')
+  readFileSync(path.resolve(__dirname, 'package.json'), 'utf8'),
 );
 
 const parser = new ArgumentParser({
@@ -46,7 +46,7 @@ if (!existsSync(src)) {
 
 if (!src.includes(path.resolve()) || !dst.includes(path.resolve())) {
   logger.error(
-    `Input and output directory must be part of the current directory`
+    `Input and output directory must be part of the current directory`,
   );
   process.exit(1);
 }

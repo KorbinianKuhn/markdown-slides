@@ -91,7 +91,7 @@ export class Lexer {
             continue;
           }
 
-          token.type === 'text';
+          token.type = 'text';
           token.text += this.consume();
         }
       }

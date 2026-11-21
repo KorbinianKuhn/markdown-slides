@@ -22,7 +22,7 @@ export const main = async (input: string, output: string, options: Options) => {
     input,
     output,
     options.allowedFiles,
-    options.ignoredFiles
+    options.ignoredFiles,
   );
 
   const readme = await readFile(join(input, files.markdown[0]), 'utf8');

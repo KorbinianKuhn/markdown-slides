@@ -1,17 +1,48 @@
 {
   "name": "@korbiniankuhn/markdown-slides",
   "version": "1.0.0-rc.1",
+  "private": true,
   "description": "Create beautiful HDM branded HTML slides from markdown files",
+  "keywords": [
+    "markdown",
+    "slides",
+    "presentation",
+    "cli",
+    "html",
+    "hdm"
+  ],
+  "homepage": "https://github.com/KorbinianKuhn/markdown-slides#readme",
+  "bugs": {
+    "url": "https://github.com/KorbinianKuhn/markdown-slides/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KorbinianKuhn/markdown-slides.git"
+  },
+  "license": "MIT",
+  "author": "Korbinian Kuhn",
   "bin": {
     "md2slides": "./cli.js"
   },
-  "author": "Korbinian Kuhn",
-  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
+    "build": "node build.js",
+    "examples": "node dist/cli.js -i . -o public --allowed-files README.md && node dist/cli.js -i examples/custom-theme -o examples/custom-theme/public -l en --institution \"Custom Institution\" && if [ -d examples/mwa ]; then node dist/cli.js -i examples/mwa -o examples/mwa/public -l en; fi",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc -p packages/cli --noEmit && tsc -p packages/app --noEmit && tsc --noEmit",
     "test": "playwright test",
     "test:docker": "sh tests/docker.sh"
   },
+  "allowScripts": {
+    "esbuild@0.19.12": true,
+    "fsevents": false
+  },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "@fontsource-variable/inconsolata": "^5.2.5",
     "@fontsource-variable/roboto": "^5.2.5",
     "@playwright/test": "1.65.1",
@@ -20,11 +51,16 @@
     "argparse": "^2.0.1",
     "esbuild": "^0.19.5",
     "esbuild-plugin-sass": "^1.0.1",
+    "eslint": "10.15.0",
+    "eslint-config-prettier": "10.1.8",
+    "globals": "17.14.0",
     "handlebars": "^4.7.8",
     "highlight.js": "^11.9.0",
     "marked": "^9.1.5",
     "mathjax": "^3.2.2",
     "mermaid": "^11.6.0",
-    "typescript": "^5.2.2"
+    "prettier": "3.10.1",
+    "typescript": "^5.2.2",
+    "typescript-eslint": "8.73.0"
   }
 }
