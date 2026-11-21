@@ -6,6 +6,8 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [1.0.0-rc.2] - 2026-11-21
+
 ### Upgrade notes
 
 1. **Unbalanced columns now fail the build.** Before, a missing `<!-- col:end -->` was never reported. Build once and fix the markers on the reported slide.
