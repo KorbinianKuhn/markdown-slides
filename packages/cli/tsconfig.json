@@ -2,7 +2,7 @@
   // CLI, bundled by esbuild for Node.js 22 (see build.mts)
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ES2023",
     "lib": ["ES2023"],
     "types": ["node"]
   },

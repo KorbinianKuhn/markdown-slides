@@ -74,6 +74,10 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 - Markdown directly after `<!-- row -->` or `<!-- col -->` was printed as plain text.
 - README: build commands for slide authors (`npx` and Docker) instead of `sh master/build.sh`.
 
+### Security
+
+- Updated the libraries bundled into the slides: Mermaid 11.17 and DOMPurify 3.4 (cross-site scripting fixes in diagrams), handlebars 4.7.10 (critical code injection fix) and highlight.js 11.12.
+
 ### Removed
 
 - `build-with-docker.sh` and `bin/md2slides.sh` from the repository. Neither was part of the npm package; use the commands in the README.
