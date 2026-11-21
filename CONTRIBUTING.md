@@ -49,7 +49,9 @@ If a change can affect existing slides (different rendering, new build errors or
 
 ## Release
 
-Releases are published to npm by [.github/workflows/release.yml](.github/workflows/release.yml) with npm trusted publishing, so no npm token is needed.
+Releases are published to npm by [.github/workflows/publish.yml](.github/workflows/publish.yml) with npm trusted publishing, so no npm token is needed.
+
+The trusted publisher on npmjs.com points to this repository and the file name `publish.yml`. Renaming the workflow breaks publishing until the setting on npmjs.com is updated too.
 
 1. In a pull request, set the new `version` in `package.json` (run `npm install` to update the lockfile), and rename `[Unreleased]` in the changelog to the version and date.
 2. After merging, create a GitHub release with the tag `v<version>` (e.g. `v1.0.0`) and the changelog section as notes. Mark release candidates (e.g. `v1.0.0-rc.2`) as **pre-release**.
