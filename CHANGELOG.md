@@ -72,6 +72,7 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 - Unbalanced columns were not reported.
 - Columns had no width and no gap (`col` vs. `column` class).
 - Markdown directly after `<!-- row -->` or `<!-- col -->` was printed as plain text.
+- Building markdown-slides itself from a directory inside the system temp directory (e.g. a clone in `/tmp` in GitLab CI) failed with `Could not resolve ../../../node_modules/@fontsource-variable/...`. The SCSS is now compiled directly with Sass instead of the abandoned `esbuild-plugin-sass`.
 - README: build commands for slide authors (`npx` and Docker) instead of `sh master/build.sh`.
 
 ### Security

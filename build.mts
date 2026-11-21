@@ -2,8 +2,8 @@
 // Run with `npm run build`. Node.js runs this TypeScript file directly (.mts =
 // ES module).
 import * as esbuild from 'esbuild';
-import sassPlugin from 'esbuild-plugin-sass';
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import * as sass from 'sass';
 
 await rm('dist', { recursive: true, force: true });
 await mkdir('dist');
@@ -24,11 +24,19 @@ await cp('node_modules/mathjax/es5', 'dist/app/scripts/mathjax', {
   recursive: true,
 });
 
+// Styles: compile with Sass, then let esbuild bundle the fonts. url() paths
+// in the SCSS are relative to packages/app/scss, so esbuild resolves them
+// from there.
+const styles = sass.compile('packages/app/scss/_main.scss');
 await esbuild.build({
-  entryPoints: ['packages/app/scss/_main.scss'],
+  stdin: {
+    contents: styles.css,
+    resolveDir: 'packages/app/scss',
+    sourcefile: '_main.css',
+    loader: 'css',
+  },
   outfile: 'dist/app/css/styles.css',
   bundle: true,
-  plugins: [sassPlugin()],
   minify: true,
   loader: { '.woff2': 'file' },
 });
