@@ -24,6 +24,7 @@ The tests make sure changes don't alter the generated slides by accident. They b
 
 - **HTML snapshots** (`tests/html.spec.ts`) compare the generated HTML files. They run on any OS.
 - **Screenshots** (`tests/visual.spec.ts`) compare every slide in four modes: light, dark, mobile and print. Font rendering differs between operating systems, so they only run on Linux, in the same Docker image as CI.
+- **Accessibility** (`tests/a11y.spec.ts`) checks every page and the menu with axe-core against the WCAG 2.2 A and AA rules, in light, dark and mobile mode. Automated checks find about a third of the issues; meaningful alt texts, headings and reading order still need a human.
 - **CLI tests** (`tests/cli.spec.ts`) check build errors and warnings for invalid input.
 - **App tests** (`tests/app.spec.ts`) check the behavior of the slides in Chromium, WebKit (Safari) and Firefox, e.g. that the position is kept when entering and leaving fullscreen. Outside Docker, they need the browsers: `npx playwright install`.
 

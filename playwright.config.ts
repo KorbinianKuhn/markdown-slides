@@ -40,17 +40,17 @@ export default defineConfig({
     },
     {
       name: 'light',
-      testMatch: 'visual.spec.ts',
+      testMatch: /(visual|a11y)\.spec\.ts/,
       use: { viewport: desktop, colorScheme: 'light' },
     },
     {
       name: 'dark',
-      testMatch: 'visual.spec.ts',
+      testMatch: /(visual|a11y)\.spec\.ts/,
       use: { viewport: desktop, colorScheme: 'dark' },
     },
     {
       name: 'mobile',
-      testMatch: 'visual.spec.ts',
+      testMatch: /(visual|a11y)\.spec\.ts/,
       use: {
         viewport: { width: 390, height: 844 },
         isMobile: true,

@@ -50,13 +50,13 @@ h1 {
 }
 
 h2 {
-  color: var(--color-primary);
+  color: var(--color-primary-text);
   font-size: 3rem;
   font-weight: 500;
 }
 
 h3 {
-  color: var(--color-primary);
+  color: var(--color-primary-text);
   font-size: 2rem;
   font-weight: 500;
 }
@@ -77,18 +77,18 @@ h6 {
 }
 
 blockquote {
-  border-left: 5px solid var(--color-primary);
+  border-left: 5px solid var(--color-primary-text);
   margin: 0.5rem 0;
   padding: 0.25rem 1rem;
 }
 
 a {
-  color: var(--color-primary);
+  color: var(--color-primary-text);
 }
 
 // Keyboard focus, visible on light and dark slides (contrast above 3:1)
 :focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-primary-text);
   outline-offset: 2px;
 }
 
@@ -110,7 +110,7 @@ button {
   }
 
   &.active {
-    border-color: var(--color-primary);
+    border-color: var(--color-primary-text);
   }
 }
 
