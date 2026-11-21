@@ -43,6 +43,13 @@
     page-break-inside: avoid;
   }
 
+  // Paper can't scroll: wrap long lines instead of cutting them off
+  pre code {
+    overflow: visible;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
   a[href^='http']:after {
     color: var(--color-text);
     font-size: 1rem;
@@ -92,9 +99,11 @@
     }
   }
 
+  // Scroll containers aren't split across pages, so their content would be
+  // cut off or leave blank pages
   .slides-container {
-    position: relative;
-    top: 0;
+    position: static;
+    overflow: visible;
     background: unset;
   }
 
@@ -107,6 +116,17 @@
     float: none !important;
     display: block;
     padding: 0;
+    margin: 0;
+
+    .content {
+      overflow: visible;
+    }
+
+    // A forced page break (before h2) inside the flex layout leaves a blank
+    // page. As blocks, margins between elements collapse, as in documents.
+    &:not(.title-slide) .content {
+      display: block;
+    }
 
     &.title-slide {
       min-height: 100vh;
