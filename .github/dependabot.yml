@@ -14,6 +14,10 @@ updates:
       # Types must match the oldest supported Node.js version (engines: >=22)
       - dependency-name: '@types/node'
         update-types: ['version-update:semver-major']
+      # typescript-eslint supports TypeScript < 6.1 (as of 8.73). Remove this
+      # once its peerDependencies allow TypeScript 7.
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
     groups:
       # Minor and patch updates in one PR per group. Major updates get their
       # own PR, because they can change the generated slides.
