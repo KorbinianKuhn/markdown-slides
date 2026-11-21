@@ -16,7 +16,7 @@ export class MarkdownParser {
 
     renderer.link = (href, title, text) => {
       const regex =
-        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
+        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/gi;
       const isExternal = href.match(regex) !== null;
       if (isExternal) {
         return `<a href="${href}" title="${text}" target="_blank">${text}</a>`;
@@ -33,11 +33,11 @@ export class MarkdownParser {
     const media = (
       href: string | null,
       alt: string,
-      attributes?: MediaAttributes
+      attributes?: MediaAttributes,
     ) => {
       if (!alt.trim()) {
         warnings.push(
-          `Image without alt text (${href}). Describe it for screen readers: ![Description](${href})`
+          `Image without alt text (${href}). Describe it for screen readers: ![Description](${href})`,
         );
       }
       return renderMedia(href, alt, attributes);

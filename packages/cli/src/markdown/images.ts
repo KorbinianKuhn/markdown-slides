@@ -16,7 +16,10 @@ const WIDTH = /^\d+(\.\d+)?(%|px)$/;
  */
 export const parseMediaAttributes = (input: string): MediaAttributes => {
   const attributes: MediaAttributes = {};
-  const parts = input.trim().split(/\s+/).filter((o) => o);
+  const parts = input
+    .trim()
+    .split(/\s+/)
+    .filter((o) => o);
 
   for (const part of parts) {
     const [key, value, ...rest] = part.split('=');
@@ -31,7 +34,7 @@ export const parseMediaAttributes = (input: string): MediaAttributes => {
       case 'width':
         if (!WIDTH.test(value)) {
           throw new Error(
-            `Invalid image width "${value}", expected a percentage or pixels (e.g. 70% or 400px)`
+            `Invalid image width "${value}", expected a percentage or pixels (e.g. 70% or 400px)`,
           );
         }
         attributes.width = value;
@@ -39,14 +42,14 @@ export const parseMediaAttributes = (input: string): MediaAttributes => {
       case 'align':
         if (!ALIGNMENTS.includes(value)) {
           throw new Error(
-            `Invalid image alignment "${value}", expected left, center or right`
+            `Invalid image alignment "${value}", expected left, center or right`,
           );
         }
         attributes.align = value as MediaAttributes['align'];
         break;
       default:
         throw new Error(
-          `Unknown image attribute "${key}", expected width or align`
+          `Unknown image attribute "${key}", expected width or align`,
         );
     }
   }
@@ -60,7 +63,7 @@ export const parseMediaAttributes = (input: string): MediaAttributes => {
 export const renderMedia = (
   href: string | null,
   alt: string,
-  attributes: MediaAttributes = {}
+  attributes: MediaAttributes = {},
 ): string => {
   const src = href?.replace(/^\//, '') || '';
   const className = ['default', attributes.align && `align-${attributes.align}`]

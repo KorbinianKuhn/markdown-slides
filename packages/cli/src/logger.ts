@@ -16,8 +16,8 @@ class Logger {
   error(message: string, error?: Error): void {
     console.error(
       ...[`${this.date} [error] ${message}`, error].filter(
-        (o) => o !== undefined
-      )
+        (o) => o !== undefined,
+      ),
     );
   }
 
@@ -29,8 +29,8 @@ class Logger {
     this.info(
       `Copy ${src.replace(Constants.ROOT_DIRECTORY, '.')} > ${dst.replace(
         Constants.ROOT_DIRECTORY,
-        '.'
-      )}`
+        '.',
+      )}`,
     );
   }
 }

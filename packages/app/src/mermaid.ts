@@ -1,3 +1,13 @@
+// Loaded by a separate script tag (app/scripts/mermaid.min.js)
+declare global {
+  interface Window {
+    mermaid: {
+      initialize: (config: Record<string, unknown>) => void;
+      run: () => Promise<void>;
+    };
+  }
+}
+
 export class Mermaid {
   private elements: Array<{ node: Element; code: string }> = [];
 
@@ -13,7 +23,6 @@ export class Mermaid {
   }
 
   async update(darkMode: boolean) {
-    // @ts-ignore
     const mermaid = window.mermaid;
 
     mermaid.initialize({

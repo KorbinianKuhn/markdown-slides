@@ -11,7 +11,7 @@ declare global {
     onClickFullscreen: () => void;
     onClickCopyToClipboard: (id: string) => void;
     onClickPrint: () => void;
-    onClickImage: (image: any) => void;
+    onClickImage: (image: HTMLImageElement) => void;
   }
 }
 
@@ -26,5 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
   window.onClickCopyToClipboard = (id: string) =>
     window.app.copyToClipboard(id);
   window.onClickPrint = () => window.app.print();
-  window.onClickImage = (image: any) => window.app.onClickImage(image);
+  window.onClickImage = (image: HTMLImageElement) =>
+    window.app.onClickImage(image);
 });

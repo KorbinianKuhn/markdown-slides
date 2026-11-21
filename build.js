@@ -18,7 +18,7 @@ const main = async () => {
 
   await cp(
     'node_modules/mermaid/dist/mermaid.min.js',
-    'dist/app/scripts/mermaid.min.js'
+    'dist/app/scripts/mermaid.min.js',
   );
   await cp('node_modules/mathjax/es5', 'dist/app/scripts/mathjax', {
     recursive: true,
@@ -43,16 +43,27 @@ const main = async () => {
       '.html': 'text',
     },
     platform: 'node',
+    target: 'node22',
     minify: true,
   });
 
   await cp('packages/app/assets', 'dist/app', { recursive: true });
   await cp('README.md', 'dist/README.md');
   await cp('CHANGELOG.md', 'dist/CHANGELOG.md');
+  await cp('LICENSE', 'dist/LICENSE');
 
+  // The published package only contains the bundled files, so drop
+  // everything that is only needed to develop markdown-slides.
   const packageJSON = JSON.parse(readFileSync('package.json', 'utf8'));
-  packageJSON.dependencies = {};
-  packageJSON.devDependencies = {};
+  for (const key of [
+    'private',
+    'scripts',
+    'allowScripts',
+    'dependencies',
+    'devDependencies',
+  ]) {
+    delete packageJSON[key];
+  }
   writeFileSync('dist/package.json', JSON.stringify(packageJSON, null, 2));
 };
 

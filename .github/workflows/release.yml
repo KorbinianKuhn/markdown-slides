@@ -1,0 +1,43 @@
+name: Release
+
+# Publishes to npm when a GitHub release is published. The release tag must
+# match the version in package.json (e.g. v1.0.0). Prereleases are published
+# with the npm tag "next", releases with "latest".
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  publish:
+    needs: ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # npm trusted publishing (no token) and provenance
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          registry-url: https://registry.npmjs.org
+      - run: npm ci
+      - name: Check release tag
+        run: |
+          version="v$(node -p "require('./package.json').version")"
+          if [ "$GITHUB_REF_NAME" != "$version" ]; then
+            echo "::error::Release tag $GITHUB_REF_NAME does not match package.json version $version"
+            exit 1
+          fi
+      - run: npm run build
+      - name: Publish
+        working-directory: dist
+        run: npm publish --access public --tag "$NPM_TAG"
+        env:
+          NPM_TAG: ${{ github.event.release.prerelease && 'next' || 'latest' }}

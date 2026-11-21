@@ -10,7 +10,10 @@ const build = (name: string, slide: string) => {
   const input = join(outputDir, 'cli', name);
   rmSync(input, { recursive: true, force: true });
   mkdirSync(input, { recursive: true });
-  writeFileSync(join(input, 'README.md'), `# Title\n\n<!-- slide -->\n\n${slide}\n`);
+  writeFileSync(
+    join(input, 'README.md'),
+    `# Title\n\n<!-- slide -->\n\n${slide}\n`,
+  );
   return spawnSync('node', ['dist/cli.js', '-i', input, '-o', `${input}-out`], {
     encoding: 'utf8',
   });
@@ -65,7 +68,7 @@ for (const { name, slide, error } of cases) {
 test('valid input builds', () => {
   const result = build(
     'valid',
-    '<!-- row -->\n<!-- col -->\n\nUses `code`\n\n![Alt](a.png){width=50% align=left}\n\n<!-- col:end -->\n<!-- row:end -->'
+    '<!-- row -->\n<!-- col -->\n\nUses `code`\n\n![Alt](a.png){width=50% align=left}\n\n<!-- col:end -->\n<!-- row:end -->',
   );
   expect(result.stderr).toBe('');
   expect(result.status).toBe(0);
@@ -74,10 +77,13 @@ test('valid input builds', () => {
 test('spacer syntaxes', () => {
   const result = build(
     'spacer',
-    'A\n\n:spacer\n\nB\n\n:spacer{size=xl}\n\nC\n\n:spacer[sm]\n\nD'
+    'A\n\n:spacer\n\nB\n\n:spacer{size=xl}\n\nC\n\n:spacer[sm]\n\nD',
   );
   expect(result.status).toBe(0);
-  const html = readFileSync(join(outputDir, 'cli', 'spacer-out', 'index.html'), 'utf8');
+  const html = readFileSync(
+    join(outputDir, 'cli', 'spacer-out', 'index.html'),
+    'utf8',
+  );
   expect(html).toContain('<div class="spacer md"></div>');
   expect(html).toContain('<div class="spacer xl"></div>');
   expect(html).toContain('<div class="spacer sm"></div>');
@@ -88,7 +94,7 @@ test('image without alt text builds with a warning', () => {
   const result = build('missing-alt', '![](a.png)\n\n![](b.png){width=50%}');
   expect(result.status).toBe(0);
   expect(result.stderr).toContain(
-    '[warn] README.md slide 2: Image without alt text (a.png).'
+    '[warn] README.md slide 2: Image without alt text (a.png).',
   );
   expect(result.stderr).toContain('Image without alt text (b.png).');
 });

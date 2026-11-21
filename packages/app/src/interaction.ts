@@ -8,7 +8,10 @@ export interface ScreenDimensions {
 export class Interaction {
   private container = document.querySelector('.slides-container')!;
 
-  constructor(private app: App, private slides: Slides) {
+  constructor(
+    private app: App,
+    private slides: Slides,
+  ) {
     document.body.addEventListener('keydown', (event) => {
       switch (event.code) {
         case 'ArrowRight':

@@ -13,7 +13,7 @@ interface Files {
 const isFileAllowed = (
   filename: string,
   allowedFiles?: string[],
-  ignoredFiles?: string[]
+  ignoredFiles?: string[],
 ): boolean => {
   if (filename.startsWith('.')) {
     return false;
@@ -31,7 +31,7 @@ export const getFiles = async (
   src: string,
   dst: string,
   allowedFiles?: string[],
-  ignoredFiles?: string[]
+  ignoredFiles?: string[],
 ): Promise<Files> => {
   const files = await readdir(src, { withFileTypes: true });
 
@@ -66,7 +66,7 @@ export const getFiles = async (
             res.markdown.splice(0, 0, file.name);
           } else if (file.name === 'index.md') {
             logger.error(
-              'index.md as filename is forbidden, because README.md will be your index.html file.'
+              'index.md as filename is forbidden, because README.md will be your index.html file.',
             );
             process.exit(1);
           } else {
@@ -83,7 +83,7 @@ export const getFiles = async (
         default:
           if (
             ['logo-light.svg', 'logo-dark.svg', 'favicon.ico'].includes(
-              file.name
+              file.name,
             )
           ) {
             res.logos.push(file.name);
@@ -103,7 +103,7 @@ export const getFiles = async (
 
   if (res.markdown[0] !== 'README.md') {
     logger.error(
-      'README.md in root directory not found. This must be your slides entrypoint.'
+      'README.md in root directory not found. This must be your slides entrypoint.',
     );
     process.exit(1);
   }

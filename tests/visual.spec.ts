@@ -5,21 +5,26 @@ import { decks } from './decks';
 // are made in the Playwright Docker image. Use `npm run test:docker` locally.
 test.skip(
   process.platform !== 'linux',
-  'Screenshot tests run on Linux only, use `npm run test:docker`'
+  'Screenshot tests run on Linux only, use `npm run test:docker`',
 );
+
+// MathJax is loaded asynchronously by the slides
+type MathJaxWindow = Window & {
+  MathJax?: { startup?: { promise?: Promise<void> } };
+};
 
 const waitUntilRendered = async (page: Page) => {
   await page.waitForFunction(() => {
-    const w = window as any;
+    const w = window as MathJaxWindow;
     const mathReady = w.MathJax?.startup?.promise !== undefined;
     const mermaidReady = [...document.querySelectorAll('pre.mermaid')].every(
-      (node) => node.querySelector('svg')
+      (node) => node.querySelector('svg'),
     );
     const imagesReady = [...document.images].every((img) => img.complete);
     return mathReady && mermaidReady && imagesReady;
   });
   await page.evaluate(async () => {
-    await (window as any).MathJax.startup.promise;
+    await (window as MathJaxWindow).MathJax?.startup?.promise;
     await document.fonts.ready;
   });
 };
@@ -41,7 +46,8 @@ for (const deck of decks) {
       // visible part. Keep its height (slides are at least as tall as it), but
       // let it overflow, so the page scrolls and long slides are captured fully.
       await page.evaluate(() => {
-        const container = document.querySelector<HTMLElement>('.slides-container')!;
+        const container =
+          document.querySelector<HTMLElement>('.slides-container')!;
         container.style.height = `${container.clientHeight}px`;
         container.style.bottom = 'auto';
         container.style.overflow = 'visible';
@@ -60,7 +66,9 @@ for (const deck of decks) {
         }, i);
         await expect
           .soft(slides.nth(i))
-          .toHaveScreenshot(`${deck.name}-${name}-${String(i).padStart(2, '0')}.png`);
+          .toHaveScreenshot(
+            `${deck.name}-${name}-${String(i).padStart(2, '0')}.png`,
+          );
       }
     });
   }
