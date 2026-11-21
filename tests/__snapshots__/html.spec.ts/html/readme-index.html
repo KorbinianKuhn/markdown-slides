@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Markdown-Slides</title>
+    <link rel="stylesheet" href="app/css/styles.css" />
+    <link rel="shortcut icon" href="app/img/favicon.ico" type="image/x-icon" />
+    <script src="app/scripts/mathjax/tex-svg.js" async></script>
+    <script src="app/scripts/mermaid.min.js"></script>
+    <script src="app/scripts/slides.js"></script>
+  </head>
+  <body>
+    
+<dialog
+  id="menu"
+  modal-mode="mega"
+  aria-label="Main menu and table of contents"
+>
+  <header>
+    <button onclick="onClickCloseMenu()" aria-label="Close menu" autofocus>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="currentColor"
+      >
+        <path
+          d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+        />
+      </svg>
+    </button>
+    <a href="#" onclick="onClickCloseMenu()">Markdown-Slides</a>
+  </header>
+  <article><ul>
+  <li>
+    <a href="#features" onclick="onClickCloseMenu()">
+      <span>1 Features</span><span class="slide-number">1</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#requirements-for-local-builds" onclick="onClickCloseMenu()">
+      <span>2 Requirements for local builds</span><span class="slide-number">2</span></a
+    >
+      <ul>
+  <li>
+    <a href="#how-to-use-it" onclick="onClickCloseMenu()">
+      <span>2.1 How to use it</span><span class="slide-number">2</span></a
+    >
+     
+  </li>
+</ul>
+ 
+  </li>
+  <li>
+    <a href="#cli-parameters" onclick="onClickCloseMenu()">
+      <span>3 CLI parameters</span><span class="slide-number">3</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#markdown-extensions" onclick="onClickCloseMenu()">
+      <span>4 Markdown extensions</span><span class="slide-number">4</span></a
+    >
+      <ul>
+  <li>
+    <a href="#slides" onclick="onClickCloseMenu()">
+      <span>4.1 Slides</span><span class="slide-number">5</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#spacer" onclick="onClickCloseMenu()">
+      <span>4.2 Spacer</span><span class="slide-number">5</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#layout" onclick="onClickCloseMenu()">
+      <span>4.3 Layout</span><span class="slide-number">6</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#custom-theme" onclick="onClickCloseMenu()">
+      <span>4.4 Custom Theme</span><span class="slide-number">7</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#mathjax" onclick="onClickCloseMenu()">
+      <span>4.5 MathJax</span><span class="slide-number">8</span></a
+    >
+     
+  </li>
+  <li>
+    <a href="#mermaidjs" onclick="onClickCloseMenu()">
+      <span>4.6 MermaidJS</span><span class="slide-number">9</span></a
+    >
+     
+  </li>
+</ul>
+ 
+  </li>
+</ul>
+</article>
+  <footer>
+    <div>
+      <button
+        onclick="onClickFullscreen()"
+        class="noprint nofullscreen nomobile"
+        aria-label="Show page in fullscreen mode"
+      >
+        Fullscreen
+      </button>
+    </div>
+    <div>
+      <span>Version:</span>
+      <span>01.01.2000</span>
+    </div>
+    <div>
+      <span>PDF:</span>
+      <span
+        ><button
+          onclick="onClickPrint()"
+          aria-label="Show PDF version of the page"
+        >
+          PDF
+        </button></span
+      >
+    </div>
+    <div>
+      <span>Theme:</span>
+      <button
+        id="button-theme-auto"
+        onclick="onClickSetTheme('system')"
+        aria-label="Set theme to operating system settings"
+      >
+        Auto
+      </button>
+      <button
+        id="button-theme-light"
+        onclick="onClickSetTheme('light')"
+        aria-label="Set light theme"
+      >
+        Light
+      </button>
+      <button
+        id="button-theme-dark"
+        onclick="onClickSetTheme('dark')"
+        aria-label="Set dark theme"
+      >
+        Dark
+      </button>
+    </div>
+  </footer>
+</dialog>
+
+    <header class="header">
+      <div class="header-left">
+        <button
+          onclick="onClickOpenMenu()"
+          class="noprint"
+          alt="Open menu with table of contents"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 0 24 24"
+            width="24px"
+            fill="currentColor"
+          >
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+          </svg>
+          <span>Markdown-Slides</span>
+        </button>
+      </div>
+      <img
+        class="light-only logo"
+        src="app/img/logo-light.svg"
+        aria-hidden="true"
+      />
+      <img
+        class="dark-only logo"
+        src="app/img/logo-dark.svg"
+        aria-hidden="true"
+      />
+    </header>
+    <div class="slides-container"><section id="slide-0" class="slide title-slide">
+  <div class="content">
+    <img
+      class="logo light-only"
+      src="app/img/logo-light.svg"
+      height="100px"
+      aria-hidden="true"
+    />
+    <img
+      class="logo dark-only"
+      src="app/img/logo-dark.svg"
+      height="100px"
+      aria-hidden="true"
+    />
+  </div>
+  <div class="content">
+ <h1 id="markdown-slides"> Markdown-Slides</h1><p>Generate HTML-Slides with from Markdown-Files</p>
+
+  </div>
+  <div class="content">
+    <span class="university">Stuttgart Media University</span>
+  </div>
+  <div class="footer nopreview">
+    <div>
+      <button
+        id="fullscreen-button"
+        onclick="onClickFullscreen()"
+        class="noprint nofullscreen nomobile"
+        aria-label="Show page in fullscreen mode"
+      >
+        Fullscreen
+      </button>
+    </div>
+    <span>01.01.2000</span>
+  </div>
+</section>
+
+<section class="slide" id="slide-1">
+  <div class="content"><h2 id="features">1 Features</h2><ul>
+<li>✨ Beautiful slides including a pretty title slide</li>
+<li>📱 Slides are fully response for mobile devices and small screens</li>
+<li>🌓 Light and Dark Mode</li>
+<li>🖨️ Print styles to create PDFs in the browser</li>
+<li>♿ HTML slides are accessible</li>
+<li>📖 Table of contents to jump to specific slides</li>
+<li>💡 Code highlighting with highlight.js</li>
+<li>➗ Equations with MathJax</li>
+<li>📈 Diagrams with Mermaid</li>
+<li>#️⃣ Slide numbers will be generated automatically</li>
+<li>📅 Date of the build will be included as a versioning</li>
+<li>📚 Supports multiple markdown files to split your presentation in subslides</li>
+<li>➡️ Use space and arrow keys to navigate</li>
+<li>🎨 Easily override the Stuttgart Media University (HDM) theme with custom colors and logos</li>
+<li>🚀 Just deploy your slides with Gitlab or GitHub pages</li>
+</ul>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 1 of 9"
+      >1 / 9</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-2">
+  <div class="content"><h2 id="requirements-for-local-builds">2 Requirements for local builds</h2><p>If you want to build the slides locally, Node or Docker is required.</p>
+<h3 id="how-to-use-it">2.1 How to use it</h3><p>Create one (README.md) or more markdown files in the root of your directory (e.g. a git repository) and start typing.</p>
+<p>To start a new slide use a comment <code>&lt;!-- slide --&gt;</code>.</p>
+<p>Example:</p>
+<div class="code-wrapper">
+  <button
+    class="copy noprint nopreview"
+    onclick="onClickCopyToClipboard('code-snippet-1')"
+    aria-label="Copy code example to clipboard"
+  >
+    Copy
+  </button>
+  <pre><code id="code-snippet-1"><span class="hljs-section"># Lecture Title</span>
+
+@module[123456]
+@semester[Summer 2025]
+
+Korbinian Kuhn [<span class="hljs-string">kuhnko@</span>](<span class="hljs-link">mailto:kuhnko@hdm-stuttgart.de</span>)
+
+&lt;!-- slide --&gt;
+
+<span class="hljs-section">## Content</span>
+
+<span class="hljs-bullet">-</span> What we will do
+<span class="hljs-bullet">-</span> What you will learn</code></pre>
+</div>
+<p>Build the slides with Node:</p>
+<div class="code-wrapper">
+  <button
+    class="copy noprint nopreview"
+    onclick="onClickCopyToClipboard('code-snippet-2')"
+    aria-label="Copy code example to clipboard"
+  >
+    Copy
+  </button>
+  <pre><code id="code-snippet-2">npx @korbiniankuhn/markdown-slides</code></pre>
+</div>
+<p>Or with Docker:</p>
+<div class="code-wrapper">
+  <button
+    class="copy noprint nopreview"
+    onclick="onClickCopyToClipboard('code-snippet-3')"
+    aria-label="Copy code example to clipboard"
+  >
+    Copy
+  </button>
+  <pre><code id="code-snippet-3">docker run --<span class="hljs-built_in">rm</span> -v <span class="hljs-string">&quot;<span class="hljs-subst">$(pwd)</span>&quot;</span>:/app -w /app node:alpine sh -c <span class="hljs-string">&quot;npx @korbiniankuhn/markdown-slides&quot;</span></code></pre>
+</div>
+<p>Serve slides (you can also open the index.html file locally, but you might run into CORS issues e.g. for MathJax):</p>
+<div class="code-wrapper">
+  <button
+    class="copy noprint nopreview"
+    onclick="onClickCopyToClipboard('code-snippet-4')"
+    aria-label="Copy code example to clipboard"
+  >
+    Copy
+  </button>
+  <pre><code id="code-snippet-4">npx http-server -c-1 public</code></pre>
+</div>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 2 of 9"
+      >2 / 9</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-3">
+  <div class="content"><h2 id="cli-parameters">3 CLI parameters</h2><p>Convert current directory to slides into a output directory <code>public</code>:</p>
+<div class="code-wrapper">
+  <button
+    class="copy noprint nopreview"
+    onclick="onClickCopyToClipboard('code-snippet-5')"
+    aria-label="Copy code example to clipboard"
+  >
+    Copy
+  </button>
+  <pre><code id="code-snippet-5">npx @korbiniankuhn/markdown-slides</code></pre>
+</div>
+<p>Whitelist certain files and directories:</p>
+<div class="code-wrapper">
+  <button
+    class="copy noprint nopreview"
+    onclick="onClickCopyToClipboard('code-snippet-6')"
+    aria-label="Copy code example to clipboard"
+  >
+    Copy
+  </button>
+  <pre><code id="code-snippet-6">npx @korbiniankuhn/markdown-slides --allowed-files .md images style.css script.js</code></pre>
+</div>
+<p>CLI arguments:</p>
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+<th>Argument</th>
+<th>Description</th>
+<th>Default</th>
+<th>Required</th>
+</tr>
+
+    </thead>
+    <tbody>
+      <tr>
+<td>-i, --in</td>
+<td>Input directory</td>
+<td>.</td>
+<td>false</td>
+</tr>
+<tr>
+<td>-o, --out</td>
+<td>Output directory</td>
+<td>public</td>
+<td>false</td>
+</tr>
+<tr>
+<td>-l, --language</td>
+<td>Language</td>
+<td>en</td>
+<td>false</td>
+</tr>
+<tr>
+<td>--institution</td>
+<td>Custom institution name</td>
+<td>undefined</td>
+<td>false</td>
+</tr>
+<tr>
+<td>--title</td>
+<td>Lecture title for the back link on sub-pages, otherwise the first headline is used</td>
+<td>undefined</td>
+<td>false</td>
+</tr>
+<tr>
+<td>--toc-numbering</td>
+<td>Add numbering to headlines</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr>
+<td>--allowed-files</td>
+<td>Whitelist directories, files,or extensions</td>
+<td>undefined</td>
+<td>false</td>
+</tr>
+<tr>
+<td>--ignored-files</td>
+<td>Blacklist directories, files or extensions (dotfiles are always ignored)</td>
+<td>undefined</td>
+<td>false</td>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 3 of 9"
+      >3 / 9</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-4">
+  <div class="content"><h2 id="markdown-extensions">4 Markdown extensions</h2></div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 4 of 9"
+      >4 / 9</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-5">
+  <div class="content"><h3 id="slides">4.1 Slides</h3><div class="table-container">
+  <table>
+    <thead>
+      <tr>
+<th>Identifier</th>
+<th>Description</th>
+</tr>
+
+    </thead>
+    <tbody>
+      <tr>
+<td><code>&lt;!-- slide --&gt;</code></td>
+<td>Starts a new slide</td>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+<h3 id="spacer">4.2 Spacer</h3><div class="table-container">
+  <table>
+    <thead>
+      <tr>
+<th>Identifier</th>
+<th>Description</th>
+</tr>
+
+    </thead>
+    <tbody>
+      <tr>
+<td><code>:spacer</code></td>
+<td>Medium vertical spacer</td>
+</tr>
+<tr>
+<td><code>:spacer{size=sm}</code></td>
+<td>Small vertical spacer</td>
+</tr>
+<tr>
+<td><code>:spacer{size=md}</code></td>
+<td>Medium vertical spacer</td>
+</tr>
+<tr>
+<td><code>:spacer{size=lg}</code></td>
+<td>Large vertical spacer</td>
+</tr>
+<tr>
+<td><code>:spacer{size=xl}</code></td>
+<td>Extra-Large vertical spacer</td>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 5 of 9"
+      >5 / 9</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-6">
+  <div class="content"><h3 id="layout">4.3 Layout</h3><div class="table-container">
+  <table>
+    <thead>
+      <tr>
+<th>Identifier</th>
+<th>Description</th>
+</tr>
+
+    </thead>
+    <tbody>
+      <tr>
+<td><code>&lt;!-- row --&gt;</code></td>
+<td>Starts a row container</td>
+</tr>
+<tr>
+<td><code>&lt;!-- row:end --&gt;</code></td>
+<td>Ends a row container</td>
+</tr>
+<tr>
+<td><code>&lt;!-- col --&gt;</code></td>
+<td>Starts a col container</td>
+</tr>
+<tr>
+<td><code>&lt;!-- col:end --&gt;</code></td>
+<td>Ends a col container</td>
+</tr>
+
+    </tbody>
+  </table>
+</div>
+<h4 id="example">Example</h4><div class="code-wrapper">
+  <button
+    class="copy noprint nopreview"
+    onclick="onClickCopyToClipboard('code-snippet-7')"
+    aria-label="Copy code example to clipboard"
+  >
+    Copy
+  </button>
+  <pre><code id="code-snippet-7">&lt;!-- row --&gt;
+&lt;!-- col --&gt;
+
+Left
+
+&lt;!-- col:end --&gt;
+&lt;!-- col --&gt;
+
+Right
+
+&lt;!-- col:end --&gt;
+&lt;!-- row:end --&gt;</code></pre>
+</div>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 6 of 9"
+      >6 / 9</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-7">
+  <div class="content"><h3 id="custom-theme">4.4 Custom Theme</h3><p>Look into the <a href="examples/custom-theme" title="examples/custom-theme">examples/custom-theme</a> directory to overide the default theme:</p>
+<p>Just provide these files in the root of your project:</p>
+<ul>
+<li>logo-light.svg, logo-dark.svg, favicon.svg</li>
+<li>style.css:</li>
+</ul>
+<div class="code-wrapper">
+  <button
+    class="copy noprint nopreview"
+    onclick="onClickCopyToClipboard('code-snippet-8')"
+    aria-label="Copy code example to clipboard"
+  >
+    Copy
+  </button>
+  <pre><code id="code-snippet-8"><span class="hljs-selector-pseudo">:root</span> {
+  <span class="hljs-attr">--color-primary</span>: blue;
+}</code></pre>
+</div>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 7 of 9"
+      >7 / 9</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-8">
+  <div class="content"><h3 id="mathjax">4.5 MathJax</h3><p>LaTex equations are converted to equations with MathJax, including all accessibility features:</p>
+<p>Centered Math (<code>\\[ ... \\]</code>):</p>
+<p>\[ x = {-b \pm \sqrt{b^2-4ac} \over 2a} \]</p>
+<p>Inline Math (<code>\\( ... \\)</code>):</p>
+<p>\( x = {-b \pm \sqrt{b^2-4ac} \over 2a} \)</p>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 8 of 9"
+      >8 / 9</span
+    >
+  </div>
+</section>
+
+<section class="slide" id="slide-9">
+  <div class="content"><h3 id="mermaidjs">4.6 MermaidJS</h3><p>Mermaid is supported, fits in nicely with the colors of the theme and automatically reacts to the light or dark mode:</p>
+<pre class="mermaid" id="code-snippet-9">sequenceDiagram
+    Alice->>John: Hello John, how are you?
+    John-->>Alice: Great!
+    Alice-)John: See you later!</pre></div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Page 9 of 9"
+      >9 / 9</span
+    >
+  </div>
+</section>
+</div>
+  </body>
+</html>
