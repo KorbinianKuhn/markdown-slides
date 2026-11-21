@@ -3,6 +3,8 @@ export class Clipboard {
     navigator.clipboard.writeText(document.getElementById(id)!.innerText);
     const toast = document.createElement('div');
     toast.classList.add('toast-wrapper');
+    // Announced by screen readers
+    toast.setAttribute('role', 'status');
     const content = document.createElement('div');
     content.classList.add('toast');
     content.textContent = 'Copied to clipboard';

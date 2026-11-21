@@ -127,3 +127,70 @@ test('keeps the position when scrolling in fullscreen, ignoring the URL anchor',
   await expect.poll(() => isFullscreen(page)).toBe(false);
   await expect.poll(() => position(page)).toEqual(inFullscreen);
 });
+
+// Keyboard access. Safari only moves to links with Tab if enabled in its
+// settings, so these tests run in Chromium and Firefox.
+test.describe('keyboard', () => {
+  test.skip(({ browserName }) => browserName === 'webkit', 'Tab skips links');
+
+  /** Presses Tab until the focused element matches the selector. */
+  const tabTo = async (page: Page, selector: string) => {
+    for (let i = 0; i < 100; i++) {
+      await page.keyboard.press('Tab');
+      if (
+        await page.evaluate((s) => document.activeElement!.matches(s), selector)
+      ) {
+        return;
+      }
+    }
+    throw new Error(`No focusable element matches ${selector}`);
+  };
+
+  const focused = (page: Page) =>
+    page.evaluate(() => {
+      const el = document.activeElement!;
+      const style = getComputedStyle(el);
+      return {
+        inMenu: el.closest('#menu') !== null,
+        opacity: style.opacity,
+        outline: `${style.outlineStyle} ${style.outlineWidth}`,
+      };
+    });
+
+  test('the closed menu is not in the tab order', async ({ page }) => {
+    await page.goto('/features/index.html');
+    await page.keyboard.press('Tab');
+    expect((await focused(page)).inMenu).toBe(false);
+
+    await page.locator('header button[onclick="onClickOpenMenu()"]').click();
+    await page.keyboard.press('Tab');
+    expect((await focused(page)).inMenu).toBe(true);
+  });
+
+  test('focused elements are visible and outlined', async ({ page }) => {
+    await page.goto('/features/index.html');
+    await tabTo(page, 'a[href^="http"]');
+    expect(await focused(page)).toMatchObject({ outline: 'solid 2px' });
+
+    await tabTo(page, 'button.copy');
+    // Fades in
+    await expect
+      .poll(() => focused(page))
+      .toEqual({
+        inMenu: false,
+        opacity: '1',
+        outline: 'solid 2px',
+      });
+  });
+
+  test('Space activates a focused button instead of the next slide', async ({
+    page,
+  }) => {
+    await page.goto('/features/index.html');
+    await tabTo(page, 'button.copy');
+    const before = await position(page);
+    await page.keyboard.press('Space');
+    await expect(page.getByRole('status')).toHaveText('Copied to clipboard');
+    expect(await position(page)).toEqual(before);
+  });
+});

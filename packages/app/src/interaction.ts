@@ -19,6 +19,9 @@ export class Interaction {
     private slides: Slides,
   ) {
     document.body.addEventListener('keydown', (event) => {
+      if (this.isKeyForFocusedElement(event)) {
+        return;
+      }
       switch (event.code) {
         case 'ArrowRight':
         case 'PageDown':
@@ -38,6 +41,22 @@ export class Interaction {
       passive: true,
     });
     new ResizeObserver(() => this.restoreAnchor()).observe(this.container);
+  }
+
+  /**
+   * Keys that belong to the focused element: Space activates buttons and
+   * links, arrow keys explore formulas (MathJax), and the open menu keeps
+   * the keyboard.
+   */
+  private isKeyForFocusedElement(event: KeyboardEvent) {
+    const target = event.target as Element;
+    if (target.closest('dialog[open], mjx-container')) {
+      return true;
+    }
+    return (
+      event.code === 'Space' &&
+      target.closest('a, button, input, select, textarea, summary') !== null
+    );
   }
 
   private saveAnchor() {
