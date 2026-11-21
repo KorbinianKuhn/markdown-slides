@@ -1,17 +1,13 @@
 import { logger } from '../logger';
 import { Settings } from '../settings';
 import { template } from '../template';
-import { Lexer } from './lexer';
 import { MarkdownParser } from './parser';
 import { State } from './state';
 import { getLectureTitle } from './utils';
 
-const SPACER_SIZES = ['sm', 'md', 'lg', 'xl'];
-
 export class HTMLBuilder {
   private state: State;
   private marked: MarkdownParser;
-  private lexer = new Lexer();
 
   constructor(
     private settings: Settings,
@@ -29,102 +25,6 @@ export class HTMLBuilder {
     process.exit(1);
   }
 
-  private async getSlideChunks(content: string): Promise<string[]> {
-    const slides = this.lexer.read(content);
-    const chunks: string[] = [];
-
-    let slideIndex = 0;
-    for (const slide of slides) {
-      slideIndex++;
-      let chunk = ``;
-
-      // Rows and columns may contain inline code or code blocks, which split
-      // the slide into several tokens. Validate them per slide, not per token.
-      const markup = slide.children
-        .filter((token) => token.type !== 'code' && token.type !== 'codespan')
-        .map((token) => token.text)
-        .join('');
-      for (const name of ['row', 'col']) {
-        const start =
-          markup.match(new RegExp(`<!-- ${name} -->`, 'g'))?.length || 0;
-        const end =
-          markup.match(new RegExp(`<!-- ${name}:end -->`, 'g'))?.length || 0;
-        if (start > end) {
-          this.error(`slide ${slideIndex}: Missing <!-- ${name}:end -->.`);
-        } else if (start < end) {
-          this.error(`slide ${slideIndex}: Too many <!-- ${name}:end -->.`);
-        }
-      }
-
-      for (const token of slide.children) {
-        switch (token.type) {
-          case 'code':
-          case 'codespan':
-            chunk += token.text;
-            break;
-          default: {
-            let text = token.text;
-
-            // Rows (blank lines keep the markdown inside the div parsed as markdown)
-            text = text.replace(/<!-- row -->/g, '\n\n<div class="row">\n\n');
-            text = text.replace(/<!-- row:end -->/g, '\n\n</div>\n\n');
-
-            // Columns
-            text = text.replace(
-              /<!-- col -->/g,
-              '\n\n<div class="column">\n\n',
-            );
-            text = text.replace(/<!-- col:end -->/g, '\n\n</div>\n\n');
-
-            // Replace comments
-            const comments = text.matchAll(/<!--(.*?)-->/gs);
-            for (const comment of comments) {
-              text = text.replace(comment[0], ``);
-            }
-
-            // Spacer: :spacer, :spacer{size=lg} or the older :spacer[lg]
-            text = text.replace(
-              /:spacer(?:\{([^}\n]*)\}|\[([^\]\n]*)\])?/g,
-              (match, attributes?: string, legacySize?: string) => {
-                let size = legacySize ?? 'md';
-                if (attributes !== undefined) {
-                  const parsed = /^\s*size=(\S+)\s*$/.exec(attributes);
-                  if (!parsed) {
-                    this.error(
-                      `slide ${slideIndex}: Invalid spacer "${match}", expected :spacer{size=sm|md|lg|xl}.`,
-                    );
-                  }
-                  size = parsed![1];
-                }
-                if (!SPACER_SIZES.includes(size)) {
-                  this.error(
-                    `slide ${slideIndex}: Invalid spacer size "${size}", expected sm, md, lg or xl.`,
-                  );
-                }
-                return `<div class="spacer ${size}"></div>`;
-              },
-            );
-
-            // Directives
-            const directives = text.matchAll(/@(module|semester)\[(.+)\]/g);
-            for (const match of directives) {
-              text = text.replace(
-                match[0],
-                `<div class="${match[1]}">${match[2]}</div>`,
-              );
-            }
-
-            chunk += text;
-          }
-        }
-      }
-
-      chunks.push(chunk);
-    }
-
-    return chunks;
-  }
-
   async build(content: string): Promise<string> {
     const date = new Date()
       .toISOString()
@@ -133,7 +33,7 @@ export class HTMLBuilder {
       .reverse()
       .join('.');
 
-    const chunks = await this.getSlideChunks(content);
+    const chunks = this.marked.splitSlides(content);
     const total = chunks.length - 1;
     const title = getLectureTitle(content);
 
@@ -144,6 +44,11 @@ export class HTMLBuilder {
       }
 
       this.state.increaseSlideNumber();
+
+      const layoutError = this.marked.checkLayout(part);
+      if (layoutError) {
+        this.error(`slide ${i + 1}: ${layoutError}.`);
+      }
 
       const content = this.marked.parse(part);
       // Same numbering as the row and column checks (title slide is 1)

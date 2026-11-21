@@ -57,6 +57,12 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
    grep -rn --include='*.md' -E '^\s*<(div|span|p|table|br|img)' .
    ```
 
+9. **`<!-- slide -->` only starts a slide on a line of its own.** Slides are now split by the Markdown parser, so a marker inside a list, a blockquote, after text or in a `~~~` code block no longer starts a new slide. A marker that is ignored this way produces a warning, e.g. `[warn] README.md slide 3: <!-- slide --> is ignored, because it is not on a line of its own`. Move the marker to its own line, without indentation, and with blank lines around it. Find candidates (matches inside inline code, like `` `<!-- slide -->` ``, are fine):
+
+   ```sh
+   grep -rnE --include='*.md' '^.*[^ \t].*<!-- slide -->|^[ \t]+<!-- slide -->' .
+   ```
+
 ### Added
 
 - `--title` option to set the lecture title used for the link back to the main page on sub-pages, e.g. an abbreviation. Defaults to the first headline of `README.md`.
@@ -68,6 +74,7 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ### Changed
 
+- Slides, spacers, `@module`/`@semester` and comments are handled by marked extensions instead of a custom lexer and regular expressions. See upgrade note 9.
 - Updated the Markdown parser (marked 9 → 18). The tests show no visible changes, but rare edge cases may render differently, see upgrade note 8.
 - The CLI requires Node.js 22 or newer (`engines` field) and is built for it.
 - Images keep their aspect ratio when a width is set and the height is limited by the maximum height.
@@ -75,6 +82,9 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ### Fixed
 
+- The build hung forever on a lone backtick (e.g. "Use ` for inline code") or a code block fenced with four backticks.
+- `<!-- slide -->` inside a `~~~` code block started a new slide.
+- Row and column markers inside code were counted when checking that rows and columns are closed.
 - Rows and columns that contain inline code or code blocks failed with `Missing <!-- row:end -->`.
 - Unbalanced columns were not reported.
 - Columns had no width and no gap (`col` vs. `column` class).
