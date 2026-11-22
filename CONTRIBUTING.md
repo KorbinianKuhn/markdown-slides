@@ -11,7 +11,7 @@ npm ci
 | Command             | Description                                               |
 | ------------------- | --------------------------------------------------------- |
 | `npm run build`     | Build the CLI and the slides app into `dist`              |
-| `npm run examples`  | Build the README and example decks with `dist/cli.js`     |
+| `npm run slides`    | Build the README deck into `public` with `dist/cli.js`    |
 | `npm run lint`      | Lint with ESLint                                          |
 | `npm run format`    | Format with Prettier (`npm run format:check` only checks) |
 | `npm run typecheck` | Type-check the CLI, the app and the tests                 |
@@ -65,4 +65,4 @@ Playwright is updated by hand, because the version must match the Docker image: 
 
 ## Live demo
 
-On every push to `main`, [.github/workflows/pages.yml](.github/workflows/pages.yml) publishes the README deck and the examples to https://korbiniankuhn.github.io/markdown-slides/.
+On every push to `main`, [.github/workflows/pages.yml](.github/workflows/pages.yml) publishes the README deck to https://korbiniankuhn.github.io/markdown-slides/.

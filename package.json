@@ -29,7 +29,7 @@
   },
   "scripts": {
     "build": "node build.mts",
-    "examples": "node dist/cli.js -i . -o public --allowed-files README.md && node dist/cli.js -i examples/custom-theme -o examples/custom-theme/public -l en --institution \"Custom Institution\" && if [ -d examples/mwa ]; then node dist/cli.js -i examples/mwa -o examples/mwa/public -l en; fi",
+    "slides": "node dist/cli.js -i . -o public --allowed-files README.md",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

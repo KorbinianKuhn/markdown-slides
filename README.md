@@ -21,7 +21,7 @@ Generate HTML slides from Markdown files
 - 📚 Supports multiple markdown files to split your presentation in subslides
 - ➡️ Use space, arrow and page keys to navigate
 - 🎨 Easily override the Stuttgart Media University (HDM) theme with custom colors and logos
-- 🚀 Just deploy your slides with Gitlab or GitHub pages
+- 🚀 Publish your slides with GitLab or GitHub Pages
 
 <!-- slide -->
 
@@ -318,9 +318,14 @@ Print the page in the browser (e.g. <kbd>Ctrl</kbd>+<kbd>P</kbd>, or <kbd>Cmd</k
 
 Override the default theme with these files in the root of your project:
 
-- `logo-light.svg` and `logo-dark.svg`: logos for the light and dark theme
-- `favicon.ico`: icon in the browser tab
-- `*.css`: included in every page, e.g. to change the primary color:
+| File                                 | Use                                |
+| ------------------------------------ | ---------------------------------- |
+| `logo-light.svg` and `logo-dark.svg` | Logos for the light and dark theme |
+| `favicon.ico`                        | Icon in the browser tab            |
+| `*.css`                              | Styles, included in every page     |
+| `*.js`                               | Scripts, included in every page    |
+
+Setting the primary color is usually enough. In the dark theme, it is lightened where needed, so text stays readable:
 
 ```css
 :root {
@@ -328,6 +333,56 @@ Override the default theme with these files in the root of your project:
 }
 ```
 
-- `*.js`: included in every page
+<!-- slide -->
 
-See the [custom theme example](https://github.com/KorbinianKuhn/markdown-slides/tree/main/examples/custom-theme).
+## Publish with GitLab Pages
+
+Add a `.gitlab-ci.yml` to your repository. Every push to the default branch publishes the slides:
+
+```yaml
+pages:
+  image: node:lts-alpine
+  script:
+    - npx @korbiniankuhn/markdown-slides -o public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+```
+
+Add CLI parameters to the `npx` line, e.g. `--language de`. Pin a version (`@korbiniankuhn/markdown-slides@1.0.0`) to update on your own schedule.
+
+<!-- slide -->
+
+## Publish with GitHub Pages
+
+Set **Settings → Pages → Source** to **GitHub Actions**, and add `.github/workflows/slides.yml`:
+
+```yaml
+name: Slides
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+      - run: npx @korbiniankuhn/markdown-slides -o public
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: public
+      - id: deployment
+        uses: actions/deploy-pages@v5
+```

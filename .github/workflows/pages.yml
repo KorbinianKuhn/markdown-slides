@@ -1,6 +1,6 @@
 name: Pages
 
-# Deploys the README deck and the examples as a live demo:
+# Deploys the README deck as a live demo:
 # https://korbiniankuhn.github.io/markdown-slides/
 on:
   push:
@@ -25,11 +25,9 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Build decks
+      - name: Build deck
         run: |
           node dist/cli.js -i . -o _site --allowed-files README.md
-          mkdir -p _site/examples
-          node dist/cli.js -i examples/custom-theme -o _site/examples/custom-theme --institution "Custom Institution" --ignored-files public
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site

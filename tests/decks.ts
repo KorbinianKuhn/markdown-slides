@@ -25,8 +25,8 @@ export const decks: Deck[] = [
   },
   {
     name: 'custom-theme',
-    input: 'examples/custom-theme',
-    args: ['--institution', 'Custom Institution', '--ignored-files', 'public'],
+    input: 'tests/fixtures/custom-theme',
+    args: ['--institution', 'Custom Institution'],
     pages: ['index.html'],
   },
 ];
