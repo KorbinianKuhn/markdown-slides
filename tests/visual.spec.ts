@@ -137,6 +137,11 @@ test('long titles wrap in the menu and are cut off in the header', async ({
   await page.locator('header button[aria-haspopup="dialog"]').click();
   const menu = page.locator('#menu');
   await expect(menu).toBeVisible();
+  // The click leaves the pointer where the menu opens, so a link in it could
+  // show its hover color. Move the pointer to the right edge, outside of the
+  // menu.
+  const viewport = page.viewportSize()!;
+  await page.mouse.move(viewport.width - 1, viewport.height - 1);
   // Nothing in the menu is wider than the menu
   expect(
     await menu.evaluate(
