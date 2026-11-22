@@ -1,7 +1,7 @@
 // Loaded by a separate script tag (app/scripts/mermaid.min.js)
 declare global {
   interface Window {
-    mermaid: {
+    mermaid?: {
       initialize: (config: Record<string, unknown>) => void;
       run: () => Promise<void>;
     };
@@ -23,7 +23,11 @@ export class Mermaid {
   }
 
   async update(darkMode: boolean) {
+    // Pages without diagrams don't load Mermaid
     const mermaid = window.mermaid;
+    if (this.elements.length === 0 || !mermaid) {
+      return;
+    }
 
     mermaid.initialize({
       startOnLoad: false,
