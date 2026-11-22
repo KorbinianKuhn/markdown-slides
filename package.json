@@ -22,7 +22,7 @@
   "license": "MIT",
   "author": "Korbinian Kuhn",
   "bin": {
-    "md2slides": "./cli.js"
+    "md2slides": "cli.js"
   },
   "engines": {
     "node": ">=22"
