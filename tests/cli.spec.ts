@@ -335,3 +335,28 @@ test('footnotes are shown on the slide that refers to them', () => {
   expect(slides[2]).toContain('No footnotes[^b].');
   expect(slides[2]).not.toContain('class="footnotes"');
 });
+
+test('headings render Markdown and get unique ids', () => {
+  const readme = [
+    '# Title',
+    '<!-- slide -->',
+    '## Use `code` and **bold** \\<T>',
+    '## Menu',
+    '## Übersicht',
+    '```js {1,3}\nconst a = 1;\n```',
+  ].join('\n\n');
+  const html = run('headings', readme, []).html();
+  expect(html).toContain(
+    '<h2 id="use-code-and-bold-t-">1 Use <code>code</code> and <strong>bold</strong> &lt;T&gt;</h2>',
+  );
+  // The table of contents shows the text without Markdown
+  expect(html).toContain('<span>1 Use code and bold &lt;T&gt;</span>');
+  // id="menu" is the menu dialog
+  expect(html).toContain('<h2 id="menu-2">2 Menu</h2>');
+  expect(html).toContain('<h2 id="übersicht">3 Übersicht</h2>');
+  // The first word of the info string is the language
+  expect(html).toContain('<span class="hljs-keyword">const</span>');
+
+  const off = run('headings-off', '# Title\n', ['--toc-numbering', 'false']);
+  expect(off.html()).toContain('<h1 id="title">Title</h1>');
+});

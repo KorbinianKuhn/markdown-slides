@@ -138,3 +138,9 @@ pre code {
   color: var(--hljs-red-2);
   background-color: #ffeef0;
 }
+
+// Inline code in headings grows with the heading
+:is(h1, h2, h3, h4, h5, h6) code {
+  font-size: 0.85em;
+  line-height: inherit;
+}

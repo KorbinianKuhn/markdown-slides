@@ -2,7 +2,7 @@ import { Lexer, Token } from 'marked';
 import { logger } from '../logger';
 
 /** Text of inline tokens without Markdown, e.g. `code` becomes code. */
-const plainText = (tokens: Token[]): string =>
+export const plainText = (tokens: Token[]): string =>
   tokens
     .map((token) =>
       'tokens' in token && token.tokens

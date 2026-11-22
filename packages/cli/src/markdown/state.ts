@@ -1,5 +1,20 @@
 import { Settings } from '../settings';
 
+/** Ids of the page itself, which headings must not get */
+const RESERVED_IDS = [
+  'menu',
+  'theme-label',
+  'button-theme-auto',
+  'button-theme-light',
+  'button-theme-dark',
+  'fullscreen-button',
+];
+const RESERVED_ID_PATTERN =
+  /^(slide|code-snippet|footnote|footnote-ref)-\d+(-\d+)?$/;
+
+const isReserved = (id: string) =>
+  RESERVED_IDS.includes(id) || RESERVED_ID_PATTERN.test(id);
+
 interface MenuItem {
   level: number;
   title: string;
@@ -37,11 +52,12 @@ export class State {
   }
 
   getSlug(title: string): string {
-    const text = title.toLowerCase().replace(/[^\w]+/g, '-');
+    // Letters of all languages, e.g. Übersicht becomes übersicht
+    const text = title.toLowerCase().replace(/[^\p{L}\p{N}_]+/gu, '-');
 
     const getUniqueSlug = (title: string, counter: number): string => {
       const slug = counter === 0 ? title : `${title}-${counter}`;
-      if (this.slugs.find((o) => o === slug)) {
+      if (this.slugs.includes(slug) || isReserved(slug)) {
         return getUniqueSlug(title, counter === 0 ? counter + 2 : counter + 1);
       }
       return slug;
@@ -81,25 +97,18 @@ export class State {
     return items;
   }
 
-  getHeading(text: string, level: number): string {
-    if (this.settings.tocNumbering) {
-      if (level < this.tocNumbering.length) {
-        this.tocNumbering = this.tocNumbering.map((o, i) => {
-          if (i < level) {
-            return o;
-          } else if (i === level) {
-            return o + 1;
-          } else {
-            return 0;
-          }
-        });
-        const tocNumber = this.tocNumbering.slice(2, level + 1).join('.');
-
-        return `${tocNumber} ${text}`;
-      }
+  /**
+   * The number of a heading, e.g. 2.1, or an empty string without numbering
+   * (h1, h4 and deeper, or --toc-numbering false).
+   */
+  getHeadingNumber(level: number): string {
+    if (!this.settings.tocNumbering || level >= this.tocNumbering.length) {
+      return '';
     }
-
-    return text;
+    this.tocNumbering = this.tocNumbering.map((o, i) =>
+      i < level ? o : i === level ? o + 1 : 0,
+    );
+    return this.tocNumbering.slice(2, level + 1).join('.');
   }
 
   addToTableOfContents(title: string, slug: string, level: number) {
