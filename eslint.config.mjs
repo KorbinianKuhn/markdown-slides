@@ -11,14 +11,13 @@ export default defineConfig(
     'tests/.output',
     'test-results',
     'playwright-report',
-    'examples/*/public',
     'examples/mwa',
   ]),
   js.configs.recommended,
   tseslint.configs.recommended,
   {
     // Runs in the browser
-    files: ['packages/app/**', 'examples/**'],
+    files: ['packages/app/**', 'tests/fixtures/**/*.js'],
     languageOptions: { globals: globals.browser },
   },
   {

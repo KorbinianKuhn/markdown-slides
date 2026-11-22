@@ -6,7 +6,6 @@ tests/.output
 tests/__snapshots__
 test-results
 playwright-report
-examples/*/public
 examples/mwa
 
 # Whitespace in templates and fixtures changes the generated slides
