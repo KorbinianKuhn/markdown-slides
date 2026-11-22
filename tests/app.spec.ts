@@ -193,6 +193,21 @@ test.describe('keyboard', () => {
     await expect(page.getByRole('status')).toHaveText('Copied to clipboard');
     expect(await position(page)).toEqual(before);
   });
+
+  test('copies without the Clipboard API, e.g. on http:// pages', async ({
+    page,
+  }) => {
+    // Missing outside of secure contexts
+    await page.addInitScript(() =>
+      Object.defineProperty(navigator, 'clipboard', { value: undefined }),
+    );
+    await page.goto('/features/index.html');
+    await tabTo(page, 'button.copy');
+    await page.keyboard.press('Enter');
+    await expect(page.getByRole('status')).toHaveText('Copied to clipboard');
+    // The copy button keeps the focus
+    await expect(page.locator('button.copy').first()).toBeFocused();
+  });
 });
 
 test('navigates between the main page and a sub-page', async ({ page }) => {

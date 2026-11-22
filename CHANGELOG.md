@@ -44,6 +44,9 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 - Mermaid diagrams with `<` or `>`, e.g. `<<interface>>` in class diagrams, are no longer cut off. Diagrams in a `~~~mermaid` fence are drawn, too.
 - Code blocks with more than a language in the info string, e.g. ` ```js {1,3} `, are highlighted.
 - `#` headings no longer start with a space.
+- Links to the main page (`README.md`) point to `index.html` instead of the missing `README.html`, and links with an anchor (`chapter.md#intro`) point to the page (`chapter.html#intro`). Links to Markdown files in subdirectories are kept: these files are copied, not converted.
+- Links to `http://localhost` and other addresses without a domain ending open in a new tab like other external links.
+- The copy button of code works on `http://` pages other than localhost (e.g. a server in the local network), where browsers have no Clipboard API. If copying fails, it says so instead of nothing.
 - Long titles no longer widen the menu, which made its title run under the close button. The menu has a fixed width, and titles and table of contents entries wrap. In the header, long titles are cut off with "…" (two lines on phones).
 
 ## [1.0.0-rc.2] - 2026-11-21

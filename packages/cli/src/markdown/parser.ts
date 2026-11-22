@@ -43,6 +43,21 @@ const escapeAttribute = (value: string) =>
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
+/**
+ * Links to Markdown files in the input directory point to their pages:
+ * chapter.md#intro becomes chapter.html#intro, and README.md index.html.
+ * Markdown files in subdirectories are not converted, but copied, so links
+ * to them stay as they are.
+ */
+const pageHref = (href: string) => {
+  const match = /^(?:\.\/)?([^/?#]+)\.md((?:[?#].*)?)$/.exec(href);
+  if (!match) {
+    return href;
+  }
+  const [, name, rest] = match;
+  return `${name === 'README' ? 'index' : name}.html${rest}`;
+};
+
 /** The href of an image token, also with an attribute block. */
 const mediaHref = (token: Token) =>
   token.type === 'image'
@@ -97,13 +112,8 @@ export class MarkdownParser {
 
         link({ href, title, tokens }) {
           const text = this.parser.parseInline(tokens);
-          const regex =
-            /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/gi;
-          const isExternal = href.match(regex) !== null;
-          const link =
-            !isExternal && href.endsWith('.md')
-              ? href.replace('.md', '.html')
-              : href;
+          const isExternal = /^(https?:)?\/\//i.test(href);
+          const link = isExternal ? href : pageHref(href);
           // Only a title from Markdown ([text](url "title")): repeating the
           // link text adds nothing for screen readers
           const attributes = [

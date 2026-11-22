@@ -360,3 +360,30 @@ test('headings render Markdown and get unique ids', () => {
   const off = run('headings-off', '# Title\n', ['--toc-numbering', 'false']);
   expect(off.html()).toContain('<h1 id="title">Title</h1>');
 });
+
+test('links to Markdown files point to their pages', () => {
+  const links = [
+    '[Home](README.md)',
+    '[Section](chapter.md#intro)',
+    '[Relative](./chapter.md)',
+    '[Copied file](docs/notes.md)',
+    '[Local server](http://localhost:8080/)',
+    '[Mail](mailto:jane@example.com)',
+    '[Anchor](#intro)',
+  ];
+  const result = build('page-links', links.join(' '));
+  expect(result.status).toBe(0);
+  const html = output('page-links');
+  for (const link of [
+    '<a href="index.html">Home</a>',
+    '<a href="chapter.html#intro">Section</a>',
+    '<a href="chapter.html">Relative</a>',
+    // Markdown files in subdirectories are copied, not converted
+    '<a href="docs/notes.md">Copied file</a>',
+    '<a href="http://localhost:8080/" target="_blank">Local server</a>',
+    '<a href="mailto:jane@example.com">Mail</a>',
+    '<a href="#intro">Anchor</a>',
+  ]) {
+    expect(html).toContain(link);
+  }
+});
