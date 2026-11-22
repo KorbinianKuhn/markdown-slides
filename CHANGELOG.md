@@ -25,6 +25,10 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 - GitHub-style alerts: `> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]` and `> [!CAUTION]`, with English or German titles depending on `--language`.
 - Footnotes: `[^1]` in the text and `[^1]: …` anywhere in the file. They are shown at the bottom of the slide that refers to them and numbered per slide, with links to the footnote and back.
 
+### Fixed
+
+- Long titles no longer widen the menu, which made its title run under the close button. The menu has a fixed width, and titles and table of contents entries wrap. In the header, long titles are cut off with "…" (two lines on phones).
+
 ## [1.0.0-rc.2] - 2026-11-21
 
 ### Upgrade notes

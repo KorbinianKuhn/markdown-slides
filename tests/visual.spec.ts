@@ -107,3 +107,31 @@ for (const deck of decks) {
     });
   }
 }
+
+test('long titles wrap in the menu and are cut off in the header', async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    testInfo.project.metadata.media === 'print',
+    'Header and menu are not printed',
+  );
+  await page.goto('/features/long-title.html');
+  await waitUntilRendered(page);
+  await expect(page.locator('.header')).toHaveScreenshot(
+    'long-title-header.png',
+  );
+
+  await page.locator('header button[aria-haspopup="dialog"]').click();
+  const menu = page.locator('#menu');
+  await expect(menu).toBeVisible();
+  // Nothing in the menu is wider than the menu
+  expect(
+    await menu.evaluate(
+      (el) =>
+        [...el.querySelectorAll('header, li > a')].filter(
+          (child) => child.scrollWidth > child.clientWidth,
+        ).length,
+    ),
+  ).toBe(0);
+  await expect(menu).toHaveScreenshot('long-title-menu.png');
+});
