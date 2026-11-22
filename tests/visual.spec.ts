@@ -16,7 +16,10 @@ type MathJaxWindow = Window & {
 const waitUntilRendered = async (page: Page) => {
   await page.waitForFunction(() => {
     const w = window as MathJaxWindow;
-    const mathReady = w.MathJax?.startup?.promise !== undefined;
+    // Pages without formulas don't load MathJax
+    const mathReady =
+      !document.querySelector('script[src*="mathjax"]') ||
+      w.MathJax?.startup?.promise !== undefined;
     const mermaidReady = [...document.querySelectorAll('pre.mermaid')].every(
       (node) => node.querySelector('svg'),
     );
@@ -44,6 +47,13 @@ for (const deck of decks) {
           return route.abort();
         },
       );
+      // Every file of the slides must exist, e.g. the parts of MathJax
+      const failed: string[] = [];
+      page.on('response', (response) => {
+        if (response.status() >= 400) {
+          failed.push(`${response.status()} ${response.url()}`);
+        }
+      });
       await page.goto(`/${deck.name}/${path}`);
       await waitUntilRendered(page);
 
@@ -80,6 +90,9 @@ for (const deck of decks) {
           );
       }
       expect(external).toEqual([]);
+      // MathJax loads its accessibility parts after rendering
+      await page.waitForLoadState('networkidle');
+      expect(failed).toEqual([]);
 
       if (testInfo.project.metadata.media === 'print') {
         // Paper can't scroll: scroll containers are cut off at the page end,

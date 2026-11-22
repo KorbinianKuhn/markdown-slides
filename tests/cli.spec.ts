@@ -501,3 +501,27 @@ test('--language de translates the texts of the page', () => {
     expect(html).toContain(text);
   }
 });
+
+test('pages only load MathJax and Mermaid when they need them', () => {
+  const scripts = (slide: string) => {
+    const html = run(
+      'scripts',
+      `# Title\n\n<!-- slide -->\n\n${slide}\n`,
+      [],
+    ).html();
+    return {
+      math: html.includes('mathjax/tex-svg.js'),
+      mermaid: html.includes('mermaid.min.js'),
+    };
+  };
+  expect(scripts('Text')).toEqual({ math: false, mermaid: false });
+  expect(scripts('Inline \\\\( x^2 \\\\) math')).toEqual({
+    math: true,
+    mermaid: false,
+  });
+  expect(scripts('$$x^2$$')).toEqual({ math: true, mermaid: false });
+  expect(scripts('```mermaid\nflowchart LR\n  A --> B\n```')).toEqual({
+    math: false,
+    mermaid: true,
+  });
+});

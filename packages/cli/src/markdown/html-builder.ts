@@ -5,6 +5,9 @@ import { MarkdownParser } from './parser';
 import { State } from './state';
 import { getLectureTitle } from './utils';
 
+/** Start of a formula: \( \[ $$ or \begin{…} */
+const MATH_DELIMITER = /\\\(|\\\[|\$\$|\\begin\{/;
+
 export class HTMLBuilder {
   private state: State;
   private marked: MarkdownParser;
@@ -86,11 +89,18 @@ export class HTMLBuilder {
       date,
     });
 
+    const slidesHtml = slides
+      .map((o, i) => (i === 0 ? template.title(o) : template.slide(o)))
+      .join('\n');
+
     const html = template.main({
       isChild: !this.isRoot,
-      content: slides
-        .map((o, i) => (i === 0 ? template.title(o) : template.slide(o)))
-        .join('\n'),
+      content: slidesHtml,
+      // MathJax and Mermaid are large, so pages only load them when needed.
+      // The delimiters are MathJax's defaults; a false positive (e.g. \( in
+      // code) only loads MathJax.
+      hasMath: MATH_DELIMITER.test(slidesHtml),
+      hasMermaid: slidesHtml.includes('<pre class="mermaid"'),
       menu,
       title,
       lectureTitle: this.settings.title,

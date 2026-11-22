@@ -45,6 +45,11 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 - `--language de` translates the texts of the page: buttons (Vollbild, Kopieren, Hell/Dunkel), labels for screen readers (e.g. "Seite 3 von 12") and messages ("In die Zwischenablage kopiert"). Before, only alert titles and footnotes were translated, and screen readers read the English texts with German pronunciation.
 - `--allowed-files` and `--ignored-files` take glob patterns like in `.gitignore`, e.g. `'*.md'`, `'chapter-*.md'` or `drafts/` (only directories). A pattern that matches nothing, e.g. a typo, is reported as a warning.
 
+### Changed
+
+- Pages only load MathJax (2 MB) when they contain a formula and Mermaid (6 MB) when they contain a diagram, and Mermaid no longer delays showing the page. Most pages load about 8 MB less.
+- The package and every built deck are about 12 MB smaller: only the MathJax bundle that the slides use is included (npm download 7.3 MB instead of 10.8 MB).
+
 ### Fixed
 
 - Headings render inline Markdown (`code`, **bold**, links) instead of showing its characters, and `<` in a heading no longer breaks the page. The table of contents shows the text without Markdown.

@@ -21,11 +21,20 @@ await cp(
   'dist/app/scripts/mermaid.min.js',
 );
 // MathJax with its font, so formulas also render offline (MathJax loads the
-// font from a CDN by default, see the config in main.html). The node-* files
-// are for server-side use only.
+// font from a CDN by default, see the config in main.html). The slides use
+// the tex-svg.js bundle, which loads further parts from the subdirectories;
+// the other bundles in the root (about 14 MB) and the node-* files for
+// server-side use are left out.
 await cp('node_modules/mathjax', 'dist/app/scripts/mathjax', {
   recursive: true,
-  filter: (src) => !/[/\\](node-main[^/\\]*|require\.mjs)$/.test(src),
+  filter: (src) => {
+    const relative = src.slice('node_modules/mathjax'.length + 1);
+    const isRootFile = relative !== '' && !/[/\\]/.test(relative);
+    return (
+      !(isRootFile && relative.endsWith('.js') && relative !== 'tex-svg.js') &&
+      !/[/\\](node-main[^/\\]*|require\.mjs)$/.test(src)
+    );
+  },
 });
 for (const file of ['svg.js', 'svg']) {
   await cp(
