@@ -6,6 +6,8 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-22
+
 ### Upgrade notes
 
 1. **Blockquotes that start with `[!NOTE]`, `[!TIP]`, `[!IMPORTANT]`, `[!WARNING]` or `[!CAUTION]` are now alerts.** Before, the marker was shown as text in a plain blockquote. Find them (matches inside code blocks are not affected):
