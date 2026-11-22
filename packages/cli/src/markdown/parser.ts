@@ -2,8 +2,9 @@ import hljs from 'highlight.js';
 import { Marked, Token, Tokenizer, Tokens } from 'marked';
 import markedAlert from 'marked-alert';
 import { template } from '../template';
+import { getTexts } from '../texts';
 import { countLayoutMarkers, directives, renderHtml } from './directives';
-import { footnoteLabels, Footnotes } from './footnotes';
+import { Footnotes } from './footnotes';
 import {
   isVideo,
   MediaAttributes,
@@ -14,24 +15,6 @@ import { State } from './state';
 import { plainText } from './utils';
 
 const SLIDE_MARKER = '<!-- slide -->';
-
-/** Titles of GitHub-style alerts, e.g. > [!NOTE] */
-const alertTitles: Record<string, Record<string, string>> = {
-  en: {
-    note: 'Note',
-    tip: 'Tip',
-    important: 'Important',
-    warning: 'Warning',
-    caution: 'Caution',
-  },
-  de: {
-    note: 'Hinweis',
-    tip: 'Tipp',
-    important: 'Wichtig',
-    warning: 'Warnung',
-    caution: 'Vorsicht',
-  },
-};
 
 const escapeHtml = (value: string) =>
   value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -76,10 +59,13 @@ export class MarkdownParser {
   ) {
     const errors = this.errors;
     const warnings = this.warnings;
-    this.footnotes = new Footnotes(
-      footnoteLabels[language] ?? footnoteLabels.en,
-    );
-    const titles = alertTitles[language] ?? alertTitles.en;
+    const texts = getTexts(language);
+    this.footnotes = new Footnotes({
+      footnote: texts.footnote,
+      back: texts.footnoteBack,
+      reference: texts.footnoteReference,
+    });
+    const titles: Record<string, string> = texts.alerts;
 
     const media = (
       href: string | null,

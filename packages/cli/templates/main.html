@@ -13,6 +13,8 @@
     <script>
       // Load the MathJax font from the slides, not from a CDN
       window.MathJax = { loader: { paths: { fonts: '[mathjax]/fonts' } } };
+      // Texts of the slides app in the language of the page
+      window.slidesTexts = {{{appTexts}}};
     </script>
     <script src="app/scripts/mathjax/tex-svg.js" async></script>
     <script src="app/scripts/mermaid.min.js"></script>
@@ -28,7 +30,7 @@
         <button
           onclick="onClickOpenMenu()"
           class="noprint"
-          aria-label="{{ title }}: open table of contents"
+          aria-label="{{ title }}: {{t 'openTableOfContents'}}"
           aria-haspopup="dialog"
         >
           <svg

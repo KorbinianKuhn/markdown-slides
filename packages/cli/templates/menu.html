@@ -14,10 +14,10 @@
 <dialog
   id="menu"
   modal-mode="mega"
-  aria-label="Main menu and table of contents"
+  aria-label="{{t 'menu'}}"
 >
   <header>
-    <button onclick="onClickCloseMenu()" aria-label="Close menu" autofocus>
+    <button onclick="onClickCloseMenu()" aria-label="{{t 'closeMenu'}}" autofocus>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="24px"
@@ -41,49 +41,49 @@
       <button
         onclick="onClickFullscreen()"
         class="noprint nofullscreen nomobile"
-        aria-label="Show page in fullscreen mode"
+        aria-label="{{t 'fullscreenLabel'}}"
       >
-        Fullscreen
+        {{t 'fullscreen'}}
       </button>
     </div>
     <div>
-      <span>Version:</span>
+      <span>{{t 'version'}}</span>
       <span>{{ date }}</span>
     </div>
     <div>
-      <span>PDF:</span>
+      <span>{{t 'pdf'}}:</span>
       <span
         ><button
           onclick="onClickPrint()"
-          aria-label="Show PDF version of the page"
+          aria-label="{{t 'pdfLabel'}}"
         >
-          PDF
+          {{t 'pdf'}}
         </button></span
       >
     </div>
     <div role="group" aria-labelledby="theme-label">
-      <span id="theme-label">Theme:</span>
+      <span id="theme-label">{{t 'theme'}}</span>
       <button
         id="button-theme-auto"
         onclick="onClickSetTheme('system')"
-        title="Use the operating system setting"
+        title="{{t 'themeAutoTitle'}}"
         aria-pressed="false"
       >
-        Auto
+        {{t 'themeAuto'}}
       </button>
       <button
         id="button-theme-light"
         onclick="onClickSetTheme('light')"
         aria-pressed="false"
       >
-        Light
+        {{t 'themeLight'}}
       </button>
       <button
         id="button-theme-dark"
         onclick="onClickSetTheme('dark')"
         aria-pressed="false"
       >
-        Dark
+        {{t 'themeDark'}}
       </button>
     </div>
   </footer>

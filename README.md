@@ -92,16 +92,16 @@ npx @korbiniankuhn/markdown-slides --ignored-files '*.pdf' drafts/
 
 CLI arguments:
 
-| Argument           | Description                                                                                   | Default   | Required |
-| ------------------ | --------------------------------------------------------------------------------------------- | --------- | -------- |
-| `-i`, `--in`       | Input directory                                                                               | .         | false    |
-| `-o`, `--out`      | Output directory                                                                              | public    | false    |
-| `-l`, `--language` | `en` or `de`: language of the page, the default institution, alert titles and footnote labels | en        | false    |
-| `--institution`    | Custom institution name                                                                       | undefined | false    |
-| `--title`          | Lecture title for the back link on sub-pages, otherwise the first headline is used            | undefined | false    |
-| `--toc-numbering`  | Number the headings, `true` or `false`                                                        | true      | false    |
-| `--allowed-files`  | Only use files and directories of the input directory that match these names or patterns      | undefined | false    |
-| `--ignored-files`  | Ignore files and directories that match these names or patterns (dotfiles are always ignored) | undefined | false    |
+| Argument           | Description                                                                                                                | Default   | Required |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------- | --------- | -------- |
+| `-i`, `--in`       | Input directory                                                                                                            | .         | false    |
+| `-o`, `--out`      | Output directory                                                                                                           | public    | false    |
+| `-l`, `--language` | `en` or `de`: language of the page and its texts (buttons, labels for screen readers, alerts), and the default institution | en        | false    |
+| `--institution`    | Custom institution name                                                                                                    | undefined | false    |
+| `--title`          | Lecture title for the back link on sub-pages, otherwise the first headline is used                                         | undefined | false    |
+| `--toc-numbering`  | Number the headings, `true` or `false`                                                                                     | true      | false    |
+| `--allowed-files`  | Only use files and directories of the input directory that match these names or patterns                                   | undefined | false    |
+| `--ignored-files`  | Ignore files and directories that match these names or patterns (dotfiles are always ignored)                              | undefined | false    |
 
 <!-- slide -->
 

@@ -24,6 +24,12 @@ export const decks: Deck[] = [
     ],
   },
   {
+    name: 'german',
+    input: 'tests/fixtures/german',
+    args: ['--language', 'de'],
+    pages: ['index.html'],
+  },
+  {
     name: 'readme',
     input: '.',
     args: ['--allowed-files', 'README.md'],

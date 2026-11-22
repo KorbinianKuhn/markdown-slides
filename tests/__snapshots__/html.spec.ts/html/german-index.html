@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deutsche Folien</title>
+    <link rel="stylesheet" href="app/css/styles.css" />
+    <link rel="shortcut icon" href="app/img/favicon.ico" type="image/x-icon" />
+    <script>
+      // Load the MathJax font from the slides, not from a CDN
+      window.MathJax = { loader: { paths: { fonts: '[mathjax]/fonts' } } };
+      // Texts of the slides app in the language of the page
+      window.slidesTexts = {"copied":"In die Zwischenablage kopiert","copyFailed":"Kopieren fehlgeschlagen, bitte den Code markieren","codeRegion":"Codebeispiel, scrollbar"};
+    </script>
+    <script src="app/scripts/mathjax/tex-svg.js" async></script>
+    <script src="app/scripts/mermaid.min.js"></script>
+    <script src="app/scripts/slides.js"></script>
+  </head>
+  <body>
+    
+<dialog
+  id="menu"
+  modal-mode="mega"
+  aria-label="Hauptmenü und Inhaltsverzeichnis"
+>
+  <header>
+    <button onclick="onClickCloseMenu()" aria-label="Menü schließen" autofocus>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="currentColor"
+      >
+        <path
+          d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+        />
+      </svg>
+    </button>
+    <a href="#" onclick="onClickCloseMenu()">Deutsche Folien</a>
+  </header>
+  <article><ul>
+  <li>
+    <a href="#oberfläche-auf-deutsch" onclick="onClickCloseMenu()">
+      <span>1 Oberfläche auf Deutsch</span><span class="slide-number">1</span></a
+    >
+     
+  </li>
+</ul>
+</article>
+  <footer>
+    <div>
+      <button
+        onclick="onClickFullscreen()"
+        class="noprint nofullscreen nomobile"
+        aria-label="Seite im Vollbild anzeigen"
+      >
+        Vollbild
+      </button>
+    </div>
+    <div>
+      <span>Version:</span>
+      <span>01.01.2000</span>
+    </div>
+    <div>
+      <span>PDF:</span>
+      <span
+        ><button
+          onclick="onClickPrint()"
+          aria-label="PDF-Version der Seite anzeigen"
+        >
+          PDF
+        </button></span
+      >
+    </div>
+    <div role="group" aria-labelledby="theme-label">
+      <span id="theme-label">Design:</span>
+      <button
+        id="button-theme-auto"
+        onclick="onClickSetTheme('system')"
+        title="Einstellung des Betriebssystems verwenden"
+        aria-pressed="false"
+      >
+        Auto
+      </button>
+      <button
+        id="button-theme-light"
+        onclick="onClickSetTheme('light')"
+        aria-pressed="false"
+      >
+        Hell
+      </button>
+      <button
+        id="button-theme-dark"
+        onclick="onClickSetTheme('dark')"
+        aria-pressed="false"
+      >
+        Dunkel
+      </button>
+    </div>
+  </footer>
+</dialog>
+
+    <header class="header">
+      <div class="header-left">
+        <button
+          onclick="onClickOpenMenu()"
+          class="noprint"
+          aria-label="Deutsche Folien: Inhaltsverzeichnis öffnen"
+          aria-haspopup="dialog"
+        >
+          <svg
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 0 24 24"
+            width="24px"
+            fill="currentColor"
+          >
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+          </svg>
+          <span>Deutsche Folien</span>
+        </button>
+      </div>
+      <img
+        class="light-only logo"
+        src="app/img/logo-light.svg"
+        alt=""
+      />
+      <img
+        class="dark-only logo"
+        src="app/img/logo-dark.svg"
+        alt=""
+      />
+    </header>
+    <div class="slides-container"><section id="slide-0" class="slide title-slide">
+  <div class="content">
+    <img
+      class="logo light-only"
+      src="app/img/logo-light.svg"
+      height="100px"
+      aria-hidden="true"
+    />
+    <img
+      class="logo dark-only"
+      src="app/img/logo-dark.svg"
+      height="100px"
+      aria-hidden="true"
+    />
+  </div>
+  <div class="content">
+ <h1 id="deutsche-folien">Deutsche Folien</h1><div class="module">123456</div><div class="semester">Sommersemester 2026</div><p>Erika Mustermann</p>
+
+  </div>
+  <div class="content">
+    <span class="university">Hochschule der Medien</span>
+  </div>
+  <div class="footer nopreview">
+    <div>
+      <button
+        id="fullscreen-button"
+        onclick="onClickFullscreen()"
+        class="noprint nofullscreen nomobile"
+        aria-label="Seite im Vollbild anzeigen"
+      >
+        Vollbild
+      </button>
+    </div>
+    <span>01.01.2000</span>
+  </div>
+</section>
+
+<section class="slide" id="slide-1">
+  <div class="content"><h2 id="oberfläche-auf-deutsch">1 Oberfläche auf Deutsch</h2><p>Knöpfe, Beschriftungen für Screenreader und Hinweise folgen <code>--language de</code><sup class="footnote-ref"><a id="footnote-ref-1" href="#footnote-1" aria-label="Fußnote 1">1</a></sup>.</p>
+<div class="markdown-alert markdown-alert-warning">
+<p class="markdown-alert-title"><svg class="octicon octicon-alert mr-2" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warnung</p>
+<p>Ein Hinweis mit deutschem Titel.</p>
+</div>
+<div class="code-wrapper">
+  <button
+    class="copy noprint nopreview"
+    onclick="onClickCopyToClipboard('code-snippet-1')"
+    aria-label="Codebeispiel in die Zwischenablage kopieren"
+  >
+    Kopieren
+  </button>
+  <pre><code id="code-snippet-1"><span class="hljs-keyword">const</span> sprache = <span class="hljs-string">&#x27;de&#x27;</span>;</code></pre>
+</div>
+</div>
+  <div class="footnotes">
+<ol>
+<li id="footnote-1">
+<p>Nur <code>en</code> und <code>de</code> sind möglich. <a href="#footnote-ref-1" class="footnote-back" aria-label="Zurück zum Text von Fußnote 1">↩</a></p>
+</li>
+</ol>
+</div>
+  <div class="footer noprint">
+    <span></span>
+    <span aria-label="Seite 1 von 1"
+      >1 / 1</span
+    >
+  </div>
+</section>
+</div>
+  </body>
+</html>
