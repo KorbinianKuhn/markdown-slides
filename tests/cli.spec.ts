@@ -294,3 +294,44 @@ test('links have a title only when set in Markdown', () => {
     '<a href="chapter.html" title="Read next">Chapter</a>',
   );
 });
+
+test('alerts have translated titles', () => {
+  const readme =
+    '# Title\n\n<!-- slide -->\n\n> [!WARNING]\n> Careful\n\n> A quote\n\n```\n> [!NOTE]\n```\n';
+  const en = run('alerts-en', readme, []);
+  expect(en.status).toBe(0);
+  expect(en.html()).toContain('Warning</p>\n<p>Careful</p>');
+  expect(en.html()).toContain('<blockquote>\n<p>A quote</p>');
+  // Not an alert inside code
+  expect(en.html()).toContain('&gt; [!NOTE]');
+  const de = run('alerts-de', readme, ['--language', 'de']);
+  expect(de.html()).toContain('Warnung</p>');
+});
+
+test('footnotes are shown on the slide that refers to them', () => {
+  const readme = [
+    '# Title',
+    'Jane Doe[^t]',
+    '[^t]: On the title slide.',
+    '<!-- slide -->',
+    'Text[^a] and `[^a]` in code.',
+    '```\n[^b]: Not a definition\n```',
+    '[^a]: Defined.',
+    '[^unused]: Never referred to.',
+    '<!-- slide -->',
+    'No footnotes[^b].',
+  ].join('\n\n');
+  const result = run('footnotes', readme, ['--language', 'de']);
+  expect(result.status).toBe(0);
+  const html = result.html();
+  const slides = html.split('<section').slice(1);
+  // The title slide has no space at the bottom, so its footnotes follow the content
+  expect(slides[0]).toMatch(/<div class="content">[^]*On the title slide/);
+  expect(slides[1]).toContain('aria-label="Fußnote 1">1</a></sup>');
+  expect(slides[1]).toContain('<code>[^a]</code>');
+  expect(slides[1]).toContain('[^b]: Not a definition');
+  expect(slides[1]).toContain('aria-label="Zurück zum Text von Fußnote 1"');
+  expect(html).not.toContain('Never referred to');
+  expect(slides[2]).toContain('No footnotes[^b].');
+  expect(slides[2]).not.toContain('class="footnotes"');
+});

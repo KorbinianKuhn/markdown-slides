@@ -17,7 +17,7 @@ export class HTMLBuilder {
     // Not as field initializers: with ES2022 class fields they run before the
     // constructor parameters are assigned, so this.settings would be undefined.
     this.state = new State(settings);
-    this.marked = new MarkdownParser(this.state);
+    this.marked = new MarkdownParser(this.state, settings.language);
   }
 
   private error(message: string) {
@@ -50,7 +50,13 @@ export class HTMLBuilder {
         this.error(`slide ${i + 1}: ${layoutError}.`);
       }
 
-      const content = this.marked.parse(part);
+      let content = this.marked.parse(part);
+      let footnotes = this.marked.slideFootnotes;
+      if (i === 0) {
+        // The title slide has no place at the bottom
+        content += footnotes;
+        footnotes = '';
+      }
       // Same numbering as the row and column checks (title slide is 1)
       for (const warning of this.marked.warnings) {
         logger.warn(`${this.filename} slide ${i + 1}: ${warning}`);
@@ -62,6 +68,7 @@ export class HTMLBuilder {
       return {
         isChild: !this.isRoot,
         content,
+        footnotes,
         current: i,
         total,
         lectureTitle: this.settings.title,

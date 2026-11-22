@@ -131,3 +131,44 @@ Text above the spacer.
 :spacer{size=lg}
 
 Text below the spacer.
+
+<!-- slide -->
+
+## Alerts
+
+> [!NOTE]
+> Useful information, even when **skimming**.
+
+> [!TIP]
+> Helpful advice.
+
+> [!IMPORTANT]
+> Key information.
+
+> [!WARNING]
+> Needs attention.
+
+> [!CAUTION]
+> Negative consequences.
+
+<!-- slide -->
+
+## Footnotes
+
+Markdown[^md] is converted to slides[^slides]. The same footnote again[^md].
+
+An undefined footnote stays as text[^missing].
+
+[^md]: A lightweight markup language, see [CommonMark](https://commonmark.org).
+
+[^slides]: Footnotes are shown at the bottom of their slide.
+
+    A second paragraph, indented by four spaces[^nested].
+
+[^nested]: A footnote in a footnote.
+
+<!-- slide -->
+
+## Footnotes on the next slide
+
+Numbering starts again[^slides].

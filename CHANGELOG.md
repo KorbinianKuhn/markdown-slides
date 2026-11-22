@@ -6,6 +6,25 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ## [Unreleased]
 
+### Upgrade notes
+
+1. **Blockquotes that start with `[!NOTE]`, `[!TIP]`, `[!IMPORTANT]`, `[!WARNING]` or `[!CAUTION]` are now alerts.** Before, the marker was shown as text in a plain blockquote. Find them (matches inside code blocks are not affected):
+
+   ```bash
+   grep -rnE --include='*.md' --exclude-dir=node_modules --exclude-dir=public '^ {0,3}> ?\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]' .
+   ```
+
+2. **`[^label]: text` on a line of its own is now a footnote definition.** It is no longer shown where it is written, and `[^label]` in the text of the same file becomes a footnote reference. Find definitions (matches inside code blocks are not affected):
+
+   ```bash
+   grep -rnE --include='*.md' --exclude-dir=node_modules --exclude-dir=public '^ {0,3}\[\^[^]]+\]:' .
+   ```
+
+### Added
+
+- GitHub-style alerts: `> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]` and `> [!CAUTION]`, with English or German titles depending on `--language`.
+- Footnotes: `[^1]` in the text and `[^1]: …` anywhere in the file. They are shown at the bottom of the slide that refers to them and numbered per slide, with links to the footnote and back.
+
 ## [1.0.0-rc.2] - 2026-11-21
 
 ### Upgrade notes
