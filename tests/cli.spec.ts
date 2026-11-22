@@ -431,3 +431,30 @@ test.describe('file filters', () => {
     expect(result.stderr).not.toContain('--ignored-files out');
   });
 });
+
+test('links to Markdown files point to their pages', () => {
+  const links = [
+    '[Home](README.md)',
+    '[Section](chapter.md#intro)',
+    '[Relative](./chapter.md)',
+    '[Copied file](docs/notes.md)',
+    '[Local server](http://localhost:8080/)',
+    '[Mail](mailto:jane@example.com)',
+    '[Anchor](#intro)',
+  ];
+  const result = build('page-links', links.join(' '));
+  expect(result.status).toBe(0);
+  const html = output('page-links');
+  for (const link of [
+    '<a href="index.html">Home</a>',
+    '<a href="chapter.html#intro">Section</a>',
+    '<a href="chapter.html">Relative</a>',
+    // Markdown files in subdirectories are copied, not converted
+    '<a href="docs/notes.md">Copied file</a>',
+    '<a href="http://localhost:8080/" target="_blank">Local server</a>',
+    '<a href="mailto:jane@example.com">Mail</a>',
+    '<a href="#intro">Anchor</a>',
+  ]) {
+    expect(html).toContain(link);
+  }
+});
