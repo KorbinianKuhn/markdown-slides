@@ -11,7 +11,6 @@ export default defineConfig(
     'tests/.output',
     'test-results',
     'playwright-report',
-    'examples/mwa',
   ]),
   js.configs.recommended,
   tseslint.configs.recommended,

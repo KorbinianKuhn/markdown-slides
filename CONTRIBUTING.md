@@ -11,7 +11,7 @@ npm ci
 | Command             | Description                                               |
 | ------------------- | --------------------------------------------------------- |
 | `npm run build`     | Build the CLI and the slides app into `dist`              |
-| `npm run examples`  | Build the README deck into `public` with `dist/cli.js`    |
+| `npm run slides`    | Build the README deck into `public` with `dist/cli.js`    |
 | `npm run lint`      | Lint with ESLint                                          |
 | `npm run format`    | Format with Prettier (`npm run format:check` only checks) |
 | `npm run typecheck` | Type-check the CLI, the app and the tests                 |
