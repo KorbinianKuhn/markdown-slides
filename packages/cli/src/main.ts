@@ -5,6 +5,7 @@ import { logger } from './logger';
 import { HTMLBuilder } from './markdown/html-builder';
 import { getLectureTitle } from './markdown/utils';
 import { Settings } from './settings';
+import { setLanguage } from './template';
 
 export interface Options {
   toc_numbering: boolean;
@@ -26,6 +27,7 @@ export const main = async (input: string, output: string, options: Options) => {
 
   const readme = await readFile(join(input, files.markdown[0]), 'utf8');
 
+  setLanguage(options.language);
   const settings = new Settings(options);
   settings.title = options.title || getLectureTitle(readme);
   settings.jsFiles = files.js;

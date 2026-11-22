@@ -23,19 +23,6 @@ export interface FootnoteLabels {
   reference: string;
 }
 
-export const footnoteLabels: Record<string, FootnoteLabels> = {
-  en: {
-    footnote: 'Footnote',
-    back: 'Back to the text of footnote',
-    reference: 'reference',
-  },
-  de: {
-    footnote: 'Fußnote',
-    back: 'Zurück zum Text von Fußnote',
-    reference: 'Verweis',
-  },
-};
-
 interface Note {
   number: number;
   id: number;

@@ -42,6 +42,7 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 - GitHub-style alerts: `> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]` and `> [!CAUTION]`, with English or German titles depending on `--language`.
 - Footnotes: `[^1]` in the text and `[^1]: …` anywhere in the file. They are shown at the bottom of the slide that refers to them and numbered per slide, with links to the footnote and back.
+- `--language de` translates the texts of the page: buttons (Vollbild, Kopieren, Hell/Dunkel), labels for screen readers (e.g. "Seite 3 von 12") and messages ("In die Zwischenablage kopiert"). Before, only alert titles and footnotes were translated, and screen readers read the English texts with German pronunciation.
 - `--allowed-files` and `--ignored-files` take glob patterns like in `.gitignore`, e.g. `'*.md'`, `'chapter-*.md'` or `drafts/` (only directories). A pattern that matches nothing, e.g. a typo, is reported as a warning.
 
 ### Fixed

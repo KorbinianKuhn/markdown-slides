@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import { spawnSync } from 'child_process';
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'fs';
 import { join, resolve } from 'path';
+import { texts } from '../packages/cli/src/texts';
 import { outputDir } from './decks';
 
 // Build messages: invalid input must stop the build with a readable message,
@@ -456,5 +457,47 @@ test('links to Markdown files point to their pages', () => {
     '<a href="#intro">Anchor</a>',
   ]) {
     expect(html).toContain(link);
+  }
+});
+
+test('--language de translates the texts of the page', () => {
+  const html = readFileSync(join(outputDir, 'german', 'index.html'), 'utf8');
+  expect(html).toContain('<html lang="de">');
+  // All interface texts, also the ones for screen readers and the app
+  const strings = (value: unknown): string[] =>
+    typeof value === 'string'
+      ? [value]
+      : Object.values(value as object).flatMap(strings);
+  // Every text is translated, except words that are the same in German
+  const same = ['Version:', 'PDF', 'Auto', 'Link:'];
+  const untranslated = strings(texts.en).filter(
+    (text, i) => text === strings(texts.de)[i] && !same.includes(text),
+  );
+  expect(untranslated).toEqual([]);
+
+  const german = new Set(strings(texts.de));
+  const english = strings(texts.en).filter(
+    // Words like "of" also appear in other texts
+    (text) => !german.has(text) && text.length > 3,
+  );
+  // Texts that the deck uses, e.g. not all alert titles
+  const unused = ['Note', 'Tip', 'Important', 'Caution'];
+  for (const text of english.filter((o) => !unused.includes(o))) {
+    // As a word of its own, e.g. not Fullscreen in onClickFullscreen()
+    const escaped = text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    expect(html, text).not.toMatch(
+      new RegExp(`(?<![A-Za-z])${escaped}(?![A-Za-z])`),
+    );
+  }
+  for (const text of [
+    'Vollbild',
+    'Kopieren',
+    'Seite 1 von 1',
+    'Inhaltsverzeichnis öffnen',
+    'Warnung',
+    'Fußnote 1',
+    'In die Zwischenablage kopiert',
+  ]) {
+    expect(html).toContain(text);
   }
 });

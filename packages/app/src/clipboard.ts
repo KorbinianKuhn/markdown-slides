@@ -1,12 +1,10 @@
+import { texts } from './texts';
+
 export class Clipboard {
   public async copy(id: string) {
     const text = document.getElementById(id)!.innerText;
     const copied = (await this.writeText(text)) || this.copyBySelection(text);
-    this.showToast(
-      copied
-        ? 'Copied to clipboard'
-        : 'Copying failed, select the code instead',
-    );
+    this.showToast(copied ? texts.copied : texts.copyFailed);
   }
 
   /**

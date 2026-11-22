@@ -194,6 +194,15 @@ test.describe('keyboard', () => {
     expect(await position(page)).toEqual(before);
   });
 
+  test('messages follow the language of the page', async ({ page }) => {
+    await page.goto('/german/index.html');
+    await tabTo(page, 'button.copy');
+    await page.keyboard.press('Enter');
+    await expect(page.getByRole('status')).toHaveText(
+      'In die Zwischenablage kopiert',
+    );
+  });
+
   test('copies without the Clipboard API, e.g. on http:// pages', async ({
     page,
   }) => {

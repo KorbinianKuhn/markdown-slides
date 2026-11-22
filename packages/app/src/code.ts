@@ -1,3 +1,5 @@
+import { texts } from './texts';
+
 /**
  * Code blocks scroll horizontally when their lines are too long. Keyboard
  * users can only scroll them when they can focus them, so blocks that
@@ -16,7 +18,7 @@ export class Code {
       if (block.scrollWidth > block.clientWidth) {
         block.tabIndex = 0;
         block.setAttribute('role', 'region');
-        block.setAttribute('aria-label', 'Code example, scrollable');
+        block.setAttribute('aria-label', texts.codeRegion);
       } else {
         block.removeAttribute('tabindex');
         block.removeAttribute('role');

@@ -2,9 +2,9 @@
   <button
     class="copy noprint nopreview"
     onclick="onClickCopyToClipboard('{{id}}')"
-    aria-label="Copy code example to clipboard"
+    aria-label="{{t 'copyLabel'}}"
   >
-    Copy
+    {{t 'copy'}}
   </button>
   <pre><code id="{{id}}">{{{ content }}}</code></pre>
 </div>
