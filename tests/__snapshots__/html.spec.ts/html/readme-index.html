@@ -412,7 +412,7 @@ Korbinian Kuhn [<span class="hljs-string">kuhnko@</span>](<span class="hljs-link
   </button>
   <pre><code id="code-snippet-5">npx @korbiniankuhn/markdown-slides</code></pre>
 </div>
-<p>Only use certain files and directories of the input directory (names, not patterns):</p>
+<p>Only use certain files and directories of the input directory, by name or with glob patterns like in <code>.gitignore</code>. Quote patterns with <code>*</code>, so the shell passes them on:</p>
 <div class="code-wrapper">
   <button
     class="copy noprint nopreview"
@@ -421,7 +421,8 @@ Korbinian Kuhn [<span class="hljs-string">kuhnko@</span>](<span class="hljs-link
   >
     Copy
   </button>
-  <pre><code id="code-snippet-6">npx @korbiniankuhn/markdown-slides --allowed-files README.md chapter-1.md images style.css</code></pre>
+  <pre><code id="code-snippet-6">npx @korbiniankuhn/markdown-slides --allowed-files README.md <span class="hljs-string">&#x27;chapter-*.md&#x27;</span> images <span class="hljs-string">&#x27;*.css&#x27;</span>
+npx @korbiniankuhn/markdown-slides --ignored-files <span class="hljs-string">&#x27;*.pdf&#x27;</span> drafts/</code></pre>
 </div>
 <p>CLI arguments:</p>
 <div class="table-container">
@@ -437,50 +438,50 @@ Korbinian Kuhn [<span class="hljs-string">kuhnko@</span>](<span class="hljs-link
     </thead>
     <tbody>
       <tr>
-<td>-i, --in</td>
+<td><code>-i</code>, <code>--in</code></td>
 <td>Input directory</td>
 <td>.</td>
 <td>false</td>
 </tr>
 <tr>
-<td>-o, --out</td>
+<td><code>-o</code>, <code>--out</code></td>
 <td>Output directory</td>
 <td>public</td>
 <td>false</td>
 </tr>
 <tr>
-<td>-l, --language</td>
+<td><code>-l</code>, <code>--language</code></td>
 <td><code>en</code> or <code>de</code>: language of the page, the default institution, alert titles and footnote labels</td>
 <td>en</td>
 <td>false</td>
 </tr>
 <tr>
-<td>--institution</td>
+<td><code>--institution</code></td>
 <td>Custom institution name</td>
 <td>undefined</td>
 <td>false</td>
 </tr>
 <tr>
-<td>--title</td>
+<td><code>--title</code></td>
 <td>Lecture title for the back link on sub-pages, otherwise the first headline is used</td>
 <td>undefined</td>
 <td>false</td>
 </tr>
 <tr>
-<td>--toc-numbering</td>
+<td><code>--toc-numbering</code></td>
 <td>Number the headings, <code>true</code> or <code>false</code></td>
 <td>true</td>
 <td>false</td>
 </tr>
 <tr>
-<td>--allowed-files</td>
-<td>Only use these files and directories of the input directory</td>
+<td><code>--allowed-files</code></td>
+<td>Only use files and directories of the input directory that match these names or patterns</td>
 <td>undefined</td>
 <td>false</td>
 </tr>
 <tr>
-<td>--ignored-files</td>
-<td>Ignore these files and directories of the input directory (dotfiles are always ignored)</td>
+<td><code>--ignored-files</code></td>
+<td>Ignore files and directories that match these names or patterns (dotfiles are always ignored)</td>
 <td>undefined</td>
 <td>false</td>
 </tr>
