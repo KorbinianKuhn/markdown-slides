@@ -172,3 +172,29 @@ An undefined footnote stays as text[^missing].
 ## Footnotes on the next slide
 
 Numbering starts again[^slides].
+
+<!-- slide -->
+
+## Headings with `code` and **Markdown**
+
+### Generics \<T> and Übersicht
+
+```mermaid
+classDiagram
+  class Shape {
+    <<interface>>
+    +area() double
+  }
+  Shape <|-- Circle
+```
+
+<!-- slide -->
+
+## Menu
+
+A heading with the same text as an element of the page gets another id.
+
+~~~mermaid
+flowchart LR
+  A[Tilde fence] --> B[Diagram]
+~~~

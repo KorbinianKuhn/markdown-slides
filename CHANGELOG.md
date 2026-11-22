@@ -20,6 +20,18 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
    grep -rnE --include='*.md' --exclude-dir=node_modules --exclude-dir=public '^ {0,3}\[\^[^]]+\]:' .
    ```
 
+3. **Headings with letters beyond A–Z get other anchors.** Letters like ä, ö, ü or é were dropped from the anchor of a heading: `## Übersicht` had the anchor `#-bersicht`, now it is `#übersicht`. Links to such anchors, e.g. `[Overview](#-bersicht)` or bookmarks, need the new anchor. Find headings with such letters:
+
+   ```bash
+   LC_ALL=C grep -rnE --include='*.md' --exclude-dir=node_modules --exclude-dir=public '^#{1,6} .*[^ -~]' .
+   ```
+
+4. **Headings now render Markdown.** `` ## Use `code` `` showed the backticks; now it shows code, like in the rest of the text. HTML in a heading is now handled like in the text too: write `\<T>` or `` `<T>` `` to show `<T>`. Find headings with Markdown or HTML:
+
+   ```bash
+   grep -rnE --include='*.md' --exclude-dir=node_modules --exclude-dir=public '^#{1,6} .*[`*_<\\]' .
+   ```
+
 ### Added
 
 - GitHub-style alerts: `> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]` and `> [!CAUTION]`, with English or German titles depending on `--language`.
@@ -27,6 +39,11 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
 
 ### Fixed
 
+- Headings render inline Markdown (`code`, **bold**, links) instead of showing its characters, and `<` in a heading no longer breaks the page. The table of contents shows the text without Markdown.
+- A heading no longer gets the id of an element of the page, e.g. `## Menu` took the id of the menu, so its entry in the table of contents jumped to the menu instead of the slide. It gets `#menu-2` instead.
+- Mermaid diagrams with `<` or `>`, e.g. `<<interface>>` in class diagrams, are no longer cut off. Diagrams in a `~~~mermaid` fence are drawn, too.
+- Code blocks with more than a language in the info string, e.g. ` ```js {1,3} `, are highlighted.
+- `#` headings no longer start with a space.
 - Long titles no longer widen the menu, which made its title run under the close button. The menu has a fixed width, and titles and table of contents entries wrap. In the header, long titles are cut off with "…" (two lines on phones).
 
 ## [1.0.0-rc.2] - 2026-11-21

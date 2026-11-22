@@ -11,6 +11,7 @@ import {
   renderMedia,
 } from './images';
 import { State } from './state';
+import { plainText } from './utils';
 
 const SLIDE_MARKER = '<!-- slide -->';
 
@@ -31,6 +32,9 @@ const alertTitles: Record<string, Record<string, string>> = {
     caution: 'Vorsicht',
   },
 };
+
+const escapeHtml = (value: string) =>
+  value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 const escapeAttribute = (value: string) =>
   value
@@ -177,23 +181,34 @@ export class MarkdownParser {
         },
         {
           name: 'heading',
-          renderer: (token) => {
-            const slug = this.state.getSlug(token.text);
-            const title = this.state.getHeading(token.text, token.depth);
-            this.state.addToTableOfContents(title, slug, token.depth);
-            return `<h${token.depth} id="${slug}">${title}</h${token.depth}>`;
+          renderer(token) {
+            // The slug comes from the Markdown text, so existing anchors keep
+            // working; the table of contents shows the text without Markdown.
+            const slug = state.getSlug(token.text);
+            const number = state.getHeadingNumber(token.depth);
+            const prefix = number ? `${number} ` : '';
+            const tokens = token.tokens ?? [];
+            state.addToTableOfContents(
+              prefix + plainText(tokens),
+              slug,
+              token.depth,
+            );
+            const content = this.parser.parseInline(tokens);
+            return `<h${token.depth} id="${slug}">${escapeHtml(prefix)}${content}</h${token.depth}>`;
           },
         },
         {
           name: 'code',
           renderer: (token) => {
             const id = this.state.getCodeSnippetId();
-            if (token.raw.trim().startsWith('```mermaid')) {
-              return `<pre class="mermaid" id="${id}">${token.text}</pre>`;
+            // The first word of the info string, e.g. js in ```js {1,3}
+            const lang = /^\S*/.exec(token.lang ?? '')![0];
+            if (lang === 'mermaid') {
+              // Escaped like other code: Mermaid reads the text with the
+              // entities decoded, and <<interface>> or <br> stay intact
+              return `<pre class="mermaid" id="${id}">${escapeHtml(token.text)}</pre>`;
             } else {
-              const language = hljs.getLanguage(token.lang)
-                ? token.lang
-                : 'plaintext';
+              const language = hljs.getLanguage(lang) ? lang : 'plaintext';
               const highlighted = hljs.highlight(token.text, {
                 language,
               }).value;
