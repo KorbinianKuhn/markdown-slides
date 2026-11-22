@@ -38,6 +38,11 @@ jobs:
       - run: npm run build
       - name: Publish
         working-directory: dist
-        run: npm publish --access public --tag "$NPM_TAG"
+        # Trusted publishing needs npm 11.5.1 or newer. npm only logs why it
+        # couldn't get a token from GitHub (e.g. no matching trusted publisher
+        # on npmjs.com) at the verbose level; it then fails with a 404.
+        run: |
+          npm --version
+          npm publish --access public --tag "$NPM_TAG" --loglevel verbose
         env:
           NPM_TAG: ${{ github.event.release.prerelease && 'next' || 'latest' }}
