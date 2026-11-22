@@ -194,3 +194,26 @@ test.describe('keyboard', () => {
     expect(await position(page)).toEqual(before);
   });
 });
+
+test('navigates between the main page and a sub-page', async ({ page }) => {
+  await page.goto('/features/index.html');
+  const title = (page: Page) => page.locator('section.slide h1').first();
+
+  // Link to the Markdown file of the sub-page in the text
+  await page.getByRole('link', { name: 'link to a sub-page' }).click();
+  await expect(page).toHaveURL(/\/features\/chapter\.html$/);
+  await expect(title(page)).toHaveText('Chapter One');
+
+  // Back with the lecture title on the title slide
+  await page.locator('section.slide a.lecture-title').click();
+  await expect(page).toHaveURL(/\/features\/index\.html$/);
+
+  // Sub-pages have their own table of contents, and the menu links back
+  await page.goto('/features/chapter.html');
+  await page.locator('header button[aria-haspopup="dialog"]').click();
+  const menu = page.locator('#menu');
+  await expect(menu.locator('article a')).toHaveText([/1 Sub-page content/]);
+  await menu.locator('header a[href="index.html"]').click();
+  await expect(page).toHaveURL(/\/features\/index\.html$/);
+  await expect(title(page)).toHaveText('Feature Fixture');
+});

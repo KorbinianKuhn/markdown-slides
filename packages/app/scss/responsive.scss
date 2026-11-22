@@ -46,6 +46,15 @@
     img.logo {
       height: 40px;
     }
+
+    // Two lines fit next to the logo
+    .header-left span {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      white-space: normal;
+    }
   }
 
   .nomobile {
