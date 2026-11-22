@@ -1,13 +1,13 @@
 # Markdown-Slides
 
-Generate HTML-Slides with from Markdown-Files
+Generate HTML slides from Markdown files
 
 <!-- slide -->
 
 ## Features
 
 - ✨ Beautiful slides including a pretty title slide
-- 📱 Slides are fully response for mobile devices and small screens
+- 📱 Slides are fully responsive for mobile devices and small screens
 - 🌓 Light and Dark Mode
 - 🖨️ Print styles to create PDFs in the browser
 - ♿ HTML slides are accessible
@@ -15,10 +15,11 @@ Generate HTML-Slides with from Markdown-Files
 - 💡 Code highlighting with highlight.js
 - ➗ Equations with MathJax
 - 📈 Diagrams with Mermaid
+- 💬 Alerts and footnotes like on GitHub
 - #️⃣ Slide numbers will be generated automatically
 - 📅 Date of the build will be included as a versioning
 - 📚 Supports multiple markdown files to split your presentation in subslides
-- ➡️ Use space and arrow keys to navigate
+- ➡️ Use space, arrow and page keys to navigate
 - 🎨 Easily override the Stuttgart Media University (HDM) theme with custom colors and logos
 - 🚀 Just deploy your slides with Gitlab or GitHub pages
 
@@ -82,36 +83,62 @@ Convert current directory to slides into a output directory `public`:
 npx @korbiniankuhn/markdown-slides
 ```
 
-Whitelist certain files and directories:
+Only use certain files and directories of the input directory (names, not patterns):
 
 ```bash
-npx @korbiniankuhn/markdown-slides --allowed-files .md images style.css script.js
+npx @korbiniankuhn/markdown-slides --allowed-files README.md chapter-1.md images style.css
 ```
 
 CLI arguments:
 
-| Argument        | Description                                                                        | Default   | Required |
-| --------------- | ---------------------------------------------------------------------------------- | --------- | -------- |
-| -i, --in        | Input directory                                                                    | .         | false    |
-| -o, --out       | Output directory                                                                   | public    | false    |
-| -l, --language  | Language                                                                           | en        | false    |
-| --institution   | Custom institution name                                                            | undefined | false    |
-| --title         | Lecture title for the back link on sub-pages, otherwise the first headline is used | undefined | false    |
-| --toc-numbering | Add numbering to headlines                                                         | true      | false    |
-| --allowed-files | Whitelist directories, files,or extensions                                         | undefined | false    |
-| --ignored-files | Blacklist directories, files or extensions (dotfiles are always ignored)           | undefined | false    |
+| Argument        | Description                                                                                   | Default   | Required |
+| --------------- | --------------------------------------------------------------------------------------------- | --------- | -------- |
+| -i, --in        | Input directory                                                                               | .         | false    |
+| -o, --out       | Output directory                                                                              | public    | false    |
+| -l, --language  | `en` or `de`: language of the page, the default institution, alert titles and footnote labels | en        | false    |
+| --institution   | Custom institution name                                                                       | undefined | false    |
+| --title         | Lecture title for the back link on sub-pages, otherwise the first headline is used            | undefined | false    |
+| --toc-numbering | Number the headings, `true` or `false`                                                        | true      | false    |
+| --allowed-files | Only use these files and directories of the input directory                                   | undefined | false    |
+| --ignored-files | Ignore these files and directories of the input directory (dotfiles are always ignored)       | undefined | false    |
 
 <!-- slide -->
 
-## Markdown extensions
+## Writing slides
+
+<!-- slide -->
+
+### Title slide
+
+Everything before the first `<!-- slide -->` is the title slide:
+
+```markdown
+# Lecture Title
+
+@module[123456]
+@semester[Summer 2026]
+
+Jane Doe [jane@](mailto:jane@example.com)
+```
+
+- The first `#` heading is the title of the page, and of the lecture on sub-pages (or `--title`)
+- `@module[…]` and `@semester[…]` are shown as labels
+- The institution comes from `--institution`, the date of the build is added automatically
 
 <!-- slide -->
 
 ### Slides
 
-| Identifier       | Description        |
-| ---------------- | ------------------ |
-| `<!-- slide -->` | Starts a new slide |
+| Identifier         | Description                                    |
+| ------------------ | ---------------------------------------------- |
+| `<!-- slide -->`   | Starts a new slide, on a line of its own       |
+| `## Heading`       | Numbered and listed in the table of contents   |
+| `### Heading`      | Numbered and listed in the table of contents   |
+| `<!-- comment -->` | Other comments are removed, e.g. notes for you |
+
+All of [GitHub Flavored Markdown](https://github.github.com/gfm/) works, e.g. tables, task lists and ~~strikethrough~~.
+
+<!-- slide -->
 
 ### Spacer
 
@@ -127,6 +154,9 @@ CLI arguments:
 
 ### Layout
 
+<!-- row -->
+<!-- col -->
+
 | Identifier         | Description            |
 | ------------------ | ---------------------- |
 | `<!-- row -->`     | Starts a row container |
@@ -134,7 +164,10 @@ CLI arguments:
 | `<!-- col -->`     | Starts a col container |
 | `<!-- col:end -->` | Ends a col container   |
 
-#### Example
+Columns have the same width. On phones, they are shown below each other.
+
+<!-- col:end -->
+<!-- col -->
 
 ```markdown
 <!-- row -->
@@ -151,41 +184,79 @@ Right
 <!-- row:end -->
 ```
 
+<!-- col:end -->
+<!-- row:end -->
+
 <!-- slide -->
 
-### Images
+### Images and videos
 
-Set the width and alignment of an image (or video) with an attribute block directly after it. The alt text stays as it is.
+Set the width and alignment of an image or video with an attribute block directly after it. The alt text stays as it is.
 
 | Attribute | Values                                      | Default       |
 | --------- | ------------------------------------------- | ------------- |
 | `width`   | Percentage or pixels, e.g. `70%` or `400px` | Original size |
 | `align`   | `left`, `center` or `right`                 | `center`      |
 
-#### Example
-
 ```markdown
 ![Architecture overview](images/architecture.png){width=70% align=left}
+
+![Demo of the app](videos/demo.mp4){width=50%}
 ```
 
-Unknown attributes or invalid values stop the build with an error. Images without alt text produce a warning.
+`.mp4` and `.webm` files are shown as videos. The alt text describes the image or video for screen readers; without one, the build warns. Invalid attributes stop the build.
 
 <!-- slide -->
 
-### Custom Theme
+### Code
 
-Look into the [examples/custom-theme](examples/custom-theme) directory to overide the default theme:
+Code blocks are highlighted with [highlight.js](https://highlightjs.org/) when the language is set, and have a button to copy the code:
 
-Just provide these files in the root of your project:
-
-- logo-light.svg, logo-dark.svg, favicon.svg
-- style.css:
-
-```css
-:root {
-  --color-primary: blue;
-}
+```python
+def greet(name):
+    return f"Hello {name}!"
 ```
+
+Long lines scroll sideways on the slide and wrap when printed.
+
+<!-- slide -->
+
+### Multiple files and links
+
+- Every Markdown file in the input directory becomes a page: `README.md` is `index.html` (required), `chapter-1.md` is `chapter-1.html`
+- Link to another page with its Markdown file: `[Chapter 1](chapter-1.md)`. Sub-pages link back to `index.html` with the lecture title.
+- All other files and directories, e.g. `images`, are copied as they are, so relative links keep working
+- Links to other websites open in a new tab
+
+<!-- slide -->
+
+### Alerts
+
+Highlight a note, tip or warning like on GitHub. The title follows `--language`.
+
+```markdown
+> [!TIP]
+> Build the slides locally before you push.
+```
+
+> [!TIP]
+> Build the slides locally before you push.
+
+Also available: `[!NOTE]`, `[!IMPORTANT]`, `[!WARNING]` and `[!CAUTION]`.
+
+<!-- slide -->
+
+### Footnotes
+
+Footnotes[^footnotes] are shown at the bottom of the slide that refers to them, and numbered per slide.
+
+```markdown
+Footnotes[^footnotes] are shown at the bottom of the slide.
+
+[^footnotes]: Defined anywhere in the file.
+```
+
+[^footnotes]: Defined anywhere in the file, like on GitHub.
 
 <!-- slide -->
 
@@ -213,3 +284,50 @@ sequenceDiagram
     John-->>Alice: Great!
     Alice-)John: See you later!
 ```
+
+<!-- slide -->
+
+## Presenting
+
+<!-- slide -->
+
+### Navigation
+
+| Key                           | Action         |
+| ----------------------------- | -------------- |
+| Right arrow, Page Down, Space | Next slide     |
+| Left arrow, Page Up           | Previous slide |
+
+- The **Fullscreen** button on the title slide shows the slides without the browser around them
+- The button with the title at the top left opens the table of contents, which also has buttons for the light and dark theme (**Auto** follows the system).
+- Scrolling works too, e.g. for slides that are longer than the screen
+
+<!-- slide -->
+
+### Printing and PDF
+
+Print the page in the browser (e.g. <kbd>Ctrl</kbd>+<kbd>P</kbd>, or <kbd>Cmd</kbd>+<kbd>P</kbd> on a Mac) and choose "Save as PDF":
+
+- Every `##` heading starts a new page, and pages use the light theme
+- Links to other websites show their address
+- Videos show their description and link instead
+
+<!-- slide -->
+
+## Custom Theme
+
+Override the default theme with these files in the root of your project:
+
+- `logo-light.svg` and `logo-dark.svg`: logos for the light and dark theme
+- `favicon.ico`: icon in the browser tab
+- `*.css`: included in every page, e.g. to change the primary color:
+
+```css
+:root {
+  --color-primary: blue;
+}
+```
+
+- `*.js`: included in every page
+
+See the [custom theme example](https://github.com/KorbinianKuhn/markdown-slides/tree/main/examples/custom-theme).

@@ -1,0 +1,95 @@
+// GitHub-style alerts (> [!NOTE]) and footnotes ([^1])
+
+:root {
+  // GitHub's colors, with a contrast of at least 4.5:1 on the slide (WCAG AA)
+  --color-alert-note: #0969da;
+  --color-alert-tip: #1a7f37;
+  --color-alert-important: #8250df;
+  --color-alert-warning: #9a6700;
+  --color-alert-caution: #cf222e;
+}
+
+@media not print {
+  body.dark {
+    --color-alert-note: #4493f8;
+    --color-alert-tip: #3fb950;
+    --color-alert-important: #ab7df8;
+    --color-alert-warning: #d29922;
+    --color-alert-caution: #f85149;
+  }
+}
+
+.markdown-alert {
+  --color-alert: var(--color-alert-note);
+  border-left: 5px solid var(--color-alert);
+  margin: 0.5rem 0;
+  padding: 0.25rem 1rem;
+
+  > :last-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .markdown-alert-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.25rem 0;
+    color: var(--color-alert);
+    font-weight: 500;
+
+    svg {
+      width: 1em;
+      height: 1em;
+      fill: currentColor;
+    }
+  }
+}
+
+@each $variant in (tip, important, warning, caution) {
+  .markdown-alert-#{$variant} {
+    --color-alert: var(--color-alert-#{$variant});
+  }
+}
+
+sup.footnote-ref {
+  line-height: 0;
+
+  a {
+    text-decoration: none;
+    padding: 0 0.1em;
+  }
+}
+
+.footnotes {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.5rem 2rem 0;
+  // Smaller than the text of the slide (1.5rem)
+  font-size: 1.1rem;
+
+  // Text elements have a fixed size, see general.scss
+  p,
+  li,
+  a {
+    font-size: inherit;
+  }
+
+  ol {
+    margin: 0;
+    padding-top: 0.5rem;
+    padding-left: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  p {
+    margin: 0.25rem 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .footnotes {
+    // Smaller than the text on phones (1rem)
+    font-size: 0.85rem;
+  }
+}

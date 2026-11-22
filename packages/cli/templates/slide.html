@@ -1,5 +1,8 @@
 <section class="slide" id="slide-{{current}}">
   <div class="content">{{{ content }}}</div>
+  {{#if footnotes}}
+  {{{ footnotes }}}
+  {{/if}}
   <div class="footer noprint">
     <span></span>
     <span aria-label="Page {{current}} of {{total}}"

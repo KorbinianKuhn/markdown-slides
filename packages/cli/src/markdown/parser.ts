@@ -1,7 +1,9 @@
 import hljs from 'highlight.js';
 import { Marked, Token, Tokenizer, Tokens } from 'marked';
+import markedAlert from 'marked-alert';
 import { template } from '../template';
 import { countLayoutMarkers, directives, renderHtml } from './directives';
+import { footnoteLabels, Footnotes } from './footnotes';
 import {
   isVideo,
   MediaAttributes,
@@ -11,6 +13,24 @@ import {
 import { State } from './state';
 
 const SLIDE_MARKER = '<!-- slide -->';
+
+/** Titles of GitHub-style alerts, e.g. > [!NOTE] */
+const alertTitles: Record<string, Record<string, string>> = {
+  en: {
+    note: 'Note',
+    tip: 'Tip',
+    important: 'Important',
+    warning: 'Warning',
+    caution: 'Caution',
+  },
+  de: {
+    note: 'Hinweis',
+    tip: 'Tipp',
+    important: 'Wichtig',
+    warning: 'Warnung',
+    caution: 'Vorsicht',
+  },
+};
 
 const escapeAttribute = (value: string) =>
   value
@@ -29,10 +49,18 @@ const mediaHref = (token: Token) =>
 
 export class MarkdownParser {
   private marked!: Marked;
+  private footnotes: Footnotes;
 
-  constructor(private state: State) {
+  constructor(
+    private state: State,
+    language = 'en',
+  ) {
     const errors = this.errors;
     const warnings = this.warnings;
+    this.footnotes = new Footnotes(
+      footnoteLabels[language] ?? footnoteLabels.en,
+    );
+    const titles = alertTitles[language] ?? alertTitles.en;
 
     const media = (
       href: string | null,
@@ -110,6 +138,7 @@ export class MarkdownParser {
       },
       extensions: [
         ...directives(errors),
+        ...this.footnotes.extensions(),
         {
           // Image with an attribute block: ![Alt](image.png){width=70% align=left}
           name: 'mediaWithAttributes',
@@ -177,6 +206,20 @@ export class MarkdownParser {
         },
       ],
     });
+
+    this.marked.use(markedAlert(), {
+      extensions: [
+        {
+          // Translates the title, then falls back to marked-alert's renderer
+          name: 'alert',
+          renderer(token) {
+            const meta = token.meta as { variant: string; title: string };
+            meta.title = titles[meta.variant] ?? meta.title;
+            return false;
+          },
+        },
+      ],
+    });
   }
 
   /** Errors of the last parse() call, e.g. invalid image attributes. */
@@ -190,8 +233,15 @@ export class MarkdownParser {
    * markers inside code are ignored.
    */
   splitSlides(content: string): Token[][] {
+    this.footnotes.reset();
+    const tokens = this.marked.lexer(content);
+    // Like marked.parse(), e.g. marked-alert turns blockquotes into alerts
+    const { walkTokens } = this.marked.defaults;
+    if (walkTokens) {
+      this.marked.walkTokens(tokens, walkTokens);
+    }
     const slides: Token[][] = [[]];
-    for (const token of this.marked.lexer(content)) {
+    for (const token of tokens) {
       if (token.type === 'html' && token.text.trim() === SLIDE_MARKER) {
         slides.push([]);
       } else {
@@ -220,9 +270,17 @@ export class MarkdownParser {
     return undefined;
   }
 
+  /** Renders a slide; its footnotes are in `footnotes` afterwards. */
   parse(tokens: Token[]): string {
     this.errors.length = 0;
     this.warnings.length = 0;
-    return this.marked.parser(tokens);
+    const html = this.marked.parser(tokens);
+    this.slideFootnotes = this.footnotes.render((tokens) =>
+      this.marked.parser(tokens),
+    );
+    return html;
   }
+
+  /** Footnotes of the last parse() call, for the bottom of the slide. */
+  public slideFootnotes = '';
 }
