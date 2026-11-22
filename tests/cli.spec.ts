@@ -162,6 +162,7 @@ const run = (
   readme: string,
   args: string[],
   dirs: string[] = [],
+  files: Record<string, string> = {},
 ) => {
   const cwd = join(outputDir, 'cli', name);
   rmSync(cwd, { recursive: true, force: true });
@@ -170,6 +171,9 @@ const run = (
   for (const dir of dirs) {
     mkdirSync(join(cwd, dir), { recursive: true });
     writeFileSync(join(cwd, dir, 'README.md'), readme);
+  }
+  for (const [file, content] of Object.entries(files)) {
+    writeFileSync(join(cwd, file), content);
   }
   const result = spawnSync('node', [resolve('dist/cli.js'), ...args], {
     cwd,
@@ -359,4 +363,71 @@ test('headings render Markdown and get unique ids', () => {
 
   const off = run('headings-off', '# Title\n', ['--toc-numbering', 'false']);
   expect(off.html()).toContain('<h1 id="title">Title</h1>');
+});
+
+test.describe('file filters', () => {
+  const readme = '# Title\n';
+  const files = {
+    'chapter-1.md': '# One\n',
+    'chapter-2.md': '# Two\n',
+    'draft-3.md': '# Draft\n',
+    'notes.pdf': 'PDF',
+  };
+  const build = (name: string, args: string[]) => {
+    const result = run(name, readme, ['-o', 'out', ...args], ['images'], files);
+    const exists = (file: string) => existsSync(join(result.cwd, 'out', file));
+    return { ...result, exists };
+  };
+
+  test('--allowed-files takes names and glob patterns', () => {
+    const result = build('filter-allowed', [
+      '--allowed-files',
+      'README.md',
+      'chapter-*.md',
+      'images',
+    ]);
+    expect(result.status).toBe(0);
+    expect(result.exists('index.html')).toBe(true);
+    expect(result.exists('chapter-1.html')).toBe(true);
+    expect(result.exists('chapter-2.html')).toBe(true);
+    expect(result.exists('images')).toBe(true);
+    expect(result.exists('draft-3.html')).toBe(false);
+    expect(result.exists('notes.pdf')).toBe(false);
+  });
+
+  test('--ignored-files takes names and glob patterns', () => {
+    const result = build('filter-ignored', [
+      '--ignored-files',
+      '*.pdf',
+      'draft-*.md',
+      'images/',
+    ]);
+    expect(result.status).toBe(0);
+    expect(result.exists('chapter-1.html')).toBe(true);
+    expect(result.exists('draft-3.html')).toBe(false);
+    expect(result.exists('notes.pdf')).toBe(false);
+    expect(result.exists('images')).toBe(false);
+  });
+
+  test('both options apply together', () => {
+    const result = build('filter-both', [
+      '--allowed-files',
+      '*.md',
+      '--ignored-files',
+      'draft-*.md',
+    ]);
+    expect(result.status).toBe(0);
+    expect(result.exists('chapter-1.html')).toBe(true);
+    expect(result.exists('draft-3.html')).toBe(false);
+    expect(result.exists('images')).toBe(false);
+  });
+
+  test('a pattern that matches nothing builds with a warning', () => {
+    // The old documented form for extensions, which never matched
+    const result = build('filter-unused', ['--ignored-files', '.md', 'out']);
+    expect(result.status).toBe(0);
+    expect(result.stderr).toContain('--ignored-files .md matches nothing');
+    // The output directory is not a typo
+    expect(result.stderr).not.toContain('--ignored-files out');
+  });
 });

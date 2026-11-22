@@ -45,8 +45,18 @@ parser.add_argument('--toc-numbering', {
 });
 parser.add_argument('--institution', { required: false });
 parser.add_argument('--title', { required: false });
-parser.add_argument('--allowed-files', { required: false, nargs: '+' });
-parser.add_argument('--ignored-files', { required: false, nargs: '+' });
+parser.add_argument('--allowed-files', {
+  required: false,
+  nargs: '+',
+  metavar: 'PATTERN',
+  help: "only use files and directories of the input directory that match a name or glob pattern, e.g. README.md 'chapter-*.md' images",
+});
+parser.add_argument('--ignored-files', {
+  required: false,
+  nargs: '+',
+  metavar: 'PATTERN',
+  help: "ignore files and directories of the input directory that match a name or glob pattern, e.g. '*.pdf' drafts/ (dotfiles are always ignored)",
+});
 
 const args: Args = parser.parse_args();
 

@@ -83,24 +83,25 @@ Convert current directory to slides into a output directory `public`:
 npx @korbiniankuhn/markdown-slides
 ```
 
-Only use certain files and directories of the input directory (names, not patterns):
+Only use certain files and directories of the input directory, by name or with glob patterns like in `.gitignore`. Quote patterns with `*`, so the shell passes them on:
 
 ```bash
-npx @korbiniankuhn/markdown-slides --allowed-files README.md chapter-1.md images style.css
+npx @korbiniankuhn/markdown-slides --allowed-files README.md 'chapter-*.md' images '*.css'
+npx @korbiniankuhn/markdown-slides --ignored-files '*.pdf' drafts/
 ```
 
 CLI arguments:
 
-| Argument        | Description                                                                                   | Default   | Required |
-| --------------- | --------------------------------------------------------------------------------------------- | --------- | -------- |
-| -i, --in        | Input directory                                                                               | .         | false    |
-| -o, --out       | Output directory                                                                              | public    | false    |
-| -l, --language  | `en` or `de`: language of the page, the default institution, alert titles and footnote labels | en        | false    |
-| --institution   | Custom institution name                                                                       | undefined | false    |
-| --title         | Lecture title for the back link on sub-pages, otherwise the first headline is used            | undefined | false    |
-| --toc-numbering | Number the headings, `true` or `false`                                                        | true      | false    |
-| --allowed-files | Only use these files and directories of the input directory                                   | undefined | false    |
-| --ignored-files | Ignore these files and directories of the input directory (dotfiles are always ignored)       | undefined | false    |
+| Argument           | Description                                                                                   | Default   | Required |
+| ------------------ | --------------------------------------------------------------------------------------------- | --------- | -------- |
+| `-i`, `--in`       | Input directory                                                                               | .         | false    |
+| `-o`, `--out`      | Output directory                                                                              | public    | false    |
+| `-l`, `--language` | `en` or `de`: language of the page, the default institution, alert titles and footnote labels | en        | false    |
+| `--institution`    | Custom institution name                                                                       | undefined | false    |
+| `--title`          | Lecture title for the back link on sub-pages, otherwise the first headline is used            | undefined | false    |
+| `--toc-numbering`  | Number the headings, `true` or `false`                                                        | true      | false    |
+| `--allowed-files`  | Only use files and directories of the input directory that match these names or patterns      | undefined | false    |
+| `--ignored-files`  | Ignore files and directories that match these names or patterns (dotfiles are always ignored) | undefined | false    |
 
 <!-- slide -->
 

@@ -32,10 +32,17 @@ All notable changes to markdown-slides. The format follows [Keep a Changelog](ht
    grep -rnE --include='*.md' --exclude-dir=node_modules --exclude-dir=public '^#{1,6} .*[`*_<\\]' .
    ```
 
+5. **`--allowed-files` and `--ignored-files` apply together.** Before, `--ignored-files` was skipped when `--allowed-files` was set. Now a file must match `--allowed-files` and not match `--ignored-files`. Check builds that use both options:
+
+   ```bash
+   grep -rnE --exclude-dir=node_modules -- '--allowed-files.*--ignored-files|--ignored-files.*--allowed-files' .
+   ```
+
 ### Added
 
 - GitHub-style alerts: `> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]` and `> [!CAUTION]`, with English or German titles depending on `--language`.
 - Footnotes: `[^1]` in the text and `[^1]: …` anywhere in the file. They are shown at the bottom of the slide that refers to them and numbered per slide, with links to the footnote and back.
+- `--allowed-files` and `--ignored-files` take glob patterns like in `.gitignore`, e.g. `'*.md'`, `'chapter-*.md'` or `drafts/` (only directories). A pattern that matches nothing, e.g. a typo, is reported as a warning.
 
 ### Fixed
 
